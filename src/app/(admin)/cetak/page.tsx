@@ -1,29 +1,27 @@
 'use client';
 
 import React, { useState } from 'react';
-import { STAKEHOLDER_GROUPS, StakeholderGroup } from '@/data/questionnaireData';
-import { PdfPrintService } from '@/lib/pdfPrintService';
+import { STAKEHOLDER_GROUPS, StakeholderGroup } from '@/config/constants';
+import { generateQuestionnairePdf } from '@/lib/utils/pdf';
 import { 
   Printer, 
   Download, 
   FileText, 
-  CheckCircle2, 
   Info, 
   Landmark, 
   Fish, 
   Users, 
   GraduationCap, 
-  Building2,
-  HelpCircle
+  Building2 
 } from 'lucide-react';
 
-export default function CetakPage() {
+export default function AdminCetakPage() {
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
 
   const handleDownloadPdf = (group: StakeholderGroup) => {
     setDownloadingId(group.id);
     setTimeout(() => {
-      PdfPrintService.generateQuestionnairePdf(group.id);
+      generateQuestionnairePdf(group.id);
       setDownloadingId(null);
     }, 400);
   };
@@ -41,8 +39,6 @@ export default function CetakPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
-      
-      {/* Header */}
       <div className="max-w-3xl space-y-3">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-ocean-100 text-ocean-800 text-xs font-bold border border-ocean-200">
           <Printer className="w-3.5 h-3.5 text-ocean-600" />
@@ -56,7 +52,6 @@ export default function CetakPage() {
         </p>
       </div>
 
-      {/* Guide Note */}
       <div className="p-5 rounded-2xl bg-amber-50/80 border border-amber-200/90 text-amber-950 text-xs space-y-2">
         <div className="flex items-center gap-2 font-bold text-sm text-amber-900">
           <Info className="w-4 h-4 text-amber-700" />
@@ -69,7 +64,6 @@ export default function CetakPage() {
         </ul>
       </div>
 
-      {/* 5 Stakeholder Download Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {STAKEHOLDER_GROUPS.map((group) => {
           const isProcessing = downloadingId === group.id;
@@ -116,7 +110,6 @@ export default function CetakPage() {
           );
         })}
       </div>
-
     </div>
   );
 }
