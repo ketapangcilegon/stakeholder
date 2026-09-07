@@ -1,0 +1,173 @@
+# Rencana Implementasi: Web App Kuesioner Penelitian Tesis Perikanan Tangkap Pesisir Kota Cilegon
+
+Web application kuesioner interaktif dan dashboard analitik penelitian tesis Magister Manajemen Perikanan (*Keberlanjutan Pengelolaan Perikanan Tangkap di Kawasan Pesisir Kota Cilegon*). Menggantikan Google Form konvensional dengan dukungan multi-persona (5 kelompok stakeholder dengan redaksi yang disesuaikan), autosave bertahap, visualisasi radar/bar chart, print-to-PDF kuesioner fisik, serta admin panel tabulasi otomatis.
+
+---
+
+## 1. Arsitektur & Tech Stack
+
+- **Framework**: Next.js 14+ (App Router) + TypeScript + Tailwind CSS + Lucide Icons + Framer Motion (micro-animations)
+- **Database & Auth**: Supabase (PostgreSQL, Row Level Security, Supabase Auth Google OAuth + Anonymous/Manual Session support)
+- **Charts & Visualization**: Recharts (Radar Chart 5 Dimensi, Bar Chart 9 Variabel, Donut Target Responden)
+- **Export & Document**: `jspdf` / `html2canvas` / `print-css` untuk cetak kuesioner fisik per stakeholder, `xlsx` (SheetJS) & CSV exporter untuk rekap data mentah dan skor komposit.
+- **Offline / Low-connectivity resilience**: LocalStorage fallback sync + Incremental auto-save Supabase.
+
+---
+
+## 2. Struktur Data & Bank Pertanyaan (9 Variabel × 5 Persona)
+
+### 2.1. Taksonomi Dimensi & 9 Variabel
+1. **Dimensi Ekologi**
+   - **V1: Persepsi Kondisi Ekologi** (4 Indikator: Ketersediaan stok ikan, Kualitas ekosistem pesisir, Dampak penangkapan, Dampak industri pesisir)
+2. **Dimensi Ekonomi**
+   - **V2: Persepsi Aspek Ekonomi** (4 Indikator: Kontribusi perikanan terhadap pendapatan, Biaya operasional melaut/usaha, Akses modal & pasar, Nilai tambah produk olahan/segar)
+3. **Dimensi Sosial**
+   - **V3: Persepsi Aspek Sosial** (4 Indikator: Kohesi/kerukunan nelayan, Potensi konflik pemangku kepentingan, Kesetaraan akses ruang/alat tangkap, Keberlanjutan mata pencaharian)
+4. **Dimensi Tata Kelola (Governance)**
+   - **V4: Persepsi Tata Kelola** (7 Indikator: Transparansi info, Keterbukaan keputusan, Akuntabilitas, Koordinasi lintas sektor, Integrasi kepentingan, Konsistensi kebijakan, Berbasis data)
+   - **V6: Tingkat Dukungan Stakeholder** (5 Indikator: Penerimaan kebijakan, Persetujuan target keberlanjutan, Kepatuhan aturan, Dukungan implementasi, Kesiapan kolaborasi)
+   - **V7: Intensitas Partisipasi** (5 Indikator: Rapat/musyawarah, Konsultasi publik, Penyampaian aspirasi, Perumusan kebijakan, Evaluasi & pengawasan)
+5. **Dimensi Kelembagaan**
+   - **V5: Persepsi Kelembagaan** (4 Indikator: Kapasitas kelembagaan formal/informal, Efektivitas rukun/kelompok nelayan, Efektivitas lembaga pendukung/KUD, Kejelasan tupoksi)
+   - **V8: Kepentingan (Interest) Stakeholder** (4 Indikator: Ketergantungan ekonomi, Kepentingan sosial-budaya, Keterdampakan kebijakan, Perhatian perubahan regulasi)
+   - **V9: Pengaruh (Influence) Stakeholder** (5 Indikator: Kewenangan formal, Akses pengambil keputusan, Akses informasi riset/data, Kapasitas mobilisasi, Daya tawar/jaringan)
+
+*Total 42 Indikator × 5 Redaksi Persona = 210 Pertanyaan terstruktur dalam database & seed JSON.*
+
+---
+
+## 3. Skema Database Supabase & RLS
+
+```sql
+-- 1. stakeholder_groups
+create table stakeholder_groups (
+  id text primary key,
+  nama text not null,
+  target_responden int not null default 10,
+  deskripsi text,
+  tone_label text
+);
+
+-- 2. dimensi & variabel
+create table dimensi (
+  id text primary key,
+  nama text not null,
+  urutan int
+);
+
+create table variabel (
+  id text primary key,
+  id_dimensi text references dimensi(id),
+  nama text not null,
+  urutan int
+);
+
+-- 3. indikator & bank pertanyaan
+create table indikator (
+  id text primary key,
+  id_variabel text references variabel(id),
+  kode text not null,
+  deskripsi text not null,
+  urutan int
+);
+
+create table pertanyaan (
+  id uuid primary key default gen_random_uuid(),
+  id_indikator text references indikator(id),
+  id_stakeholder_group text references stakeholder_groups(id),
+  teks_pertanyaan text not null,
+  keterangan_skala jsonb, -- e.g. {"1": "Sangat Menurun", "5": "Sangat Melimpah"}
+  urutan int
+);
+
+-- 4. responden
+create table responden (
+  id uuid primary key default gen_random_uuid(),
+  user_id_google text,
+  email text,
+  nama text not null,
+  instansi text not null,
+  jabatan text,
+  no_hp text,
+  id_stakeholder_group text references stakeholder_groups(id),
+  is_manual_entry boolean default false,
+  status_pengisian text default 'draft', -- 'draft', 'selesai'
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+-- 5. jawaban
+create table jawaban (
+  id uuid primary key default gen_random_uuid(),
+  id_responden uuid references responden(id) on delete cascade,
+  id_pertanyaan uuid references pertanyaan(id),
+  id_indikator text references indikator(id),
+  skor int check (skor between 1 and 5),
+  created_at timestamptz default now(),
+  unique (id_responden, id_pertanyaan)
+);
+```
+
+---
+
+## 4. Modul & Fitur yang Akan Dibangun
+
+### A. Landing Page & Google / One-Tap Onboarding
+- Desain *hero section* khas pesisir Cilegon (Krakatau / Selat Sunda vibe: deep maritime blue & teal, clean typography).
+- Penjelasan ringkas maksud & tujuan penelitian Tesis.
+- Pilihan Persona Interaktif (5 Kartu Stakeholder dengan ilustrasi/ikon & deskripsi peran).
+- Form Identitas Singkat (Nama, Instansi, Jabatan, Kontak).
+
+### B. Kuesioner Interaktif (Mobile-Optimized & Accessible)
+- **Header Progress**: Bar persentase + Badge Dimensi yang sedang dikerjakan.
+- **Progress Grid**: Grid interaktif (1..42) berstatus abu-abu (belum), hijau solid (sudah diisi), ring berkedip (aktif), klik untuk langsung loncat.
+- **Dua Mode Tampilan (Toggle)**:
+  1. *Fokus Satu Pertanyaan (Wizard Card)*: Font besar 20px, tombol Likert 1-5 dengan visual emoji/label ramah nelayan, transisi mulus next/prev.
+  2. *Mode Per Dimensi (List Accordion)*: Melihat seluruh pertanyaan dalam satu dimensi sekaligus.
+- **Autosave Engine**: Menyimpan setiap klik jawaban ke LocalStorage & Supabase secara real-time dengan status indikator (*"Tersimpan secara otomatis"*).
+- **Halaman Penutup / Review**: Ringkasan jawaban sebelum tombol submit final, ucapan terima kasih resmi dari peneliti.
+
+### C. Mode Cetak PDF Kuesioner Fisik & Entri Manual
+- Generator Kuesioner Cetak (Format A4 rapi, kop surat penelitian tesis, petunjuk pengisian, tabel skala Likert) yang siap cetak per kelompok stakeholder.
+- Halaman **Entri Manual (Enumerator Mode)**: Memasukkan lembar kuesioner fisik hasil wawancara lapangan ke sistem database dengan cepat (num-pad ready).
+
+### D. Dashboard Analitik & Tabulasi Otomatis (Peneliti)
+- **Target vs Realisasi**: Progress meter n responden per kelompok (Pemda 7, Nelayan 15, Masyarakat 15, Akademisi 3, Industri 10).
+- **Radar Chart Dimensi**: Perbandingan 5 Dimensi antar stakeholder (Multi-radar & Single filter).
+- **Bar Chart 9 Variabel**: Nilai rata-rata skor per variabel (1.00 - 5.00) dengan kategori interpretasi (Sangat Buruk - Sangat Baik).
+- **Tabulasi Matriks Otomatis**: Tabel skor rata-rata per indikator, per variabel, per stakeholder group lengkap dengan standar deviasi/skor agregat.
+- **Export Data**:
+  - Download Full Excel (.xlsx) dengan multi-sheet: Sheet Data Responden, Sheet Data Mentah Likert, Sheet Tabulasi Skor Dimensi & Variabel.
+  - Download CSV Data Mentah untuk SPSS / SmartPLS / R.
+
+### E. Panel Manajemen Peneliti / Admin
+- Proteksi PIN / Admin Key.
+- Manajemen Responden: Filter per stakeholder, view detail jawaban, edit data identitas, hapus respon tidak valid/duplikat.
+- Editor Bank Pertanyaan: Peneliti dapat meninjau dan mengedit redaksi pertanyaan jika ada penyesuaian lapangan.
+
+---
+
+## 5. Rencana Eksekusi Bertahap
+
+1. **Inisialisasi Project**: Inisialisasi Next.js (App Router, Tailwind CSS, TypeScript, Lucide Icons, Recharts, xlsx, jspdf).
+2. **Database Engine & Seed Generator**:
+   - Menulis file SQL schema & migrasi Supabase lengkap dengan RLS.
+   - Menulis database seed komprehensif berisi seluruh 42 indikator × 5 redaksi stakeholder (210 pertanyaan terformat spesifik).
+   - Menyiapkan modul client Supabase dan mock-fallback seamless jika berjalan lokal/demo tanpa kredensial live Supabase.
+3. **Komponen Inti & State Management**:
+   - Layout maritim profesional dengan tema laut Cilegon.
+   - State store untuk kuesioner, progress tracker, dan autosave.
+4. **Halaman Kuesioner**: Onboarding flow, Progress Grid, Single/List view, Likert scale buttons.
+5. **Fitur PDF Generator & Manual Entry**: Modul cetak kuesioner offline & form entri cepat enumerator.
+6. **Dashboard & Analitik**: Radar chart, Bar chart, Tabulasi statistik, Filter, Export Excel/CSV.
+7. **Admin Panel**: Data table, edit/delete, review detail jawaban.
+8. **Verifikasi & Testing**: Uji responsivitas mobile, uji autosave, uji ekspor Excel, uji cetak PDF.
+
+---
+
+## 6. Verifikasi & Pengujian
+- Jalankan dev server Next.js dan pastikan build compile tanpa error (`npm run build`).
+- Uji alur pengisian dari 5 kelompok stakeholder berbeda untuk memverifikasi perbedaan bahasa dan redaksi pertanyaan.
+- Uji fitur autosave & offline fallback.
+- Uji kalkulasi tabulasi rata-rata pada dashboard analitik.
+- Uji ekspor file Excel & PDF.

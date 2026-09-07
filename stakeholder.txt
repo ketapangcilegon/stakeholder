@@ -1,0 +1,14 @@
+project url: https://firfggtfmnejwbovveor.supabase.co
+publishable key: sb_publishable__u2G0ONvPAlKy8KNcxO94A_SafMNs46
+diret connection string: postgresql://postgres:[YOUR-PASSWORD]@db.firfggtfmnejwbovveor.supabase.co:5432/postgres
+CLI setup command: supabase login
+supabase init
+supabase link --project-ref firfggtfmnejwbovveor
+
+API key: sb_publishable__u2G0ONvPAlKy8KNcxO94A_SafMNs46
+anon public key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpcmZnZ3RmbW5landib3Z2ZW9yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg3ODkyMzEsImV4cCI6MjEwNDM2NTIzMX0.lKGBLbEuujBItX1pKsax4xndMdB9cizL6tByqmacjfE
+
+
+
+
+
