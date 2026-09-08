@@ -76,21 +76,59 @@ export const SurveyService = {
     return STAKEHOLDER_GROUPS.find(g => g.id === id);
   },
 
-  // 2. Get Dimensions, Variables, Indicators
+  // 2. Fetch Static / Dynamic Metadata
   getDimensions(): Dimensi[] {
+    if (typeof window !== 'undefined') {
+      try {
+        const custom = localStorage.getItem('cilegon_custom_instruments_v1');
+        if (custom) {
+          const parsed = JSON.parse(custom);
+          if (parsed.dimensions?.length) return parsed.dimensions;
+        }
+      } catch {}
+    }
     return DIMENSI_LIST;
   },
 
   getVariables(): Variabel[] {
+    if (typeof window !== 'undefined') {
+      try {
+        const custom = localStorage.getItem('cilegon_custom_instruments_v1');
+        if (custom) {
+          const parsed = JSON.parse(custom);
+          if (parsed.variables?.length) return parsed.variables;
+        }
+      } catch {}
+    }
     return VARIABEL_LIST;
   },
 
   getIndicators(): Indikator[] {
+    if (typeof window !== 'undefined') {
+      try {
+        const custom = localStorage.getItem('cilegon_custom_instruments_v1');
+        if (custom) {
+          const parsed = JSON.parse(custom);
+          if (parsed.indicators?.length) return parsed.indicators;
+        }
+      } catch {}
+    }
     return INDIKATOR_LIST;
   },
 
   // 3. Get Questions for Stakeholder
   getQuestions(stakeholderGroupId: string): PertanyaanItem[] {
+    if (typeof window !== 'undefined') {
+      try {
+        const custom = localStorage.getItem('cilegon_custom_instruments_v1');
+        if (custom) {
+          const parsed = JSON.parse(custom);
+          if (parsed.questions?.length) {
+            return parsed.questions.filter((q: any) => q.id_stakeholder_group === stakeholderGroupId);
+          }
+        }
+      } catch {}
+    }
     return getQuestionsForStakeholder(stakeholderGroupId);
   },
 
