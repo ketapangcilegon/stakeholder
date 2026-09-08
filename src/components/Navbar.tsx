@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAdminAuth } from '@/context/AdminAuthContext';
 import { 
-  Anchor, 
+  Fish, 
   BarChart3, 
   FileText, 
   Printer, 
@@ -19,6 +19,50 @@ import {
   Users,
   Lock
 } from 'lucide-react';
+
+function MarineEmblem({ className = "w-10 h-10" }: { className?: string }) {
+  return (
+    <svg 
+      className={className} 
+      viewBox="0 0 36 36" 
+      fill="none" 
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle cx="18" cy="18" r="17" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" fill="rgba(255,255,255,0.1)" />
+      {/* Leaping Fish */}
+      <path 
+        d="M10 16c1.2-3.5 4.5-5.5 8-5.5 4 0 7 2.5 8 5.5-1.2 3.5-4.5 5.5-8 5.5-3.5 0-6.8-2-8-5.5Z" 
+        stroke="#ffffff" 
+        strokeWidth="1.5" 
+        strokeLinecap="round" 
+        strokeLinejoin="round" 
+      />
+      <circle cx="21" cy="14.5" r="0.8" fill="#ffffff" />
+      {/* Tail */}
+      <path d="M10 16L6 13.5v5L10 16Z" fill="#ffffff" />
+      {/* Leaf / Sprout green accent */}
+      <path 
+        d="M20 22c2-1 4.5-.5 5 1.5-1.5 2-4 2-5-1.5Z" 
+        fill="#34d399" 
+        stroke="#10b981" 
+        strokeWidth="0.8"
+      />
+      {/* Ocean Waves */}
+      <path 
+        d="M8 24c2.5-1.5 5.5 1.5 8 0s5.5-1.5 8 0" 
+        stroke="#38bdf8" 
+        strokeWidth="1.5" 
+        strokeLinecap="round" 
+      />
+      <path 
+        d="M10 27c2-1 4 1 6 0s4-1 6 0" 
+        stroke="rgba(56,189,248,0.7)" 
+        strokeWidth="1.2" 
+        strokeLinecap="round" 
+      />
+    </svg>
+  );
+}
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -36,32 +80,49 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full glass-panel border-b border-slate-200/80 shadow-sm transition-all">
+    <header className="sticky top-0 z-50 w-full bg-gradient-to-r from-[#053b6d] via-[#084c8d] to-[#0b5c9e] text-white shadow-md transition-all border-b border-sky-900/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
           
-          {/* Logo Brand */}
-          <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-tr from-ocean-800 to-maritime-teal flex items-center justify-center text-white shadow-glow group-hover:scale-105 transition-transform flex-shrink-0">
-              <Anchor className="w-6 h-6 text-white" />
+          {/* Logo Brand Header matching Mockup */}
+          <Link href="/" className="flex items-center gap-3 group py-1">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
+              <MarineEmblem className="w-10 h-10 sm:w-12 sm:h-12" />
             </div>
             <div>
-              <div className="flex items-center gap-1.5 sm:gap-2">
-                <span className="font-extrabold text-base sm:text-xl text-ocean-950 tracking-tight">
-                  SI-KEPALA
-                </span>
-                <span className="bg-ocean-100 text-ocean-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-ocean-200 uppercase tracking-wider">
-                  Cilegon
-                </span>
-              </div>
-              <p className="text-[11px] text-slate-500 font-medium hidden md:block">
-                Kuesioner Keberlanjutan Perikanan Tangkap Pesisir
-              </p>
+              <span className="text-[9px] sm:text-[10px] font-bold text-sky-200 uppercase tracking-widest block leading-tight">
+                KUESIONER PENELITIAN TESIS
+              </span>
+              <span className="font-black text-sm sm:text-base lg:text-lg text-white tracking-tight block leading-tight">
+                Magister Manajemen Perikanan
+              </span>
+              <span className="text-[10px] sm:text-[11px] text-sky-100/90 font-medium block leading-tight">
+                Universitas Terbuka
+              </span>
             </div>
           </Link>
 
+          {/* Desktop Tagline from Mockup */}
+          <div className="hidden lg:flex items-center gap-3 text-right">
+            <div className="border-r border-sky-400/30 pr-4">
+              <p className="text-[11px] italic text-sky-100 font-medium leading-tight">
+                Bersama jaga laut,
+              </p>
+              <p className="text-[11px] italic text-sky-200 font-medium leading-tight">
+                untuk masa depan perikanan yang berkelanjutan
+              </p>
+            </div>
+            {/* Wave Glyphs */}
+            <div className="text-sky-300 flex flex-col items-center gap-0.5 opacity-80" title="Simbol Laut Berkelanjutan">
+              <svg className="w-6 h-3.5" viewBox="0 0 24 10" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <path d="M2 3c2.5-2 5.5 2 8 0s5.5-2 8 0 4 0 4 0" />
+                <path d="M2 7c2.5-2 5.5 2 8 0s5.5-2 8 0 4 0 4 0" />
+              </svg>
+            </div>
+          </div>
+
           {/* Desktop Nav Links */}
-          <nav className="hidden xl:flex items-center gap-1">
+          <nav className="hidden xl:flex items-center gap-1 bg-white/10 p-1 rounded-xl backdrop-blur-sm border border-white/15">
             {navLinks.map((link) => {
               const Icon = link.icon;
               const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
@@ -69,16 +130,16 @@ export default function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`flex items-center gap-1.5 px-2.5 py-2 rounded-lg text-xs font-bold transition-all ${
+                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
                     isActive
-                      ? 'bg-ocean-600 text-white shadow-sm'
-                      : 'text-slate-600 hover:text-ocean-700 hover:bg-ocean-50/80'
+                      ? 'bg-white text-[#084c8d] shadow-sm font-black'
+                      : 'text-sky-100 hover:text-white hover:bg-white/15'
                   }`}
                 >
-                  <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+                  <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-[#084c8d]' : 'text-sky-200'}`} />
                   <span>{link.label}</span>
                   {link.adminOnly && !isAdmin && (
-                    <Lock className="w-2.5 h-2.5 text-slate-400 ml-0.5" />
+                    <Lock className="w-2.5 h-2.5 text-sky-300 ml-0.5" />
                   )}
                 </Link>
               );
@@ -88,17 +149,17 @@ export default function Navbar() {
           {/* Right Action: Admin Button / Indicator */}
           <div className="flex items-center gap-2">
             {isAdmin ? (
-              <div className="flex items-center gap-1.5 sm:gap-2 bg-emerald-50 border border-emerald-200/80 rounded-xl p-1 sm:px-2.5 sm:py-1.5 shadow-sm">
+              <div className="flex items-center gap-1.5 sm:gap-2 bg-emerald-500/20 border border-emerald-400/40 rounded-xl p-1 sm:px-2.5 sm:py-1.5 shadow-sm text-white">
                 <div className="flex items-center gap-1.5">
-                  <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse hidden sm:block" />
-                  <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                  <span className="text-xs font-bold text-emerald-900 hidden sm:inline">
+                  <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse hidden sm:block" />
+                  <ShieldCheck className="w-4 h-4 text-emerald-300" />
+                  <span className="text-xs font-bold text-white hidden sm:inline">
                     Admin Aktif
                   </span>
                 </div>
                 <button
                   onClick={logout}
-                  className="px-2 py-1 bg-white hover:bg-rose-50 text-slate-600 hover:text-rose-600 rounded-lg text-[11px] font-bold border border-slate-200 flex items-center gap-1 transition-all"
+                  className="px-2 py-1 bg-white hover:bg-rose-50 text-slate-700 hover:text-rose-600 rounded-lg text-[11px] font-bold border border-slate-200 flex items-center gap-1 transition-all"
                   title="Keluar dari sesi admin"
                 >
                   <LogOut className="w-3 h-3 text-rose-500" />
@@ -108,11 +169,15 @@ export default function Navbar() {
             ) : (
               <button
                 onClick={openLoginModal}
-                className="flex items-center gap-1.5 px-3 py-2 sm:px-3.5 sm:py-2 rounded-xl bg-slate-900 hover:bg-ocean-700 text-white text-xs font-bold shadow-sm hover:shadow-md transition-all active:scale-95 border border-slate-800"
-                title="Masuk sebagai Administrator / Peneliti"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/20 hover:bg-white/35 border border-white/40 overflow-hidden flex items-center justify-center shadow-xs transition-all active:scale-95 group p-0.5"
+                title="Akses Administrator"
+                aria-label="Akses Admin"
               >
-                <Shield className="w-3.5 h-3.5 text-ocean-300" />
-                <span>Akses Admin</span>
+                <img 
+                  src="/admin.png" 
+                  alt="Admin" 
+                  className="w-full h-full object-cover rounded-full transition-transform group-hover:scale-110" 
+                />
               </button>
             )}
 
@@ -120,7 +185,7 @@ export default function Navbar() {
             <div className="xl:hidden flex items-center">
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 rounded-xl text-slate-600 hover:text-ocean-600 hover:bg-slate-100 focus:outline-none"
+                className="p-2 rounded-xl text-sky-100 hover:text-white hover:bg-white/15 focus:outline-none"
                 aria-label="Toggle Menu"
               >
                 {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -187,10 +252,12 @@ export default function Navbar() {
                   setMobileMenuOpen(false);
                   openLoginModal();
                 }}
-                className="w-full py-2.5 px-4 rounded-xl bg-ocean-600 hover:bg-ocean-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md transition-all"
+                className="w-full py-2.5 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs flex items-center justify-center gap-2 border border-slate-300 transition-all"
               >
-                <Shield className="w-4 h-4 text-white" />
-                <span>Masuk Mode Admin / Peneliti</span>
+                <div className="w-6 h-6 rounded-full overflow-hidden border border-slate-300 flex items-center justify-center flex-shrink-0">
+                  <img src="/admin.png" alt="Admin" className="w-full h-full object-cover" />
+                </div>
+                <span>Akses Admin</span>
               </button>
             )}
           </div>

@@ -168,7 +168,7 @@ export default function AdminLoginModal() {
 
         <div className="mt-5 pt-4 border-t border-slate-100 text-center">
           <p className="text-[11px] text-slate-400 leading-tight">
-            Tata Kelola SI-KEPALA CILEGON • Verifikasi keamanan server-side terenkripsi
+            Tata Kelola STAKEHOLDER CILEGON • Verifikasi keamanan server-side terenkripsi
           </p>
         </div>
       </div>

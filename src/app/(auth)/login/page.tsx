@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase/client';
-import { Lock, LogIn, Anchor, ArrowRight, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Lock, LogIn, Fish, ArrowRight, Sparkles, CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
 import GoogleAuthNoticeModal from '@/components/GoogleAuthNoticeModal';
 
@@ -38,7 +38,7 @@ export default function LoginPage() {
     <div className="max-w-md mx-auto my-10 sm:my-16 px-4">
       <div className="p-6 sm:p-8 bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-xl text-center space-y-6 animate-fadeIn">
         <div className="w-14 h-14 sm:w-16 sm:h-16 bg-ocean-100 text-ocean-700 rounded-2xl flex items-center justify-center mx-auto shadow-glow">
-          <Anchor className="w-7 h-7 sm:w-8 sm:h-8 text-ocean-600" />
+          <Fish className="w-7 h-7 sm:w-8 sm:h-8 text-ocean-600" />
         </div>
 
         <div>
@@ -46,7 +46,7 @@ export default function LoginPage() {
             Masuk Kuesioner
           </h1>
           <p className="text-xs text-slate-500 mt-1">
-            SI-KEPALA CILEGON • Penelitian Tesis Perikanan Tangkap
+            STAKEHOLDER CILEGON • Penelitian Tesis Perikanan Tangkap
           </p>
         </div>
 

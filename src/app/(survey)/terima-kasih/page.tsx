@@ -21,7 +21,7 @@ export default function TerimaKasihPage() {
       <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
         Terima kasih atas kontribusi dan dedikasi waktu Bapak/Ibu/Saudara dalam pengisian kuesioner penelitian tesis Magister Manajemen Perikanan:
         <strong className="block text-slate-900 mt-2">
-          &ldquo;Keberlanjutan Pengelolaan Perikanan Tangkap di Kawasan Pesisir Kota Cilegon&rdquo;
+          &ldquo;Pengelolaan Perikanan Tangkap Berkelanjutan di Kota Cilegon: Strategi Kebijakan Partisipatif Berbasis Persepsi dan Peran Stakeholder&rdquo;
         </strong>
       </p>
 

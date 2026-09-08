@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 
-const ADMIN_EMAIL_PRIMARY = (process.env.ADMIN_EMAIL || 'ketapangcilegon@gmail.con').trim().toLowerCase();
-const ADMIN_EMAIL_ALT = (process.env.ADMIN_EMAIL_ALT || 'ketapangcilegon@gmail.com').trim().toLowerCase();
+const ADMIN_EMAIL_PRIMARY = (process.env.ADMIN_EMAIL || 'ketapangcilegon@gmail.com').trim().toLowerCase();
+const ADMIN_EMAIL_ALT = (process.env.ADMIN_EMAIL_ALT || 'ketapangcilegon@gmail.con').trim().toLowerCase();
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Cilegon2026';
 const SESSION_SECRET = process.env.ADMIN_SESSION_SECRET || 'cilegon-maritime-secret-key-2026-stakeholder-super-secure';
 

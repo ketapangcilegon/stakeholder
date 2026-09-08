@@ -47,8 +47,10 @@ export default function StakeholderPicker({ selectedGroup, onSelectGroup }: Prop
             <div>
               <div className="flex items-center justify-between mb-2.5 sm:mb-3">
                 <div
-                  className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center transition-colors ${
-                    isSelected ? 'bg-ocean-600 text-white shadow-sm' : 'bg-slate-100 text-slate-700'
+                  className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center transition-all ${
+                    isSelected 
+                      ? (group.iconSelectedBg || 'bg-ocean-600 text-white') + ' shadow-sm' 
+                      : (group.iconBg || 'bg-slate-100 text-slate-700')
                   }`}
                 >
                   {getStakeholderIcon(group.iconName)}

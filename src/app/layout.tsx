@@ -12,9 +12,12 @@ export const viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'SI-KEPALA CILEGON | Kuesioner Penelitian Perikanan Tangkap Berkelanjutan',
-  description: 'Sistem Kuesioner & Analitik Persepsi Pemangku Kepentingan terhadap Keberlanjutan Pengelolaan Perikanan Tangkap di Kawasan Pesisir Kota Cilegon - Tesis Magister Manajemen Perikanan',
+  title: 'STAKEHOLDER CILEGON | Pengelolaan Perikanan Tangkap Berkelanjutan',
+  description: 'Pengelolaan Perikanan Tangkap Berkelanjutan di Kota Cilegon: Strategi Kebijakan Partisipatif Berbasis Persepsi dan Peran Stakeholder - Penelitian Tesis Magister Manajemen Perikanan',
   keywords: 'Kuesioner Perikanan, Tesis Cilegon, Perikanan Tangkap, Stakeholder Analysis, Nelayan Cilegon, Selat Sunda',
+  icons: {
+    icon: '/icon.svg',
+  },
 };
 
 export default function RootLayout({

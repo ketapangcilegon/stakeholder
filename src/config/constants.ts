@@ -12,6 +12,8 @@ export interface StakeholderGroup {
   badgeColor: string;
   iconName: string;
   contohSubjek: string;
+  iconBg?: string;
+  iconSelectedBg?: string;
 }
 
 export interface Dimensi {
@@ -61,7 +63,9 @@ export const STAKEHOLDER_GROUPS: StakeholderGroup[] = [
     tone: "Formal & Birokratis",
     badgeColor: "bg-blue-100 text-blue-800 border-blue-300",
     iconName: "Landmark",
-    contohSubjek: "Dinas Kelautan & Perikanan, Bapperida, Dinas Lingkungan Hidup, Polairud"
+    contohSubjek: "Dinas Kelautan & Perikanan, Bapperida, Dinas Lingkungan Hidup, Polairud",
+    iconBg: "bg-sky-50 text-sky-700 border-sky-200/80",
+    iconSelectedBg: "bg-sky-600 text-white"
   },
   {
     id: "pelaku_usaha",
@@ -71,7 +75,9 @@ export const STAKEHOLDER_GROUPS: StakeholderGroup[] = [
     tone: "Bahasa Keseharian Nelayan",
     badgeColor: "bg-emerald-100 text-emerald-800 border-emerald-300",
     iconName: "Fish",
-    contohSubjek: "Nelayan Pangkalan Medaksa, Pulomerak, Cigading, Juragan Kapal, Bakul Ikan"
+    contohSubjek: "Nelayan Pangkalan Medaksa, Pulomerak, Cigading, Juragan Kapal, Bakul Ikan",
+    iconBg: "bg-emerald-50 text-emerald-700 border-emerald-200/80",
+    iconSelectedBg: "bg-emerald-600 text-white"
   },
   {
     id: "masyarakat_pesisir",
@@ -81,7 +87,9 @@ export const STAKEHOLDER_GROUPS: StakeholderGroup[] = [
     tone: "Komunikatif & Warga Pesisir",
     badgeColor: "bg-amber-100 text-amber-800 border-amber-300",
     iconName: "Users",
-    contohSubjek: "Kelurahan Pesisir, Ketua Rukun Nelayan, Karang Taruna Pesisir, Pengelola Wisata Pantai"
+    contohSubjek: "Kelurahan Pesisir, Ketua Rukun Nelayan, Karang Taruna Pesisir, Pengelola Wisata Pantai",
+    iconBg: "bg-amber-50 text-amber-700 border-amber-200/80",
+    iconSelectedBg: "bg-amber-600 text-white"
   },
   {
     id: "akademisi_lsm",
@@ -91,7 +99,9 @@ export const STAKEHOLDER_GROUPS: StakeholderGroup[] = [
     tone: "Ilmiah & Akademis",
     badgeColor: "bg-purple-100 text-purple-800 border-purple-300",
     iconName: "GraduationCap",
-    contohSubjek: "Dosen/Peneliti Kelautan-Perikanan, LSM Konservasi Laut, Pemerhati Lingkungan Selat Sunda"
+    contohSubjek: "Dosen/Peneliti Kelautan-Perikanan, LSM Konservasi Laut, Pemerhati Lingkungan Selat Sunda",
+    iconBg: "bg-purple-50 text-purple-700 border-purple-200/80",
+    iconSelectedBg: "bg-purple-600 text-white"
   },
   {
     id: "industri",
@@ -101,7 +111,9 @@ export const STAKEHOLDER_GROUPS: StakeholderGroup[] = [
     tone: "Formal Korporat & ESG",
     badgeColor: "bg-cyan-100 text-cyan-800 border-cyan-300",
     iconName: "Building2",
-    contohSubjek: "Manajemen Pabrik, Divisi CSR, Tim Environment/HSE Industri Pesisir Ciwandan-Merak"
+    contohSubjek: "Manajemen Pabrik, Divisi CSR, Tim Environment/HSE Industri Pesisir Ciwandan-Merak",
+    iconBg: "bg-teal-50 text-teal-800 border-teal-200/80",
+    iconSelectedBg: "bg-teal-600 text-white"
   }
 ];
 
