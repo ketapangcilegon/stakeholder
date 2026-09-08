@@ -18,50 +18,84 @@ export default function ProgressGrid({
   onSelectIndex,
   isSingleMode
 }: Props) {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const answeredCount = Object.keys(answers).length;
+
   return (
-    <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 sm:p-5">
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
-          Navigasi 42 Indikator Soal
-        </h3>
-        <div className="flex items-center gap-3 text-[11px] text-slate-500">
+    <div className="bg-white rounded-2xl border border-slate-200/90 shadow-sm p-3.5 sm:p-5">
+      <div className="flex items-center justify-between">
+        <button
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+          className="flex items-center gap-2 text-left group"
+        >
+          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 group-hover:text-ocean-700 transition-colors">
+            Kisi Soal (42 Indikator)
+          </h3>
+          <span className="text-[11px] font-bold text-ocean-700 bg-ocean-50 border border-ocean-200 px-2 py-0.5 rounded-md">
+            {answeredCount}/42
+          </span>
+          <span className="text-[11px] text-slate-400 sm:hidden">
+            {isOpen ? '▲ Tutup' : '▼ Buka'}
+          </span>
+        </button>
+
+        <div className="hidden sm:flex items-center gap-3 text-[11px] text-slate-500">
           <span className="flex items-center gap-1">
-            <span className="w-3 h-3 rounded bg-slate-100 border border-slate-300" /> Belum
+            <span className="w-2.5 h-2.5 rounded bg-slate-100 border border-slate-300" /> Belum
           </span>
           <span className="flex items-center gap-1">
-            <span className="w-3 h-3 rounded bg-emerald-600 text-white" /> Terisi
+            <span className="w-2.5 h-2.5 rounded bg-emerald-600 text-white" /> Terisi
           </span>
           <span className="flex items-center gap-1">
-            <span className="w-3 h-3 rounded ring-2 ring-ocean-500 bg-ocean-100" /> Aktif
+            <span className="w-2.5 h-2.5 rounded ring-2 ring-ocean-500 bg-ocean-100" /> Aktif
           </span>
         </div>
       </div>
 
-      <div className="grid grid-cols-7 sm:grid-cols-11 md:grid-cols-14 gap-1.5 sm:gap-2">
-        {questions.map((q, idx) => {
-          const isAnswered = answers[q.id] !== undefined;
-          const isCurrent = idx === currentIndex && isSingleMode;
+      {/* Grid: visible on desktop or when expanded on mobile */}
+      <div className={`mt-3 pt-3 border-t border-slate-100 ${isOpen ? 'block' : 'hidden sm:block'}`}>
+        <div className="flex sm:hidden items-center justify-end gap-3 text-[10px] text-slate-500 mb-2.5">
+          <span className="flex items-center gap-1">
+            <span className="w-2 h-2 rounded bg-slate-100 border border-slate-300" /> Belum
+          </span>
+          <span className="flex items-center gap-1">
+            <span className="w-2 h-2 rounded bg-emerald-600 text-white" /> Terisi
+          </span>
+          <span className="flex items-center gap-1">
+            <span className="w-2 h-2 rounded ring-1 ring-ocean-500 bg-ocean-100" /> Aktif
+          </span>
+        </div>
 
-          return (
-            <button
-              key={q.id}
-              onClick={() => onSelectIndex(idx)}
-              className={`h-9 sm:h-10 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center relative ${
-                isCurrent
-                  ? 'ring-2 ring-ocean-500 bg-ocean-500 text-white shadow-glow scale-105 z-10'
-                  : isAnswered
-                  ? 'bg-emerald-600 text-white hover:bg-emerald-700'
-                  : 'bg-slate-50 text-slate-600 border border-slate-200/90 hover:bg-ocean-50 hover:border-ocean-300'
-              }`}
-              title={`Soal No. ${idx + 1} (${q.id_indikator}) - Skor: ${answers[q.id] || 'Belum diisi'}`}
-            >
-              {idx + 1}
-              {isAnswered && !isCurrent && (
-                <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-300 rounded-full border-2 border-white" />
-              )}
-            </button>
-          );
-        })}
+        <div className="grid grid-cols-7 sm:grid-cols-11 md:grid-cols-14 gap-1.5 sm:gap-2">
+          {questions.map((q, idx) => {
+            const isAnswered = answers[q.id] !== undefined;
+            const isCurrent = idx === currentIndex && isSingleMode;
+
+            return (
+              <button
+                key={q.id}
+                onClick={() => {
+                  onSelectIndex(idx);
+                  if (window.innerWidth < 640) setIsOpen(false);
+                }}
+                className={`h-8 sm:h-10 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center relative active:scale-95 ${
+                  isCurrent
+                    ? 'ring-2 ring-ocean-500 bg-ocean-600 text-white shadow-glow scale-105 z-10'
+                    : isAnswered
+                    ? 'bg-emerald-600 text-white hover:bg-emerald-700'
+                    : 'bg-slate-50 text-slate-600 border border-slate-200/90 hover:bg-ocean-50 hover:border-ocean-300'
+                }`}
+                title={`Soal No. ${idx + 1} (${q.id_indikator}) - Skor: ${answers[q.id] || 'Belum diisi'}`}
+              >
+                {idx + 1}
+                {isAnswered && !isCurrent && (
+                  <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-emerald-300 rounded-full border-2 border-white" />
+                )}
+              </button>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

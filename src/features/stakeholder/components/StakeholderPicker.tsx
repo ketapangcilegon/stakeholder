@@ -30,7 +30,7 @@ export default function StakeholderPicker({ selectedGroup, onSelectGroup }: Prop
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4">
       {STAKEHOLDER_GROUPS.map((group) => {
         const isSelected = selectedGroup?.id === group.id;
 
@@ -38,39 +38,39 @@ export default function StakeholderPicker({ selectedGroup, onSelectGroup }: Prop
           <div
             key={group.id}
             onClick={() => onSelectGroup(group)}
-            className={`cursor-pointer rounded-2xl p-5 border-2 transition-all relative flex flex-col justify-between ${
+            className={`cursor-pointer rounded-2xl p-4 sm:p-5 border-2 transition-all relative flex flex-col justify-between active:scale-[0.98] select-none ${
               isSelected
-                ? 'border-ocean-600 bg-ocean-50/70 shadow-lg ring-2 ring-ocean-200 scale-[1.02]'
-                : 'border-slate-200 bg-white hover:border-ocean-300 hover:shadow-md'
+                ? 'border-ocean-600 bg-ocean-50/80 shadow-md ring-2 ring-ocean-200'
+                : 'border-slate-200 bg-white hover:border-ocean-300 hover:shadow-sm'
             }`}
           >
             <div>
-              <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center justify-between mb-2.5 sm:mb-3">
                 <div
-                  className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${
+                  className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center transition-colors ${
                     isSelected ? 'bg-ocean-600 text-white shadow-sm' : 'bg-slate-100 text-slate-700'
                   }`}
                 >
                   {getStakeholderIcon(group.iconName)}
                 </div>
 
-                <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full border ${group.badgeColor}`}>
+                <span className={`text-[10px] sm:text-[11px] font-bold px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full border ${group.badgeColor}`}>
                   Target: {group.target} Org
                 </span>
               </div>
 
-              <h3 className="font-extrabold text-base text-slate-900 mb-1.5 leading-snug">
+              <h3 className="font-extrabold text-sm sm:text-base text-slate-900 mb-1 leading-snug">
                 {group.nama}
               </h3>
 
-              <p className="text-xs text-slate-600 leading-relaxed mb-3">
+              <p className="text-xs text-slate-600 leading-relaxed mb-2.5">
                 {group.deskripsi}
               </p>
             </div>
 
-            <div className="pt-3 border-t border-slate-100/80">
-              <span className="text-[11px] font-medium text-slate-400 block truncate" title={group.contohSubjek}>
-                <strong>Contoh:</strong> {group.contohSubjek}
+            <div className="pt-2.5 border-t border-slate-100/90">
+              <span className="text-[11px] font-medium text-slate-500 block truncate" title={group.contohSubjek}>
+                <strong className="text-slate-600">Contoh:</strong> {group.contohSubjek}
               </span>
             </div>
 

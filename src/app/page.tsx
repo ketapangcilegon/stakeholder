@@ -21,9 +21,11 @@ import {
 import { STAKEHOLDER_GROUPS, StakeholderGroup } from '@/data/questionnaireData';
 import { SurveyService } from '@/lib/surveyService';
 import { supabase } from '@/lib/supabaseClient';
+import GoogleAuthNoticeModal from '@/components/GoogleAuthNoticeModal';
 
 export default function HomePage() {
   const router = useRouter();
+  const formSectionRef = React.useRef<HTMLDivElement>(null);
 
   // State
   const [selectedGroup, setSelectedGroup] = useState<StakeholderGroup | null>(null);
@@ -34,6 +36,8 @@ export default function HomePage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [googleUser, setGoogleUser] = useState<any>(null);
   const [existingRespondent, setExistingRespondent] = useState<any>(null);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authErrorMsg, setAuthErrorMsg] = useState('');
 
   // Check Supabase Auth Session & Local Respondent on mount
   useEffect(() => {
@@ -76,10 +80,12 @@ export default function HomePage() {
         }
       });
       if (error) {
-        alert('Google Sign-In: ' + error.message);
+        setAuthErrorMsg(error.message);
+        setAuthModalOpen(true);
       }
     } catch (err: any) {
-      console.warn('OAuth error:', err);
+      setAuthErrorMsg(err?.message || 'Gagal menghubungkan ke Google');
+      setAuthModalOpen(true);
     }
   };
 
@@ -121,7 +127,7 @@ export default function HomePage() {
         is_manual_entry: false
       });
 
-      router.push('/survey');
+      router.push(`/kuesioner/${selectedGroup.id}`);
     } catch (err: any) {
       alert('Terjadi kesalahan: ' + err.message);
       setIsSubmitting(false);
@@ -129,43 +135,43 @@ export default function HomePage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-12">
+    <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 py-6 sm:py-12 space-y-8 sm:space-y-12">
       
       {/* ------------------------------------------------------------- */}
       {/* HERO SECTION */}
       {/* ------------------------------------------------------------- */}
-      <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-maritime-dark via-ocean-950 to-maritime-deep text-white p-6 sm:p-12 lg:p-16 shadow-2xl border border-ocean-800">
+      <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden bg-gradient-to-br from-maritime-dark via-ocean-950 to-maritime-deep text-white p-5 sm:p-12 lg:p-16 shadow-xl sm:shadow-2xl border border-ocean-800">
         
         {/* Background ocean pattern accents */}
-        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-ocean-500/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 bg-maritime-teal/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-80 sm:w-96 h-80 sm:h-96 bg-ocean-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 sm:w-96 h-80 sm:h-96 bg-maritime-teal/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 max-w-3xl space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-ocean-500/20 border border-ocean-400/30 text-ocean-300 text-xs font-bold tracking-wide uppercase backdrop-blur-md">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-ocean-500/20 border border-ocean-400/30 text-ocean-300 text-[11px] sm:text-xs font-bold tracking-wide uppercase backdrop-blur-md">
             <Sparkles className="w-3.5 h-3.5 text-ocean-300" />
             <span>Kuesioner Penelitian Tesis Magister</span>
           </div>
 
-          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight sm:leading-tight">
+          <h1 className="text-xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-snug sm:leading-tight">
             Keberlanjutan Pengelolaan Perikanan Tangkap Pesisir Kota Cilegon
           </h1>
 
-          <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
+          <p className="text-xs sm:text-base text-slate-300 leading-relaxed font-normal">
             Selamat datang di instrumen kuesioner digital penelitian tesis Magister Manajemen Perikanan. Kuesioner ini dirancang secara khusus untuk menggali persepsi, aspirasi, dan kesiapan kolaborasi <strong>5 kelompok pemangku kepentingan (stakeholder)</strong> di kawasan pesisir Kota Cilegon.
           </p>
 
           {/* Continue survey banner if local session exists */}
           {existingRespondent && existingRespondent.status_pengisian !== 'selesai' && (
-            <div className="p-4 rounded-2xl bg-ocean-900/80 border border-ocean-400/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mt-4">
+            <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-ocean-900/90 border border-ocean-400/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mt-4 shadow-lg">
               <div>
-                <span className="text-xs font-bold text-ocean-300 block">Sesi Pengisian Terakhir Terdeteksi:</span>
-                <p className="text-sm font-bold text-white">
+                <span className="text-[11px] sm:text-xs font-bold text-ocean-300 block">Sesi Pengisian Terakhir Terdeteksi:</span>
+                <p className="text-xs sm:text-sm font-bold text-white mt-0.5">
                   {existingRespondent.nama} ({existingRespondent.instansi}) • {existingRespondent.progress_percent || 0}% Selesai
                 </p>
               </div>
               <button
-                onClick={() => router.push('/survey')}
-                className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-xs font-bold shadow-sm transition-all flex items-center gap-1.5"
+                onClick={() => router.push(`/kuesioner/${existingRespondent.id_stakeholder_group || 'pelaku_usaha'}`)}
+                className="w-full sm:w-auto px-4 py-2.5 bg-emerald-500 hover:bg-emerald-600 active:scale-95 text-white rounded-xl text-xs font-bold shadow-sm transition-all flex items-center justify-center gap-1.5"
               >
                 <span>Lanjutkan Kuesioner</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -275,12 +281,12 @@ export default function HomePage() {
       {/* ------------------------------------------------------------- */}
       {/* STEP 2: FORM IDENTITAS SINGKAT & MULAI */}
       {/* ------------------------------------------------------------- */}
-      <section className="bg-white rounded-3xl border border-slate-200 shadow-md p-6 sm:p-10 space-y-6">
+      <section ref={formSectionRef} id="form-identitas" className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-md p-4 sm:p-8 lg:p-10 space-y-5 sm:space-y-6">
         <div>
-          <span className="text-xs font-extrabold uppercase tracking-wider text-ocean-600">
+          <span className="text-[11px] sm:text-xs font-extrabold uppercase tracking-wider text-ocean-600">
             Langkah 2 dari 2
           </span>
-          <h2 className="text-xl sm:text-2xl font-black text-slate-900">
+          <h2 className="text-lg sm:text-2xl font-black text-slate-900">
             Identitas Singkat Responden
           </h2>
           <p className="text-xs text-slate-500 mt-0.5">
@@ -288,8 +294,8 @@ export default function HomePage() {
           </p>
         </div>
 
-        <form onSubmit={handleStartSurvey} className="space-y-5">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <form onSubmit={handleStartSurvey} className="space-y-4 sm:space-y-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
             
             {/* Nama Lengkap */}
             <div>
@@ -302,7 +308,7 @@ export default function HomePage() {
                 value={nama}
                 onChange={(e) => setNama(e.target.value)}
                 placeholder="Contoh: H. Suherman / Pak Sarwani"
-                className="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 focus:border-ocean-500 transition-all bg-slate-50/50"
+                className="w-full px-4 py-3 sm:py-3 rounded-xl border border-slate-300 text-base sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 focus:border-ocean-500 transition-all bg-slate-50/50"
               />
             </div>
 
@@ -317,7 +323,7 @@ export default function HomePage() {
                 value={instansi}
                 onChange={(e) => setInstansi(e.target.value)}
                 placeholder="Contoh: DKPP Cilegon / Nelayan Medaksa / Kelurahan Gerem"
-                className="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 focus:border-ocean-500 transition-all bg-slate-50/50"
+                className="w-full px-4 py-3 sm:py-3 rounded-xl border border-slate-300 text-base sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 focus:border-ocean-500 transition-all bg-slate-50/50"
               />
             </div>
 
@@ -331,21 +337,21 @@ export default function HomePage() {
                 value={jabatan}
                 onChange={(e) => setJabatan(e.target.value)}
                 placeholder="Contoh: Juragan Kapal / Kabid Perikanan / Ketua RT"
-                className="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 focus:border-ocean-500 transition-all bg-slate-50/50"
+                className="w-full px-4 py-3 sm:py-3 rounded-xl border border-slate-300 text-base sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 focus:border-ocean-500 transition-all bg-slate-50/50"
               />
             </div>
 
             {/* Nomor Kontak */}
             <div>
               <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                Nomor WhatsApp / HP <span className="text-slate-400 font-normal">(Opsional untuk konfirmasi cinderamata)</span>
+                Nomor WhatsApp / HP <span className="text-slate-400 font-normal">(Opsional)</span>
               </label>
               <input
                 type="tel"
                 value={noHp}
                 onChange={(e) => setNoHp(e.target.value)}
                 placeholder="Contoh: 0812-xxxx-xxxx"
-                className="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 focus:border-ocean-500 transition-all bg-slate-50/50"
+                className="w-full px-4 py-3 sm:py-3 rounded-xl border border-slate-300 text-base sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 focus:border-ocean-500 transition-all bg-slate-50/50"
               />
             </div>
 
@@ -353,15 +359,15 @@ export default function HomePage() {
 
           {/* Selected Stakeholder preview notification */}
           {selectedGroup ? (
-            <div className="p-4 rounded-xl bg-ocean-50 border border-ocean-200 text-ocean-950 text-xs flex items-center justify-between">
+            <div className="p-3.5 sm:p-4 rounded-xl bg-ocean-50 border border-ocean-200 text-ocean-950 text-xs flex items-center justify-between gap-2">
               <div>
-                <span className="font-bold block">Kelompok Terpilih: {selectedGroup.nama}</span>
+                <span className="font-bold block text-ocean-900">Kelompok Terpilih: {selectedGroup.nama}</span>
                 <span className="text-slate-600">Gaya Bahasa: <strong>{selectedGroup.tone}</strong> (42 Pertanyaan)</span>
               </div>
-              <CheckCircle2 className="w-5 h-5 text-ocean-600" />
+              <CheckCircle2 className="w-5 h-5 text-ocean-600 flex-shrink-0" />
             </div>
           ) : (
-            <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs flex items-center gap-2">
+            <div className="p-3.5 sm:p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs flex items-center gap-2">
               <HelpCircle className="w-5 h-5 text-amber-600 flex-shrink-0" />
               <span>Silakan pilih salah satu dari 5 kotak kelompok stakeholder di Langkah 1 di atas.</span>
             </div>
@@ -372,7 +378,7 @@ export default function HomePage() {
             <button
               type="submit"
               disabled={isSubmitting || !selectedGroup}
-              className={`w-full py-4 px-6 rounded-2xl font-bold text-base shadow-lg transition-all flex items-center justify-center gap-2 ${
+              className={`w-full py-3.5 sm:py-4 px-6 rounded-xl sm:rounded-2xl font-bold text-sm sm:text-base shadow-lg transition-all flex items-center justify-center gap-2 active:scale-[0.99] ${
                 isSubmitting || !selectedGroup
                   ? 'bg-slate-300 text-slate-500 cursor-not-allowed'
                   : 'bg-ocean-600 hover:bg-ocean-700 text-white hover:shadow-glow'
@@ -384,6 +390,20 @@ export default function HomePage() {
           </div>
         </form>
       </section>
+
+      {/* Google Auth Notice Modal */}
+      <GoogleAuthNoticeModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        rawErrorMessage={authErrorMsg}
+        onProceedWithoutLogin={() => {
+          setAuthModalOpen(false);
+          const el = document.getElementById('form-identitas');
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth' });
+          }
+        }}
+      />
 
     </div>
   );

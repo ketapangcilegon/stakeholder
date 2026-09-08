@@ -142,66 +142,66 @@ export default function QuestionnaireWizard({ respondent, stakeholderGroup, ques
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 pb-20">
+    <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6 pb-20">
       {/* Header Info */}
-      <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 sm:p-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="bg-white rounded-2xl border border-slate-200/90 shadow-sm p-3.5 sm:p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
           <div>
-            <div className="flex items-center gap-2 flex-wrap mb-1">
-              <span className={`text-xs font-bold px-2.5 py-1 rounded-full border ${stakeholderGroup.badgeColor}`}>
+            <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap mb-1">
+              <span className={`text-[11px] sm:text-xs font-bold px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full border ${stakeholderGroup.badgeColor}`}>
                 {stakeholderGroup.nama.split('(')[0]}
               </span>
-              <span className="text-xs text-slate-500 font-medium">
+              <span className="text-[11px] sm:text-xs text-slate-500 font-medium">
                 • {respondent.nama} ({respondent.instansi})
               </span>
             </div>
-            <h1 className="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">
+            <h1 className="text-base sm:text-xl font-extrabold text-slate-900 tracking-tight leading-snug">
               Kuesioner Persepsi Keberlanjutan Perikanan Tangkap
             </h1>
           </div>
 
-          <div className="flex items-center gap-3 self-end sm:self-center">
-            <div className="flex items-center gap-1.5 text-xs text-emerald-700 bg-emerald-50 border border-emerald-200/80 px-2.5 py-1.5 rounded-lg">
-              <Cloud className={`w-4 h-4 text-emerald-600 ${isSaving ? 'animate-spin' : ''}`} />
-              <span className="font-medium hidden sm:inline">
-                {isSaving ? 'Menyimpan...' : 'Tersimpan otomatis'}
+          <div className="flex items-center justify-between sm:justify-end gap-2 sm:gap-3">
+            <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-emerald-700 bg-emerald-50 border border-emerald-200/80 px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg">
+              <Cloud className={`w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-600 ${isSaving ? 'animate-spin' : ''}`} />
+              <span className="font-medium">
+                {isSaving ? 'Menyimpan...' : 'Tersimpan'}
               </span>
             </div>
 
             <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200">
               <button
                 onClick={() => setViewMode('single')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                className={`flex items-center gap-1 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs font-bold transition-all ${
                   viewMode === 'single'
                     ? 'bg-white text-ocean-900 shadow-sm'
                     : 'text-slate-500 hover:text-slate-800'
                 }`}
               >
                 <Eye className="w-3.5 h-3.5" />
-                <span className="hidden xs:inline">Fokus 1 Soal</span>
+                <span>1 Soal</span>
               </button>
               <button
                 onClick={() => setViewMode('dimension')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                className={`flex items-center gap-1 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs font-bold transition-all ${
                   viewMode === 'dimension'
                     ? 'bg-white text-ocean-900 shadow-sm'
                     : 'text-slate-500 hover:text-slate-800'
                 }`}
               >
                 <Layers className="w-3.5 h-3.5" />
-                <span className="hidden xs:inline">Semua Soal</span>
+                <span>Semua</span>
               </button>
             </div>
           </div>
         </div>
 
         {/* Global Progress Bar */}
-        <div className="mt-5 pt-4 border-t border-slate-100">
+        <div className="mt-4 sm:mt-5 pt-3 sm:pt-4 border-t border-slate-100">
           <div className="flex items-center justify-between text-xs font-semibold text-slate-700 mb-1.5">
-            <span>Progres: <strong>{answeredCount}</strong> dari {totalQuestions} Soal Terjawab</span>
-            <span className="text-ocean-700 font-extrabold">{progressPercent}%</span>
+            <span className="text-[11px] sm:text-xs">Progres: <strong>{answeredCount}</strong> dari {totalQuestions} Soal</span>
+            <span className="text-ocean-700 font-extrabold text-xs sm:text-sm">{progressPercent}%</span>
           </div>
-          <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+          <div className="w-full h-2 sm:h-2.5 bg-slate-100 rounded-full overflow-hidden">
             <div 
               className="h-full bg-gradient-to-r from-ocean-600 to-maritime-teal rounded-full transition-all duration-500"
               style={{ width: `${progressPercent}%` }}
@@ -233,13 +233,17 @@ export default function QuestionnaireWizard({ respondent, stakeholderGroup, ques
             onSelectScore={handleSelectScore}
           />
 
-          <div className="flex items-center justify-between pt-2">
+          {/* Navigation Buttons */}
+          <div className="grid grid-cols-2 gap-3 sm:flex sm:items-center sm:justify-between pt-2">
             <button
-              onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
+              onClick={() => {
+                setCurrentIndex(prev => Math.max(0, prev - 1));
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
               disabled={currentIndex === 0}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all ${
+              className={`flex items-center justify-center gap-2 py-3.5 px-4 sm:px-5 rounded-xl font-semibold text-xs sm:text-sm transition-all active:scale-95 ${
                 currentIndex === 0
-                  ? 'text-slate-300 cursor-not-allowed'
+                  ? 'text-slate-300 bg-slate-100 cursor-not-allowed border border-slate-200'
                   : 'text-slate-700 hover:bg-slate-100 bg-white border border-slate-200 shadow-sm'
               }`}
             >
@@ -249,8 +253,11 @@ export default function QuestionnaireWizard({ respondent, stakeholderGroup, ques
 
             {currentIndex < totalQuestions - 1 ? (
               <button
-                onClick={() => setCurrentIndex(prev => Math.min(totalQuestions - 1, prev + 1))}
-                className="flex items-center gap-2 px-6 py-3 bg-ocean-600 hover:bg-ocean-700 text-white rounded-xl font-bold text-sm shadow-md hover:shadow-lg transition-all"
+                onClick={() => {
+                  setCurrentIndex(prev => Math.min(totalQuestions - 1, prev + 1));
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="flex items-center justify-center gap-2 py-3.5 px-5 sm:px-6 bg-ocean-600 hover:bg-ocean-700 text-white rounded-xl font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all active:scale-95"
               >
                 <span>Berikutnya</span>
                 <ChevronRight className="w-4 h-4" />
@@ -259,14 +266,14 @@ export default function QuestionnaireWizard({ respondent, stakeholderGroup, ques
               <button
                 onClick={() => setShowSubmitConfirm(true)}
                 disabled={answeredCount < totalQuestions}
-                className={`flex items-center gap-2 px-7 py-3.5 rounded-xl font-bold text-sm shadow-md transition-all ${
+                className={`flex items-center justify-center gap-2 py-3.5 px-5 sm:px-7 rounded-xl font-bold text-xs sm:text-sm shadow-md transition-all active:scale-95 ${
                   answeredCount >= totalQuestions
                     ? 'bg-emerald-600 hover:bg-emerald-700 text-white hover:shadow-lg'
                     : 'bg-slate-200 text-slate-400 cursor-not-allowed'
                 }`}
               >
                 <Send className="w-4 h-4" />
-                <span>Kirim Jawaban Final</span>
+                <span>Kirim Jawaban</span>
               </button>
             )}
           </div>
