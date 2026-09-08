@@ -153,20 +153,16 @@ export default function HomePage() {
       {/* HERO & SCENIC BACKGROUND SECTION (Matching Mockup) */}
       {/* ------------------------------------------------------------- */}
       <div 
-        className="relative bg-cover bg-top sm:bg-center bg-no-repeat pt-10 sm:pt-16 pb-20 sm:pb-28 px-4 sm:px-6 lg:px-8 border-b border-sky-200/60"
+        className="relative bg-cover bg-top sm:bg-center bg-no-repeat pt-5 sm:pt-8 pb-16 sm:pb-24 px-4 sm:px-6 lg:px-8 border-b border-sky-200/60"
         style={{ backgroundImage: "url('/bg_stakeholder.jfif')" }}
       >
         {/* Soft overlay gradient for optimal legibility */}
         <div className="absolute inset-0 bg-gradient-to-b from-sky-900/35 via-white/20 to-sky-900/40 backdrop-blur-[0.5px] pointer-events-none" />
 
-        <div className="relative z-10 max-w-5xl mx-auto space-y-8">
+        <div className="relative z-10 max-w-5xl mx-auto space-y-6 sm:space-y-8">
           
           {/* Top Title Banner */}
-          <div className="space-y-2.5">
-            <span className="inline-block text-[11px] sm:text-xs font-black tracking-widest text-[#063b6d] uppercase bg-white/90 px-3.5 py-1 rounded-lg shadow-sm border border-white/80">
-              SELAMAT DATANG DI
-            </span>
-            
+          <div>
             <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-snug sm:leading-tight text-[#072d54] drop-shadow-sm">
               Pengelolaan Perikanan Tangkap Berkelanjutan di Kota Cilegon:
               <span className="block text-[#047857] mt-1">
@@ -175,7 +171,7 @@ export default function HomePage() {
             </h1>
 
             {/* Green Accent Line */}
-            <div className="w-16 h-1.5 bg-[#10b981] rounded-full my-3 shadow-xs" />
+            <div className="w-16 h-1.5 bg-[#10b981] rounded-full mt-3 shadow-xs" />
           </div>
 
           {/* ----------------------------------------------------------- */}
