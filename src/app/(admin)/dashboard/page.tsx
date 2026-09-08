@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useAdminAuth } from '@/context/AdminAuthContext';
 import { DashboardQueries, DashboardData } from '@/features/dashboard/queries';
 import { exportFullExcel, exportCsvData } from '@/lib/utils/export';
 import RadarChartDimensi from '@/features/dashboard/components/RadarChartDimensi';
@@ -16,10 +17,15 @@ import {
   Award, 
   AlertTriangle, 
   Users,
-  Filter 
+  Filter,
+  Lock,
+  ShieldCheck,
+  ShieldAlert,
+  ArrowRight
 } from 'lucide-react';
 
 export default function AdminDashboardPage() {
+  const { isAdmin, isLoading: authLoading, openLoginModal } = useAdminAuth();
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedGroupFilter, setSelectedGroupFilter] = useState('all');
@@ -32,9 +38,72 @@ export default function AdminDashboardPage() {
   };
 
   useEffect(() => {
-    loadData();
-  }, []);
+    if (isAdmin) {
+      loadData();
+    }
+  }, [isAdmin]);
 
+  // If Auth is loading
+  if (authLoading) {
+    return (
+      <div className="min-h-[70vh] flex flex-col items-center justify-center p-6 text-center space-y-4">
+        <RefreshCw className="w-10 h-10 text-ocean-600 animate-spin" />
+        <p className="text-xs font-semibold text-slate-500">Memeriksa hak akses tata kelola...</p>
+      </div>
+    );
+  }
+
+  // If Not Authenticated as Admin -> Governance Gatekeeper
+  if (!isAdmin) {
+    return (
+      <div className="max-w-xl mx-auto my-12 sm:my-20 px-4">
+        <div className="bg-white rounded-3xl p-8 sm:p-10 border border-slate-200/90 shadow-2xl text-center space-y-6 animate-fadeIn relative overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-amber-500 via-ocean-600 to-rose-500" />
+
+          <div className="w-16 h-16 bg-ocean-100 text-ocean-700 rounded-2xl flex items-center justify-center mx-auto shadow-glow">
+            <Lock className="w-8 h-8 text-ocean-700" />
+          </div>
+
+          <div>
+            <span className="bg-amber-100 text-amber-900 text-[10px] font-bold px-3 py-1 rounded-full border border-amber-200 uppercase tracking-wider inline-flex items-center gap-1 mb-2">
+              <ShieldAlert className="w-3 h-3 text-amber-700" /> Akses Terbatas Khusus Admin
+            </span>
+            <h1 className="text-2xl font-black text-slate-900 tracking-tight">
+              Hasil Analisis & Visualisasi Kuesioner
+            </h1>
+            <p className="text-xs sm:text-sm text-slate-500 mt-2 leading-relaxed">
+              Sesuai tata kelola sistem (*governance*), visualisasi skor persepsi 5 dimensi & 9 variabel serta pengunduhan data rekap Excel (.xlsx) hanya dapat diakses oleh peneliti dan pengelola resmi.
+            </p>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-left text-xs text-slate-600 space-y-2">
+            <div className="flex items-center gap-2 font-bold text-slate-800">
+              <ShieldCheck className="w-4 h-4 text-ocean-600" />
+              <span>Kerahasiaan & Keabsahan Data Penelitian</span>
+            </div>
+            <p className="text-[11px] leading-relaxed text-slate-500">
+              Analitik mencakup matriks tabulasi skor rata-rata, diagram jaring laba-laba (*radar chart*), dan data rekap mentah responden.
+            </p>
+          </div>
+
+          <div className="pt-2 space-y-3">
+            <button
+              onClick={openLoginModal}
+              className="w-full py-3.5 px-6 rounded-2xl bg-ocean-600 hover:bg-ocean-700 text-white font-bold text-sm shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 active:scale-95"
+            >
+              <ShieldCheck className="w-4 h-4" />
+              <span>Masuk Sebagai Admin / Peneliti</span>
+            </button>
+            <p className="text-[11px] text-slate-400">
+              Gunakan email dan kata sandi admin resmi yang telah terdaftar.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // If Admin is Authenticated, check data loading
   if (loading || !data) {
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center p-6 text-center space-y-4">
@@ -62,6 +131,7 @@ export default function AdminDashboardPage() {
   const sortedDim = [...data.dimensionScores].sort((a, b) => b.rataRata - a.rataRata);
   const highestDimension = sortedDim[0];
   const lowestDimension = sortedDim[sortedDim.length - 1];
+
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">

@@ -1,11 +1,12 @@
 'use client';
 
 import React from 'react';
-import { Layers, FileSpreadsheet } from 'lucide-react';
+import { Layers, FileSpreadsheet, Lock } from 'lucide-react';
 import { DIMENSI_LIST, VARIABEL_LIST, STAKEHOLDER_GROUPS } from '@/config/constants';
 import { DimensionScore, VariableScore } from '@/lib/utils/scoring';
 import { SurveyService } from '@/lib/surveyService';
 import { exportMatriksTabulasiExcel } from '@/lib/utils/export';
+import { useAdminAuth } from '@/context/AdminAuthContext';
 
 interface Props {
   dimensionScores: DimensionScore[];
@@ -20,9 +21,14 @@ export default function MatriksTabulasi({
   respondents,
   answers
 }: Props) {
+  const { isAdmin, requireAdmin } = useAdminAuth();
+
   const handleDownloadMatriks = () => {
-    exportMatriksTabulasiExcel(dimensionScores, variableScores, respondents, answers);
+    requireAdmin(() => {
+      exportMatriksTabulasiExcel(dimensionScores, variableScores, respondents, answers);
+    });
   };
+
 
   return (
     <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 sm:p-6 space-y-4">

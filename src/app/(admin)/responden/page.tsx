@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useAdminAuth } from '@/context/AdminAuthContext';
 import { SurveyService } from '@/lib/surveyService';
 import { exportFullExcel } from '@/lib/utils/export';
 import { STAKEHOLDER_GROUPS } from '@/config/constants';
 import TabelResponden from '@/features/admin/components/TabelResponden';
 import DetailRespondenModal from '@/features/admin/components/DetailRespondenModal';
-import AdminPinModal from '@/features/admin/components/AdminPinModal';
 import { 
   Users, 
   Search, 
@@ -14,12 +14,12 @@ import {
   RefreshCw, 
   FileSpreadsheet, 
   Lock, 
-  ShieldCheck 
+  ShieldCheck,
+  ShieldAlert
 } from 'lucide-react';
 
 export default function AdminRespondenPage() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [showPinModal, setShowPinModal] = useState(true);
+  const { isAdmin, isLoading: authLoading, openLoginModal } = useAdminAuth();
   const [loading, setLoading] = useState(true);
   const [respondents, setRespondents] = useState<any[]>([]);
   const [answers, setAnswers] = useState<any[]>([]);
@@ -36,10 +36,10 @@ export default function AdminRespondenPage() {
   };
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAdmin) {
       loadData();
     }
-  }, [isAuthenticated]);
+  }, [isAdmin]);
 
   const handleDelete = async (id: string, name: string) => {
     if (!confirm(`Hapus data responden ${name}?`)) return;
@@ -54,31 +54,39 @@ export default function AdminRespondenPage() {
     return matchSearch && matchGroup;
   });
 
-  if (!isAuthenticated) {
+  if (authLoading) {
+    return (
+      <div className="min-h-[70vh] flex flex-col items-center justify-center p-6 text-center space-y-4">
+        <RefreshCw className="w-10 h-10 text-ocean-600 animate-spin" />
+        <p className="text-xs font-semibold text-slate-500">Memeriksa izin akses...</p>
+      </div>
+    );
+  }
+
+  if (!isAdmin) {
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center p-6 text-center space-y-4">
         <div className="w-16 h-16 bg-ocean-100 text-ocean-700 rounded-2xl flex items-center justify-center mx-auto shadow-glow">
           <Lock className="w-8 h-8" />
         </div>
+        <span className="bg-amber-100 text-amber-900 text-[10px] font-bold px-3 py-1 rounded-full border border-amber-200 uppercase tracking-wider inline-flex items-center gap-1">
+          <ShieldAlert className="w-3 h-3 text-amber-700" /> Akses Khusus Admin
+        </span>
         <h2 className="text-2xl font-black text-slate-900">Panel Manajemen Responden</h2>
         <p className="text-xs text-slate-500 max-w-sm">
-          Akses dibatasi untuk peneliti tesis guna menjaga kerahasiaan data kuesioner.
+          Akses data mentah responden dibatasi khusus untuk peneliti tesis guna menjamin kerahasiaan kuesioner.
         </p>
         <button
-          onClick={() => setShowPinModal(true)}
-          className="px-6 py-3 bg-ocean-600 hover:bg-ocean-700 text-white rounded-xl text-xs font-bold shadow-md transition-all"
+          onClick={openLoginModal}
+          className="px-6 py-3 bg-ocean-600 hover:bg-ocean-700 text-white rounded-xl text-xs font-bold shadow-md hover:shadow-lg transition-all flex items-center gap-2"
         >
-          Buka Kunci Akses
+          <ShieldCheck className="w-4 h-4" />
+          <span>Masuk Mode Admin</span>
         </button>
-
-        <AdminPinModal
-          isOpen={showPinModal}
-          onClose={() => setShowPinModal(false)}
-          onSuccess={() => setIsAuthenticated(true)}
-        />
       </div>
     );
   }
+
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
