@@ -472,7 +472,7 @@ export const SurveyService = {
     return "Belum Ada Data";
   },
 
-  // Delete Respondent (Admin feature)
+  // Delete Respondent (Admin feature: deletes respondent & all associated answers)
   async deleteRespondent(id: string): Promise<boolean> {
     try {
       await supabase.from('jawaban').delete().eq('id_responden', id);
@@ -481,14 +481,123 @@ export const SurveyService = {
       console.warn('Error deleting from supabase:', e);
     }
 
-    // Local
-    const local = this.getLocalSubmissions();
-    const filtered = local.filter(x => x.respondent.id !== id);
+    // Clean Local Storage
     if (typeof window !== 'undefined') {
+      const local = this.getLocalSubmissions();
+      const filtered = local.filter(x => x.respondent.id !== id);
       localStorage.setItem('cilegon_all_submissions', JSON.stringify(filtered));
+
+      localStorage.removeItem(LOCAL_STORAGE_KEY_PREFIX + 'answers_' + id);
+      const cur = this.getLocalRespondent();
+      if (cur && cur.id === id) {
+        this.clearLocalRespondent();
+      }
     }
     return true;
   },
+
+  // Delete/Reset All Answers for a Respondent (keeps respondent profile)
+  async deleteRespondentAnswers(respondenId: string): Promise<boolean> {
+    try {
+      // 1. Delete from Supabase jawaban
+      await supabase.from('jawaban').delete().eq('id_responden', respondenId);
+
+      // 2. Update respondent stats in Supabase
+      await supabase.from('responden').update({
+        total_dijawab: 0,
+        progress_percent: 0,
+        status_pengisian: 'draft',
+        updated_at: new Date().toISOString()
+      }).eq('id', respondenId);
+    } catch (e) {
+      console.warn('Error deleting answers from supabase:', e);
+    }
+
+    // 3. Clean Local Storage
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem(LOCAL_STORAGE_KEY_PREFIX + 'answers_' + respondenId);
+
+      const local = this.getLocalSubmissions();
+      const updatedLocal = local.map(item => {
+        if (item.respondent.id === respondenId) {
+          return {
+            respondent: {
+              ...item.respondent,
+              total_dijawab: 0,
+              progress_percent: 0,
+              status_pengisian: 'draft'
+            },
+            answers: {}
+          };
+        }
+        return item;
+      });
+      localStorage.setItem('cilegon_all_submissions', JSON.stringify(updatedLocal));
+
+      const cur = this.getLocalRespondent();
+      if (cur && cur.id === respondenId) {
+        cur.total_dijawab = 0;
+        cur.progress_percent = 0;
+        cur.status_pengisian = 'draft';
+        this.saveLocalRespondent(cur);
+      }
+    }
+    return true;
+  },
+
+  // Delete Single Indicator Answer for a Respondent
+  async deleteSingleAnswer(respondenId: string, indikatorId: string): Promise<boolean> {
+    try {
+      await supabase
+        .from('jawaban')
+        .delete()
+        .eq('id_responden', respondenId)
+        .eq('id_indikator', indikatorId);
+    } catch (e) {
+      console.warn('Error deleting single answer from supabase:', e);
+    }
+
+    // Clean Local Storage
+    if (typeof window !== 'undefined') {
+      const localAnswers = this.getLocalAnswers(respondenId);
+      // Find question ID related to indikatorId
+      const q = QUESTION_BANK.find(x => x.id_indikator === indikatorId);
+      if (q && localAnswers[q.id] !== undefined) {
+        delete localAnswers[q.id];
+        this.saveLocalAnswers(respondenId, localAnswers);
+      } else {
+        // Also check if stored by indikatorId
+        Object.keys(localAnswers).forEach(key => {
+          const matchQ = QUESTION_BANK.find(x => x.id === key);
+          if (matchQ && matchQ.id_indikator === indikatorId) {
+            delete localAnswers[key];
+          }
+        });
+        this.saveLocalAnswers(respondenId, localAnswers);
+      }
+
+      // Update submissions list
+      const local = this.getLocalSubmissions();
+      const updatedLocal = local.map(item => {
+        if (item.respondent.id === respondenId) {
+          const newAns = { ...item.answers };
+          if (q) delete newAns[q.id];
+          return {
+            ...item,
+            answers: newAns,
+            respondent: {
+              ...item.respondent,
+              total_dijawab: Object.keys(newAns).length
+            }
+          };
+        }
+        return item;
+      });
+      localStorage.setItem('cilegon_all_submissions', JSON.stringify(updatedLocal));
+    }
+    return true;
+  },
+
 
   // Local Storage Helpers
   saveLocalRespondent(respondent: RespondenRecord) {
