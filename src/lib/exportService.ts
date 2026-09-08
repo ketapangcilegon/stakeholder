@@ -128,18 +128,106 @@ export const ExportService = {
     XLSX.writeFile(wb, filename);
   },
 
+  // Export Matriks Tabulasi Excel workbook
+  exportMatriksTabulasiExcel(
+    dimensionScores: any[],
+    variableScores: any[],
+    respondents: RespondenRecord[],
+    answers: JawabanRecord[],
+    filename = 'Matriks_Tabulasi_Skor_Perikanan_Cilegon.xlsx'
+  ) {
+    const wb = XLSX.utils.book_new();
+
+    // Sheet 1: Matriks Tabulasi Skor per Dimensi & Variabel
+    const tableRows: any[] = [];
+
+    DIMENSI_LIST.forEach(dim => {
+      const dimVars = VARIABEL_LIST.filter(v => v.id_dimensi === dim.id);
+      const ds = dimensionScores.find(d => d.id === dim.id);
+
+      tableRows.push({
+        'Kode': dim.id,
+        'Dimensi / Variabel': `${dim.nama.toUpperCase()} (${dimVars.length} Variabel)`,
+        'Pemda': '',
+        'Pelaku Usaha': '',
+        'Masyarakat Pesisir': '',
+        'Akademisi / LSM': '',
+        'Industri': '',
+        'Rata-Rata': ds ? parseFloat(ds.rataRata.toFixed(2)) : 0,
+        'Status / Kategori': ds ? ds.kategori : '-'
+      });
+
+      dimVars.forEach(v => {
+        const vScore = variableScores.find(item => item.id === v.id);
+        const indIds = INDIKATOR_LIST.filter(i => i.id_variabel === v.id).map(i => i.id);
+
+        const groupAverages = STAKEHOLDER_GROUPS.map(g => {
+          const groupRespIds = respondents
+            .filter(r => r.id_stakeholder_group === g.id)
+            .map(r => r.id);
+          const gAns = answers.filter(a => groupRespIds.includes(a.id_responden) && indIds.includes(a.id_indikator));
+          const sum = gAns.reduce((acc, curr) => acc + (curr.skor || 0), 0);
+          return gAns.length > 0 ? parseFloat((sum / gAns.length).toFixed(2)) : '-';
+        });
+
+        tableRows.push({
+          'Kode': v.id,
+          'Dimensi / Variabel': v.nama,
+          'Pemda': groupAverages[0],
+          'Pelaku Usaha': groupAverages[1],
+          'Masyarakat Pesisir': groupAverages[2],
+          'Akademisi / LSM': groupAverages[3],
+          'Industri': groupAverages[4],
+          'Rata-Rata': vScore ? parseFloat(vScore.rataRata.toFixed(2)) : 0,
+          'Status / Kategori': vScore ? vScore.kategori : '-'
+        });
+      });
+    });
+
+    const wsMatrix = XLSX.utils.json_to_sheet(tableRows);
+    XLSX.utils.book_append_sheet(wb, wsMatrix, '1. Matriks Tabulasi Skor');
+
+    // Sheet 2: Ringkasan 5 Dimensi
+    const dimRows = dimensionScores.map(d => ({
+      'Kode Dimensi': d.id,
+      'Nama Dimensi': d.nama,
+      'Skor Rata-Rata (1-5)': parseFloat(d.rataRata.toFixed(2)),
+      'Status Kategori': d.kategori
+    }));
+    const wsDim = XLSX.utils.json_to_sheet(dimRows);
+    XLSX.utils.book_append_sheet(wb, wsDim, '2. Ringkasan 5 Dimensi');
+
+    // Sheet 3: Profil Responden Riil
+    const respRows = respondents.length > 0 ? respondents.map((r, idx) => {
+      const grp = STAKEHOLDER_GROUPS.find(g => g.id === r.id_stakeholder_group);
+      return {
+        'No': idx + 1,
+        'ID Responden': r.id,
+        'Nama Lengkap': r.nama,
+        'Kelompok Stakeholder': grp ? grp.nama : r.id_stakeholder_group,
+        'Instansi / Pangkalan': r.instansi,
+        'Jabatan': r.jabatan || '-',
+        'Status Pengisian': r.status_pengisian === 'selesai' ? 'Lengkap (100%)' : 'Draft'
+      };
+    }) : [{ 'Status': 'Belum ada responden riil yang masuk' }];
+    const wsResp = XLSX.utils.json_to_sheet(respRows);
+    XLSX.utils.book_append_sheet(wb, wsResp, '3. Responden Riil Terlibat');
+
+    XLSX.writeFile(wb, filename);
+  },
+
   // Export CSV for SPSS / SmartPLS / R
   exportCsvData(
     respondents: RespondenRecord[],
     answers: JawabanRecord[],
-    filename = 'Data_Mentah_SPSS_Cilegon.csv'
+    filename = 'Data_Mentah_SPSS_Cilegon_Riil.csv'
   ) {
-    const rawMatrixRows = respondents.map((r, idx) => {
+    const rawMatrixRows = respondents.length > 0 ? respondents.map((r, idx) => {
       const rowObj: Record<string, any> = {
         'RESP_ID': r.id,
         'STAKEHOLDER_CODE': r.id_stakeholder_group,
-        'NAMA': r.nama.replace(/,/g, ' '),
-        'INSTANSI': r.instansi.replace(/,/g, ' ')
+        'NAMA': (r.nama || '').replace(/,/g, ' '),
+        'INSTANSI': (r.instansi || '').replace(/,/g, ' ')
       };
 
       INDIKATOR_LIST.forEach(ind => {
@@ -148,7 +236,7 @@ export const ExportService = {
       });
 
       return rowObj;
-    });
+    }) : [{ 'STATUS': 'Belum ada responden riil' }];
 
     const ws = XLSX.utils.json_to_sheet(rawMatrixRows);
     const csvContent = XLSX.utils.sheet_to_csv(ws);

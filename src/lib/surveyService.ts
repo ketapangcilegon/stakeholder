@@ -347,27 +347,40 @@ export const SurveyService = {
       for (const item of localSubmissions) {
         if (!respondents.some(r => r.id === item.respondent.id)) {
           respondents.push(item.respondent);
-          Object.entries(item.answers).forEach(([qId, skor]) => {
+          Object.entries(item.answers).forEach(([qId, val]) => {
+            const skor = typeof val === 'number' ? val : (val as any)?.skor || 0;
             const q = QUESTION_BANK.find(x => x.id === qId);
             answers.push({
               id_responden: item.respondent.id,
               id_pertanyaan: qId,
               id_indikator: q ? q.id_indikator : '',
-              skor: skor as number
+              skor
             });
           });
         }
       }
     }
 
-    // If still completely empty, provide sample benchmark data so dashboard looks vivid
-    if (respondents.length === 0) {
-      const mockData = this.generateDemoData();
-      respondents = mockData.respondents;
-      answers = mockData.answers;
+    // Also check current active respondent and answers in localStorage if exists
+    const currentRespondent = this.getLocalRespondent();
+    if (currentRespondent && !respondents.some(r => r.id === currentRespondent.id)) {
+      const curAnswers = this.getLocalAnswers(currentRespondent.id);
+      if (curAnswers && Object.keys(curAnswers).length > 0) {
+        respondents.push(currentRespondent);
+        Object.entries(curAnswers).forEach(([qId, val]) => {
+          const skor = typeof val === 'number' ? val : (val as any)?.skor || 0;
+          const q = QUESTION_BANK.find(x => x.id === qId);
+          answers.push({
+            id_responden: currentRespondent.id,
+            id_pertanyaan: qId,
+            id_indikator: q ? q.id_indikator : '',
+            skor
+          });
+        });
+      }
     }
 
-    // Compute Dimension Scores
+    // Compute Dimension Scores purely from REAL data
     const dimensionScores: DimensionScore[] = DIMENSI_LIST.map(dim => {
       // Find all variables under this dimension
       const varIds = VARIABEL_LIST.filter(v => v.id_dimensi === dim.id).map(v => v.id);

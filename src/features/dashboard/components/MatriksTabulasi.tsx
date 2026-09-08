@@ -1,10 +1,11 @@
 'use client';
 
 import React from 'react';
-import { Layers } from 'lucide-react';
+import { Layers, FileSpreadsheet } from 'lucide-react';
 import { DIMENSI_LIST, VARIABEL_LIST, STAKEHOLDER_GROUPS } from '@/config/constants';
 import { DimensionScore, VariableScore } from '@/lib/utils/scoring';
 import { SurveyService } from '@/lib/surveyService';
+import { exportMatriksTabulasiExcel } from '@/lib/utils/export';
 
 interface Props {
   dimensionScores: DimensionScore[];
@@ -19,16 +20,22 @@ export default function MatriksTabulasi({
   respondents,
   answers
 }: Props) {
+  const handleDownloadMatriks = () => {
+    exportMatriksTabulasiExcel(dimensionScores, variableScores, respondents, answers);
+  };
+
   return (
-    <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 space-y-4">
-      <div>
-        <h3 className="font-bold text-lg text-slate-900 flex items-center gap-2">
-          <Layers className="w-5 h-5 text-ocean-600" />
-          Matriks Tabulasi Otomatis Skor per Dimensi & Variabel
-        </h3>
-        <p className="text-xs text-slate-500">
-          Nilai rata-rata persepsi terdistribusi per kelompok stakeholder (Skala Likert 1.00 – 5.00).
-        </p>
+    <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 sm:p-6 space-y-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-100">
+        <div>
+          <h3 className="font-bold text-base sm:text-lg text-slate-900 flex items-center gap-2">
+            <Layers className="w-5 h-5 text-ocean-600" />
+            Matriks Tabulasi Otomatis Skor per Dimensi & Variabel
+          </h3>
+          <p className="text-xs text-slate-500 mt-0.5">
+            Nilai rata-rata persepsi terdistribusi per kelompok stakeholder (Skala Likert 1.00 – 5.00).
+          </p>
+        </div>
       </div>
 
       <div className="overflow-x-auto">
@@ -106,6 +113,21 @@ export default function MatriksTabulasi({
             })}
           </tbody>
         </table>
+      </div>
+
+      {/* Bottom Action Footer (Capture 1: Tombol Download XLSX di pojok kanan bawah panel) */}
+      <div className="pt-3 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <span className="text-[11px] text-slate-500 font-medium text-center sm:text-left">
+          * Matriks tabulasi dihitung otomatis dari respon survei riil (Real Data).
+        </span>
+        <button
+          onClick={handleDownloadMatriks}
+          className="w-full sm:w-auto px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-2 active:scale-95"
+          title="Unduh seluruh data matriks tabulasi ke file Excel (.xlsx)"
+        >
+          <FileSpreadsheet className="w-4 h-4 text-white" />
+          <span>Unduh Matriks Tabulasi (.xlsx)</span>
+        </button>
       </div>
     </div>
   );
