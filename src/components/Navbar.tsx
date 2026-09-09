@@ -93,7 +93,7 @@ export default function Navbar() {
               <span className="text-[9px] sm:text-[10px] font-bold text-sky-200 uppercase tracking-widest block leading-tight">
                 KUESIONER PENELITIAN TESIS
               </span>
-              <span className="font-black text-sm sm:text-base lg:text-lg text-white tracking-tight block leading-tight">
+              <span className="text-[10px] sm:text-[11px] font-bold text-white tracking-tight block leading-tight">
                 Magister Manajemen Perikanan
               </span>
               <span className="text-[10px] sm:text-[11px] text-sky-100/90 font-medium block leading-tight">

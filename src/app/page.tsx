@@ -152,12 +152,14 @@ export default function HomePage() {
       {/* ------------------------------------------------------------- */}
       {/* HERO & SCENIC BACKGROUND SECTION (Matching Mockup) */}
       {/* ------------------------------------------------------------- */}
-      <div 
-        className="relative bg-cover bg-top sm:bg-center bg-no-repeat pt-3 sm:pt-4 pb-14 sm:pb-20 px-4 sm:px-6 lg:px-8 border-b border-sky-200/60"
-        style={{ backgroundImage: "url('/bg_stakeholder.jfif')" }}
-      >
+      <div className="relative overflow-hidden pt-3 sm:pt-4 pb-14 sm:pb-20 px-4 sm:px-6 lg:px-8 border-b border-sky-200/60">
+        {/* Background Image with Blur */}
+        <div 
+          className="absolute inset-0 bg-cover bg-top sm:bg-center bg-no-repeat blur-[4px] scale-105 transform"
+          style={{ backgroundImage: "url('/bg_stakeholder.jfif')" }}
+        />
         {/* Soft overlay gradient for optimal legibility */}
-        <div className="absolute inset-0 bg-gradient-to-b from-sky-900/35 via-white/20 to-sky-900/40 backdrop-blur-[0.5px] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-sky-900/30 via-white/15 to-sky-900/40 pointer-events-none" />
 
         <div className="relative z-10 max-w-5xl mx-auto space-y-4 sm:space-y-6">
           
@@ -177,7 +179,7 @@ export default function HomePage() {
           {/* ----------------------------------------------------------- */}
           {/* FLOATING WHITE INTRO CARD (Matching Mockup Layout) */}
           {/* ----------------------------------------------------------- */}
-          <div className="bg-white/95 backdrop-blur-md rounded-3xl p-6 sm:p-10 shadow-2xl border border-white/90 max-w-3xl mx-auto space-y-6 text-slate-800 animate-fadeIn">
+          <div className="bg-white/70 backdrop-blur-md rounded-3xl p-6 sm:p-10 shadow-2xl border border-white/80 max-w-3xl mx-auto space-y-6 text-slate-800 animate-fadeIn">
             
             {/* 1. Greeting */}
             <div className="flex items-start gap-3.5 sm:gap-4">
