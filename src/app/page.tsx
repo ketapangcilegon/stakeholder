@@ -179,7 +179,7 @@ export default function HomePage() {
           {/* ----------------------------------------------------------- */}
           {/* FLOATING WHITE INTRO CARD (Matching Mockup Layout) */}
           {/* ----------------------------------------------------------- */}
-          <div className="bg-white/70 backdrop-blur-md rounded-3xl p-6 sm:p-10 shadow-2xl border border-white/80 max-w-3xl mx-auto space-y-6 text-slate-800 animate-fadeIn">
+          <div className="bg-white/50 backdrop-blur-md rounded-3xl p-6 sm:p-10 shadow-2xl border border-white/70 max-w-3xl mx-auto space-y-6 text-slate-800 animate-fadeIn">
             
             {/* 1. Greeting */}
             <div className="flex items-start gap-3.5 sm:gap-4">
