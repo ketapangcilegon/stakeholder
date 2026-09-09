@@ -153,9 +153,9 @@ export default function HomePage() {
       {/* HERO & SCENIC BACKGROUND SECTION (Matching Mockup) */}
       {/* ------------------------------------------------------------- */}
       <div className="relative overflow-hidden pt-3 sm:pt-4 pb-14 sm:pb-20 px-4 sm:px-6 lg:px-8 border-b border-sky-200/60">
-        {/* Background Image with Blur */}
+        {/* Background Image (Clean without blur, fit to container) */}
         <div 
-          className="absolute inset-0 bg-cover bg-top sm:bg-center bg-no-repeat blur-[4px] scale-105 transform"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/bg_stakeholder.jfif')" }}
         />
         {/* Soft overlay gradient for optimal legibility */}
