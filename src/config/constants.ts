@@ -240,3 +240,88 @@ export const LIKERT_LABELS = {
     5: "Sangat Setuju / Sangat Baik"
   }
 };
+
+export interface PangkalanNelayan {
+  id: string;
+  nama: string;
+  kelurahan: string;
+  kecamatan: string;
+  jumlahNelayan: number;
+  jumlahPerahu: number;
+}
+
+export const DAFTAR_PANGKALAN: PangkalanNelayan[] = [
+  {
+    id: "tanjung_leneng",
+    nama: "Tanjung Leneng",
+    kelurahan: "Gunung Sugih",
+    kecamatan: "Ciwandan",
+    jumlahNelayan: 72,
+    jumlahPerahu: 64
+  },
+  {
+    id: "pantai_mabak",
+    nama: "Pantai Mabak",
+    kelurahan: "Mekarsari",
+    kecamatan: "Pulomerak",
+    jumlahNelayan: 65,
+    jumlahPerahu: 10
+  },
+  {
+    id: "medaksa_seberang",
+    nama: "Medaksa Seberang",
+    kelurahan: "Tamansari",
+    kecamatan: "Pulomerak",
+    jumlahNelayan: 76,
+    jumlahPerahu: 52
+  },
+  {
+    id: "kaltek",
+    nama: "Kaltek",
+    kelurahan: "Tamansari",
+    kecamatan: "Pulomerak",
+    jumlahNelayan: 15,
+    jumlahPerahu: 40
+  },
+  {
+    id: "lebak_gede",
+    nama: "Lebak Gede",
+    kelurahan: "Lebakgede",
+    kecamatan: "Pulomerak",
+    jumlahNelayan: 24,
+    jumlahPerahu: 16
+  },
+  {
+    id: "suralaya",
+    nama: "Suralaya",
+    kelurahan: "Suralaya",
+    kecamatan: "Pulomerak",
+    jumlahNelayan: 144,
+    jumlahPerahu: 67
+  },
+  {
+    id: "lelean",
+    nama: "Lelean",
+    kelurahan: "Gerem",
+    kecamatan: "Gerogol",
+    jumlahNelayan: 110,
+    jumlahPerahu: 54
+  },
+  {
+    id: "tanjung_peni",
+    nama: "Tanjung Peni",
+    kelurahan: "Kubangsari",
+    kecamatan: "Citangkil",
+    jumlahNelayan: 191,
+    jumlahPerahu: 102
+  },
+  {
+    id: "pangkalan_terate",
+    nama: "Pangkalan Terate",
+    kelurahan: "Cibeber",
+    kecamatan: "Cibeber",
+    jumlahNelayan: 18,
+    jumlahPerahu: 5
+  }
+];
+

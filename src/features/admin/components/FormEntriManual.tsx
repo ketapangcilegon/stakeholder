@@ -6,10 +6,12 @@ import {
   STAKEHOLDER_GROUPS, 
   DIMENSI_LIST, 
   VARIABEL_LIST, 
-  INDIKATOR_LIST 
+  INDIKATOR_LIST,
+  DAFTAR_PANGKALAN,
+  PangkalanNelayan
 } from '@/config/constants';
 import { SurveyService } from '@/lib/surveyService';
-import { Save, CheckCircle2, RefreshCcw } from 'lucide-react';
+import { Save, CheckCircle2, RefreshCcw, MapPin } from 'lucide-react';
 
 export default function FormEntriManual() {
   const router = useRouter();
@@ -18,6 +20,15 @@ export default function FormEntriManual() {
   const [instansi, setInstansi] = useState('');
   const [jabatan, setJabatan] = useState('');
   const [noHp, setNoHp] = useState('');
+
+  // Dynamic fields per persona
+  const [usia, setUsia] = useState('');
+  const [pangkalanNelayan, setPangkalanNelayan] = useState('');
+  const [kelurahan, setKelurahan] = useState('');
+  const [kecamatan, setKecamatan] = useState('');
+  const [kubNelayan, setKubNelayan] = useState('');
+  const [alamat, setAlamat] = useState('');
+
   const [scores, setScores] = useState<Record<string, number>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -31,30 +42,109 @@ export default function FormEntriManual() {
     setScores(prev => ({ ...prev, [qId]: val }));
   };
 
+  const handlePangkalanChange = (namaPangkalan: string) => {
+    setPangkalanNelayan(namaPangkalan);
+    const found = DAFTAR_PANGKALAN.find(p => p.nama === namaPangkalan);
+    if (found) {
+      setKelurahan(found.kelurahan);
+      setKecamatan(found.kecamatan);
+    } else {
+      setKelurahan('');
+      setKecamatan('');
+    }
+  };
+
   const handleResetForm = () => {
     setNama('');
     setInstansi('');
     setJabatan('');
     setNoHp('');
+    setUsia('');
+    setPangkalanNelayan('');
+    setKelurahan('');
+    setKecamatan('');
+    setKubNelayan('');
+    setAlamat('');
     setScores({});
     setSuccessMessage(null);
   };
 
   const handleSubmitManual = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!nama.trim() || !instansi.trim()) {
-      alert('Nama responden dan instansi/pangkalan wajib diisi!');
+    if (!nama.trim()) {
+      alert('Nama responden wajib diisi!');
       return;
     }
 
+    if (selectedGroup.id === 'pelaku_usaha') {
+      if (!usia.trim() || isNaN(Number(usia)) || Number(usia) <= 0) {
+        alert('Silakan isi Usia responden nelayan!');
+        return;
+      }
+      if (!pangkalanNelayan.trim()) {
+        alert('Silakan pilih salah satu dari 9 Pangkalan Nelayan!');
+        return;
+      }
+    } else if (selectedGroup.id === 'pemda') {
+      if (!instansi.trim()) {
+        alert('OPD / Instansi Pemda wajib diisi!');
+        return;
+      }
+      if (!jabatan.trim()) {
+        alert('Jabatan / Eselon wajib diisi!');
+        return;
+      }
+    } else if (selectedGroup.id === 'masyarakat_pesisir') {
+      if (!instansi.trim()) {
+        alert('Instansi / Komunitas / Usaha wajib diisi!');
+        return;
+      }
+      if (!alamat.trim()) {
+        alert('Alamat domisili pesisir wajib diisi!');
+        return;
+      }
+    } else if (selectedGroup.id === 'akademisi_lsm') {
+      if (!instansi.trim()) {
+        alert('Instansi / Lembaga akademisi/organisasi wajib diisi!');
+        return;
+      }
+      if (!jabatan.trim()) {
+        alert('Jabatan / Peran wajib diisi!');
+        return;
+      }
+    } else if (selectedGroup.id === 'industri') {
+      if (!jabatan.trim()) {
+        alert('Jabatan di perusahaan wajib diisi!');
+        return;
+      }
+      if (!instansi.trim()) {
+        alert('Nama perusahaan / industri wajib diisi!');
+        return;
+      }
+      if (!alamat.trim()) {
+        alert('Alamat pabrik / kawasan industri wajib diisi!');
+        return;
+      }
+    }
+
     setIsSubmitting(true);
+    const finalInstansi = selectedGroup.id === 'pelaku_usaha'
+      ? (kubNelayan.trim() ? `KUB ${kubNelayan.trim()} (Pangkalan ${pangkalanNelayan})` : `Pangkalan ${pangkalanNelayan}`)
+      : instansi.trim();
+
     const result = await SurveyService.submitManualEntry(
       {
         nama: nama.trim(),
-        instansi: instansi.trim(),
+        instansi: finalInstansi,
         jabatan: jabatan.trim() || undefined,
         no_hp: noHp.trim() || undefined,
-        id_stakeholder_group: selectedGroup.id
+        id_stakeholder_group: selectedGroup.id,
+        usia: (selectedGroup.id === 'pelaku_usaha' && usia.trim()) ? parseInt(usia, 10) : undefined,
+        pangkalan_nelayan: selectedGroup.id === 'pelaku_usaha' ? pangkalanNelayan : undefined,
+        kelurahan: selectedGroup.id === 'pelaku_usaha' ? kelurahan : undefined,
+        kecamatan: selectedGroup.id === 'pelaku_usaha' ? kecamatan : undefined,
+        kub_nelayan: selectedGroup.id === 'pelaku_usaha' ? (kubNelayan.trim() || undefined) : undefined,
+        alamat: (selectedGroup.id === 'masyarakat_pesisir' || selectedGroup.id === 'industri') ? (alamat.trim() || undefined) : undefined,
       },
       scores
     );
@@ -95,19 +185,25 @@ export default function FormEntriManual() {
         </div>
       )}
 
-      {/* Profil Responden */}
+      {/* Profil Responden - Single Column Dynamic Form */}
       <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-8 space-y-6">
         <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-          <h3 className="font-bold text-lg text-slate-900">
-            1. Identitas Responden dari Lembar Kuesioner
-          </h3>
+          <div>
+            <h3 className="font-bold text-lg text-slate-900">
+              1. Identitas Responden dari Lembar Kuesioner
+            </h3>
+            <p className="text-xs text-slate-500 mt-0.5">
+              Isian disesuaikan otomatis dengan kelompok stakeholder yang dipilih (format 1 kolom).
+            </p>
+          </div>
           <span className="text-xs font-semibold text-slate-400">
-            Wajib diisi sesuai kertas fisik
+            Wajib sesuai berkas fisik
           </span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          <div className="sm:col-span-2">
+        <div className="max-w-xl mx-auto space-y-4">
+          {/* Pilihan Kelompok */}
+          <div>
             <label className="block text-xs font-bold text-slate-700 mb-1.5">
               Kelompok Stakeholder Sasaran <span className="text-rose-500">*</span>
             </label>
@@ -127,59 +223,371 @@ export default function FormEntriManual() {
             </select>
           </div>
 
-          <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1.5">
-              Nama Lengkap Responden <span className="text-rose-500">*</span>
-            </label>
-            <input
-              type="text"
-              required
-              value={nama}
-              onChange={(e) => setNama(e.target.value)}
-              placeholder="Nama di lembar kuesioner"
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 bg-slate-50/50"
-            />
-          </div>
+          {/* 1. PELAKU USAHA PERIKANAN TANGKAP */}
+          {selectedGroup.id === 'pelaku_usaha' && (
+            <>
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  Nama Lengkap Responden Nelayan <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={nama}
+                  onChange={(e) => setNama(e.target.value)}
+                  placeholder="Nama nelayan di lembar kuesioner"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 bg-slate-50/50"
+                />
+              </div>
 
-          <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1.5">
-              Instansi / Kelompok / Pangkalan Nelayan <span className="text-rose-500">*</span>
-            </label>
-            <input
-              type="text"
-              required
-              value={instansi}
-              onChange={(e) => setInstansi(e.target.value)}
-              placeholder="Instansi atau pangkalan perahu"
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 bg-slate-50/50"
-            />
-          </div>
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  Usia Responden (Tahun) <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="number"
+                  required
+                  min="15"
+                  max="100"
+                  value={usia}
+                  onChange={(e) => setUsia(e.target.value)}
+                  placeholder="Contoh: 45"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 bg-slate-50/50"
+                />
+              </div>
 
-          <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1.5">
-              Jabatan / Peran di Lapangan
-            </label>
-            <input
-              type="text"
-              value={jabatan}
-              onChange={(e) => setJabatan(e.target.value)}
-              placeholder="Contoh: Nelayan / Juragan / Kabid"
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 bg-slate-50/50"
-            />
-          </div>
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  Pangkalan Nelayan (9 Pangkalan se-Kota Cilegon) <span className="text-rose-500">*</span>
+                </label>
+                <select
+                  required
+                  value={pangkalanNelayan}
+                  onChange={(e) => handlePangkalanChange(e.target.value)}
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-bold text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-ocean-500"
+                >
+                  <option value="">-- Pilih Salah Satu Pangkalan Nelayan --</option>
+                  {DAFTAR_PANGKALAN.map((p, idx) => (
+                    <option key={p.id} value={p.nama}>
+                      {idx + 1}. Pangkalan {p.nama} (Kel. {p.kelurahan}, Kec. {p.kecamatan})
+                    </option>
+                  ))}
+                </select>
 
-          <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1.5">
-              Nomor WhatsApp / HP
-            </label>
-            <input
-              type="tel"
-              value={noHp}
-              onChange={(e) => setNoHp(e.target.value)}
-              placeholder="0812-xxxx-xxxx"
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 bg-slate-50/50"
-            />
-          </div>
+                {pangkalanNelayan && (
+                  <div className="mt-2.5 p-3 bg-emerald-50/90 border border-emerald-200 rounded-xl text-xs space-y-1 animate-fadeIn">
+                    <div className="flex items-center gap-1.5 text-emerald-900 font-bold">
+                      <MapPin className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
+                      <span>Data Administrasi Wilayah Pangkalan:</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 text-slate-700 font-medium pl-5">
+                      <div>
+                        <span className="text-slate-400 block text-[10px] uppercase font-bold">Kelurahan:</span>
+                        <span className="text-slate-900 font-bold">{kelurahan}</span>
+                      </div>
+                      <div>
+                        <span className="text-slate-400 block text-[10px] uppercase font-bold">Kecamatan:</span>
+                        <span className="text-slate-900 font-bold">{kecamatan}</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  KUB Nelayan (Kelompok Usaha Bersama) <span className="text-slate-400 font-normal">(Isian Bebas)</span>
+                </label>
+                <input
+                  type="text"
+                  value={kubNelayan}
+                  onChange={(e) => setKubNelayan(e.target.value)}
+                  placeholder="Contoh: KUB Sinar Bahari (kosongkan bila mandiri)"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 bg-slate-50/50"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  Jabatan / Peran di Lapangan <span className="text-slate-400 font-normal">(Opsional)</span>
+                </label>
+                <input
+                  type="text"
+                  value={jabatan}
+                  onChange={(e) => setJabatan(e.target.value)}
+                  placeholder="Contoh: Juragan Kapal / Pemilik Perahu / ABK / Bakul Ikan"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 bg-slate-50/50"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  Nomor WhatsApp / HP <span className="text-slate-400 font-normal">(Opsional)</span>
+                </label>
+                <input
+                  type="tel"
+                  value={noHp}
+                  onChange={(e) => setNoHp(e.target.value)}
+                  placeholder="0812-xxxx-xxxx"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 bg-slate-50/50"
+                />
+              </div>
+            </>
+          )}
+
+          {/* 2. PEMERINTAH DAERAH */}
+          {selectedGroup.id === 'pemda' && (
+            <>
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  Nama Lengkap & Gelar <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={nama}
+                  onChange={(e) => setNama(e.target.value)}
+                  placeholder="Nama pejabat / aparatur pemda"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 bg-slate-50/50"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  OPD / Instansi Pemerintah Daerah <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={instansi}
+                  onChange={(e) => setInstansi(e.target.value)}
+                  placeholder="Contoh: DKPP Cilegon / Bapperida / Dinas Lingkungan Hidup"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 bg-slate-50/50"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  Jabatan / Eselon / Peran <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={jabatan}
+                  onChange={(e) => setJabatan(e.target.value)}
+                  placeholder="Contoh: Kabid Perikanan Tangkap / Pengawas / Perencana"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 bg-slate-50/50"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  Nomor WhatsApp / HP <span className="text-slate-400 font-normal">(Opsional)</span>
+                </label>
+                <input
+                  type="tel"
+                  value={noHp}
+                  onChange={(e) => setNoHp(e.target.value)}
+                  placeholder="0812-xxxx-xxxx"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 bg-slate-50/50"
+                />
+              </div>
+            </>
+          )}
+
+          {/* 3. MASYARAKAT PESISIR */}
+          {selectedGroup.id === 'masyarakat_pesisir' && (
+            <>
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  Nama Lengkap <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={nama}
+                  onChange={(e) => setNama(e.target.value)}
+                  placeholder="Nama warga / tokoh pesisir"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 bg-slate-50/50"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  Instansi / Nama Usaha / Komunitas <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={instansi}
+                  onChange={(e) => setInstansi(e.target.value)}
+                  placeholder="Contoh: Tokoh Masyarakat / Rukun Nelayan / Usaha Olahan Ikan"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 bg-slate-50/50"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  Alamat Domisili Pesisir <span className="text-rose-500">*</span> <span className="text-slate-400 font-normal">(Isian Bebas)</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={alamat}
+                  onChange={(e) => setAlamat(e.target.value)}
+                  placeholder="Contoh: Kp. Medaksa RT 02/05 Kel. Tamansari"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 bg-slate-50/50"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  Nomor WhatsApp / HP <span className="text-slate-400 font-normal">(Opsional)</span>
+                </label>
+                <input
+                  type="tel"
+                  value={noHp}
+                  onChange={(e) => setNoHp(e.target.value)}
+                  placeholder="0812-xxxx-xxxx"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 bg-slate-50/50"
+                />
+              </div>
+            </>
+          )}
+
+          {/* 4. AKADEMISI & ORGANISASI NELAYAN */}
+          {selectedGroup.id === 'akademisi_lsm' && (
+            <>
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  Nama Lengkap & Gelar <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={nama}
+                  onChange={(e) => setNama(e.target.value)}
+                  placeholder="Nama akademisi / pimpinan organisasi"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 bg-slate-50/50"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  Instansi / Lembaga <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={instansi}
+                  onChange={(e) => setInstansi(e.target.value)}
+                  placeholder="Contoh: Fakultas Perikanan UNTIRTA / DPC HNSI Cilegon"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 bg-slate-50/50"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  Jabatan / Peran <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={jabatan}
+                  onChange={(e) => setJabatan(e.target.value)}
+                  placeholder="Contoh: Dosen Peneliti / Ketua DPC / Dewan Pakar"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 bg-slate-50/50"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  Nomor WhatsApp / HP <span className="text-slate-400 font-normal">(Opsional)</span>
+                </label>
+                <input
+                  type="tel"
+                  value={noHp}
+                  onChange={(e) => setNoHp(e.target.value)}
+                  placeholder="0812-xxxx-xxxx"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 bg-slate-50/50"
+                />
+              </div>
+            </>
+          )}
+
+          {/* 5. INDUSTRI SEKITAR PESISIR */}
+          {selectedGroup.id === 'industri' && (
+            <>
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  Nama Lengkap Perwakilan Industri <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={nama}
+                  onChange={(e) => setNama(e.target.value)}
+                  placeholder="Nama perwakilan industri"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 bg-slate-50/50"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  Jabatan di Perusahaan <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={jabatan}
+                  onChange={(e) => setJabatan(e.target.value)}
+                  placeholder="Contoh: Manager CSR / Head of Environmental HSE"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 bg-slate-50/50"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  Nama Perusahaan / Industri <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={instansi}
+                  onChange={(e) => setInstansi(e.target.value)}
+                  placeholder="Contoh: PT Krakatau Steel / PLTU Suralaya"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 bg-slate-50/50"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  Alamat Pabrik / Kawasan Industri <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={alamat}
+                  onChange={(e) => setAlamat(e.target.value)}
+                  placeholder="Contoh: Kawasan Industri Krakatau / Ciwandan"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 bg-slate-50/50"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  Nomor WhatsApp / HP <span className="text-slate-400 font-normal">(Opsional)</span>
+                </label>
+                <input
+                  type="tel"
+                  value={noHp}
+                  onChange={(e) => setNoHp(e.target.value)}
+                  placeholder="0812-xxxx-xxxx"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ocean-500 bg-slate-50/50"
+                />
+              </div>
+            </>
+          )}
         </div>
       </div>
 

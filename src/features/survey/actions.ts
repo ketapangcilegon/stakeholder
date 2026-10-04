@@ -12,6 +12,12 @@ export const SurveyActions = {
     jabatan?: string;
     no_hp?: string;
     id_stakeholder_group: string;
+    usia?: number | null;
+    pangkalan_nelayan?: string | null;
+    kelurahan?: string | null;
+    kecamatan?: string | null;
+    kub_nelayan?: string | null;
+    alamat?: string | null;
     email?: string | null;
     user_id_google?: string | null;
   }): Promise<RespondenData> {
@@ -37,6 +43,12 @@ export const SurveyActions = {
         jabatan: respondent.jabatan || null,
         no_hp: respondent.no_hp || null,
         id_stakeholder_group: respondent.id_stakeholder_group,
+        usia: respondent.usia || null,
+        pangkalan_nelayan: respondent.pangkalan_nelayan || null,
+        kelurahan: respondent.kelurahan || null,
+        kecamatan: respondent.kecamatan || null,
+        kub_nelayan: respondent.kub_nelayan || null,
+        alamat: respondent.alamat || null,
         email: respondent.email || null,
         user_id_google: respondent.user_id_google || null,
         is_manual_entry: false,

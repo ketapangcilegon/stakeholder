@@ -143,6 +143,12 @@ export interface Database {
           jabatan: string | null
           no_hp: string | null
           id_stakeholder_group: string
+          usia: number | null
+          pangkalan_nelayan: string | null
+          kelurahan: string | null
+          kecamatan: string | null
+          kub_nelayan: string | null
+          alamat: string | null
           is_manual_entry: boolean
           status_pengisian: string
           progress_percent: number
@@ -159,6 +165,12 @@ export interface Database {
           jabatan?: string | null
           no_hp?: string | null
           id_stakeholder_group: string
+          usia?: number | null
+          pangkalan_nelayan?: string | null
+          kelurahan?: string | null
+          kecamatan?: string | null
+          kub_nelayan?: string | null
+          alamat?: string | null
           is_manual_entry?: boolean
           status_pengisian?: string
           progress_percent?: number
@@ -175,6 +187,12 @@ export interface Database {
           jabatan?: string | null
           no_hp?: string | null
           id_stakeholder_group?: string
+          usia?: number | null
+          pangkalan_nelayan?: string | null
+          kelurahan?: string | null
+          kecamatan?: string | null
+          kub_nelayan?: string | null
+          alamat?: string | null
           is_manual_entry?: boolean
           status_pengisian?: string
           progress_percent?: number

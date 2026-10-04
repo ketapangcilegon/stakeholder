@@ -61,11 +61,30 @@ export default function DetailRespondenModal({
               </span>
             </div>
             <h3 className="text-lg sm:text-xl font-black text-slate-900 mt-1">
-              {respondent.nama}
+              {respondent.nama} {respondent.usia ? <span className="text-sm font-normal text-slate-500">({respondent.usia} tahun)</span> : ''}
             </h3>
-            <p className="text-xs text-slate-500">
-              {respondent.instansi} {respondent.jabatan ? `• ${respondent.jabatan}` : ''} {respondent.no_hp ? `• Telp: ${respondent.no_hp}` : ''}
+            <p className="text-xs text-slate-600 font-medium">
+              {respondent.instansi} {respondent.jabatan ? `• ${respondent.jabatan}` : ''} {respondent.no_hp ? `• Telp/WA: ${respondent.no_hp}` : ''}
             </p>
+            {(respondent.pangkalan_nelayan || respondent.kelurahan || respondent.kecamatan || respondent.kub_nelayan || respondent.alamat) && (
+              <div className="mt-1 flex flex-wrap gap-x-3 gap-y-0.5 text-[11px] text-slate-500">
+                {respondent.pangkalan_nelayan && (
+                  <span>⚓ <strong>Pangkalan:</strong> {respondent.pangkalan_nelayan}</span>
+                )}
+                {respondent.kelurahan && (
+                  <span>📍 <strong>Kelurahan:</strong> {respondent.kelurahan}</span>
+                )}
+                {respondent.kecamatan && (
+                  <span>🏛️ <strong>Kecamatan:</strong> {respondent.kecamatan}</span>
+                )}
+                {respondent.kub_nelayan && (
+                  <span>👥 <strong>KUB:</strong> {respondent.kub_nelayan}</span>
+                )}
+                {respondent.alamat && (
+                  <span>🏠 <strong>Alamat:</strong> {respondent.alamat}</span>
+                )}
+              </div>
+            )}
           </div>
 
           <button

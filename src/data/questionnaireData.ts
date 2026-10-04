@@ -277,3 +277,6 @@ export const INDIKATOR_LIST: Indikator[] = [
   { id: "IND_41", id_variabel: "V9", kode: "INF-04", deskripsi: "Kapasitas memobilisasi sumber daya (anggaran, personel, armada kapal, massa)", urutan: 41 },
   { id: "IND_42", id_variabel: "V9", kode: "INF-05", deskripsi: "Daya tawar posisi (bargaining power) dan kekuatan jejaring kolaborasi lintas sektor", urutan: 42 }
 ];
+
+export { DAFTAR_PANGKALAN, type PangkalanNelayan } from '@/config/constants';
+

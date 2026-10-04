@@ -7,6 +7,12 @@ export interface RespondenData {
   jabatan?: string;
   no_hp?: string;
   id_stakeholder_group: string;
+  usia?: number | null;
+  pangkalan_nelayan?: string | null;
+  kelurahan?: string | null;
+  kecamatan?: string | null;
+  kub_nelayan?: string | null;
+  alamat?: string | null;
   email?: string | null;
   user_id_google?: string | null;
   is_manual_entry?: boolean;

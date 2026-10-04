@@ -58,7 +58,9 @@ export default function TabelResponden({
                     <td className="py-3.5 px-4 font-bold text-slate-400">{idx + 1}</td>
                     
                     <td className="py-3.5 px-4">
-                      <div className="font-bold text-slate-900">{r.nama}</div>
+                      <div className="font-bold text-slate-900">
+                        {r.nama} {r.usia ? <span className="text-slate-400 font-normal text-[11px]">({r.usia} thn)</span> : ''}
+                      </div>
                       {r.jabatan && (
                         <div className="font-normal text-[11px] text-slate-500">{r.jabatan}</div>
                       )}
@@ -72,6 +74,21 @@ export default function TabelResponden({
 
                     <td className="py-3.5 px-4 text-slate-700 font-medium">
                       <div>{r.instansi}</div>
+                      {(r.pangkalan_nelayan || r.kelurahan || r.kecamatan) && (
+                        <div className="text-[10px] text-emerald-700 font-medium mt-0.5">
+                          ⚓ {r.pangkalan_nelayan || ''} {r.kelurahan ? `(Kel. ${r.kelurahan}, Kec. ${r.kecamatan})` : ''}
+                        </div>
+                      )}
+                      {r.kub_nelayan && (
+                        <div className="text-[10px] text-ocean-700 font-medium">
+                          👥 KUB: {r.kub_nelayan}
+                        </div>
+                      )}
+                      {r.alamat && (
+                        <div className="text-[10px] text-slate-500 italic truncate max-w-xs" title={r.alamat}>
+                          📍 {r.alamat}
+                        </div>
+                      )}
                       <div className="text-[10px] text-slate-400 flex items-center gap-1 mt-0.5">
                         <Calendar className="w-2.5 h-2.5" />
                         <span>{createdDate}</span>

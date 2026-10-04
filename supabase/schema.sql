@@ -61,6 +61,12 @@ create table if not exists responden (
   jabatan text,
   no_hp text,
   id_stakeholder_group text references stakeholder_groups(id),
+  usia int,
+  pangkalan_nelayan text,
+  kelurahan text,
+  kecamatan text,
+  kub_nelayan text,
+  alamat text,
   is_manual_entry boolean default false,
   status_pengisian text default 'draft', -- 'draft', 'selesai'
   progress_percent int default 0,
@@ -113,3 +119,6 @@ create index if not exists idx_jawaban_responden on jawaban(id_responden);
 create index if not exists idx_jawaban_indikator on jawaban(id_indikator);
 create index if not exists idx_responden_group on responden(id_stakeholder_group);
 create index if not exists idx_pertanyaan_group on pertanyaan(id_stakeholder_group);
+create index if not exists idx_responden_pangkalan on responden(pangkalan_nelayan);
+create index if not exists idx_responden_kelurahan on responden(kelurahan);
+create index if not exists idx_responden_kecamatan on responden(kecamatan);

@@ -74,10 +74,16 @@ export default function AdminRespondenPage() {
 
   // Filter respondents
   const filteredRespondents = respondents.filter(r => {
-    const matchSearch = (r.nama || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
-                        (r.instansi || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
-                        (r.jabatan || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
-                        (r.no_hp || '').includes(searchQuery);
+    const query = searchQuery.toLowerCase();
+    const matchSearch = (r.nama || '').toLowerCase().includes(query) ||
+                        (r.instansi || '').toLowerCase().includes(query) ||
+                        (r.jabatan || '').toLowerCase().includes(query) ||
+                        (r.pangkalan_nelayan || '').toLowerCase().includes(query) ||
+                        (r.kelurahan || '').toLowerCase().includes(query) ||
+                        (r.kecamatan || '').toLowerCase().includes(query) ||
+                        (r.kub_nelayan || '').toLowerCase().includes(query) ||
+                        (r.alamat || '').toLowerCase().includes(query) ||
+                        (r.no_hp || '').includes(query);
 
     const matchGroup = selectedGroupFilter === 'all' || r.id_stakeholder_group === selectedGroupFilter;
 

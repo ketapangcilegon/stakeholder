@@ -21,6 +21,12 @@ export interface RespondenRecord {
   jabatan?: string | null;
   no_hp?: string | null;
   id_stakeholder_group: string;
+  usia?: number | null;
+  pangkalan_nelayan?: string | null;
+  kelurahan?: string | null;
+  kecamatan?: string | null;
+  kub_nelayan?: string | null;
+  alamat?: string | null;
   is_manual_entry?: boolean;
   status_pengisian: 'draft' | 'selesai';
   progress_percent?: number;
@@ -139,6 +145,12 @@ export const SurveyService = {
     jabatan?: string;
     no_hp?: string;
     id_stakeholder_group: string;
+    usia?: number | null;
+    pangkalan_nelayan?: string | null;
+    kelurahan?: string | null;
+    kecamatan?: string | null;
+    kub_nelayan?: string | null;
+    alamat?: string | null;
     user_id_google?: string | null;
     email?: string | null;
     is_manual_entry?: boolean;
@@ -170,6 +182,12 @@ export const SurveyService = {
           jabatan: respondent.jabatan || null,
           no_hp: respondent.no_hp || null,
           id_stakeholder_group: respondent.id_stakeholder_group,
+          usia: respondent.usia || null,
+          pangkalan_nelayan: respondent.pangkalan_nelayan || null,
+          kelurahan: respondent.kelurahan || null,
+          kecamatan: respondent.kecamatan || null,
+          kub_nelayan: respondent.kub_nelayan || null,
+          alamat: respondent.alamat || null,
           is_manual_entry: respondent.is_manual_entry || false,
           status_pengisian: respondent.status_pengisian,
           progress_percent: 0,
@@ -279,6 +297,12 @@ export const SurveyService = {
       jabatan?: string;
       no_hp?: string;
       id_stakeholder_group: string;
+      usia?: number | null;
+      pangkalan_nelayan?: string | null;
+      kelurahan?: string | null;
+      kecamatan?: string | null;
+      kub_nelayan?: string | null;
+      alamat?: string | null;
     },
     answers: Record<string, number> // key: pertanyaanId, value: skor
   ): Promise<{ success: boolean; respondentId?: string; error?: string }> {
@@ -309,6 +333,12 @@ export const SurveyService = {
           jabatan: respRecord.jabatan || null,
           no_hp: respRecord.no_hp || null,
           id_stakeholder_group: respRecord.id_stakeholder_group,
+          usia: respRecord.usia || null,
+          pangkalan_nelayan: respRecord.pangkalan_nelayan || null,
+          kelurahan: respRecord.kelurahan || null,
+          kecamatan: respRecord.kecamatan || null,
+          kub_nelayan: respRecord.kub_nelayan || null,
+          alamat: respRecord.alamat || null,
           is_manual_entry: true,
           status_pengisian: respRecord.status_pengisian,
           progress_percent: respRecord.progress_percent,
