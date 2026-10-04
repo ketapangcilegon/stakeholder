@@ -93,13 +93,13 @@ export const STAKEHOLDER_GROUPS: StakeholderGroup[] = [
   },
   {
     id: "akademisi_lsm",
-    nama: "Akademisi / Pakar & LSM Lingkungan",
+    nama: "Akademisi & Organisasi Nelayan (UNTIRTA, HNSI)",
     target: 3,
-    deskripsi: "Peneliti perguruan tinggi bidang kelautan/perikanan dan aktivis organisasi non-pemerintah penggiat konservasi pesisir.",
-    tone: "Ilmiah & Akademis",
+    deskripsi: "Pakar perikanan/kelautan dari perguruan tinggi setempat (UNTIRTA) dan pengurus organisasi profesi nelayan (HNSI Kota Cilegon) sebagai penyedia pengetahuan dan penyalur aspirasi nelayan.",
+    tone: "Akademis & Advokasi Nelayan",
     badgeColor: "bg-purple-100 text-purple-800 border-purple-300",
     iconName: "GraduationCap",
-    contohSubjek: "Dosen/Peneliti Kelautan-Perikanan, LSM Konservasi Laut, Pemerhati Lingkungan Selat Sunda",
+    contohSubjek: "Fakultas Perikanan/Kelautan UNTIRTA, Pengurus Cabang HNSI Kota Cilegon, Dewan Pakar Nelayan",
     iconBg: "bg-purple-50 text-purple-700 border-purple-200/80",
     iconSelectedBg: "bg-purple-600 text-white"
   },

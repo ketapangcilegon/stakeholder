@@ -70,7 +70,7 @@ export async function generateInstrumentDocx({
             spacing: { after: 240 },
             children: [
               new TextRun({
-                text: 'ANALISIS PERSEPSI PEMANGKU KEPENTINGAN TERHADAP KEBERLANJUTAN PENGELOLAAN PERIKANAN TANGKAP DI KAWASAN PESISIR KOTA CILEGON',
+                text: 'PENGELOLAAN PERIKANAN TANGKAP BERKELANJUTAN DI KOTA CILEGON: STRATEGI KEBIJAKAN PARTISIPATIF BERBASIS PERSEPSI DAN PERAN STAKEHOLDER',
                 bold: true,
                 size: 22, // 11pt
                 font: 'Arial',

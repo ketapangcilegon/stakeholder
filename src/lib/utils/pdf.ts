@@ -25,9 +25,9 @@ export function generateQuestionnairePdf(stakeholderGroupId: string) {
   doc.setFontSize(13);
   doc.text('KUESIONER PENELITIAN TESIS MAGISTER MANAJEMEN PERIKANAN', pageWidth / 2, 16, { align: 'center' });
   
-  doc.setFontSize(10);
+  doc.setFontSize(9.5);
   doc.setFont('helvetica', 'normal');
-  doc.text('Analisis Keberlanjutan Pengelolaan Perikanan Tangkap di Kawasan Pesisir Kota Cilegon', pageWidth / 2, 22, { align: 'center' });
+  doc.text('Pengelolaan Perikanan Tangkap Berkelanjutan di Kota Cilegon: Strategi Kebijakan Partisipatif Berbasis Persepsi dan Peran Stakeholder', pageWidth / 2, 22, { align: 'center' });
   
   doc.setLineWidth(0.5);
   doc.line(14, 25, pageWidth - 14, 25);

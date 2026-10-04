@@ -7,7 +7,7 @@ insert into stakeholder_groups (id, nama, target_responden, deskripsi, tone_labe
 ('pemda', 'Pemerintah Daerah (DKPP, Bapperida, DLH)', 7, 'Aparatur pemerintah daerah pengelola kebijakan perikanan dan lingkungan pesisir Kota Cilegon.', 'Formal & Birokratis', 'bg-blue-100 text-blue-800'),
 ('pelaku_usaha', 'Pelaku Usaha Perikanan Tangkap', 15, 'Nelayan tradisional, juragan kapal, pengusaha armada perahu, dan pedagang ikan hasil tangkapan.', 'Bahasa Keseharian Nelayan', 'bg-emerald-100 text-emerald-800'),
 ('masyarakat_pesisir', 'Masyarakat Pesisir & Komunitas Lokal', 15, 'Tokoh masyarakat pesisir, kelurahan pesisir, rukun nelayan, dan pelaku wisata pesisir/bahari.', 'Komunikatif & Warga Pesisir', 'bg-amber-100 text-amber-800'),
-('akademisi_lsm', 'Akademisi / Pakar & LSM Lingkungan', 3, 'Peneliti perguruan tinggi kelautan/perikanan dan aktivis organisasi non-pemerintah.', 'Ilmiah & Akademis', 'bg-purple-100 text-purple-800'),
+('akademisi_lsm', 'Akademisi & Organisasi Nelayan (UNTIRTA, HNSI)', 3, 'Pakar perguruan tinggi (UNTIRTA) dan pengurus organisasi profesi nelayan (HNSI Kota Cilegon).', 'Akademis & Advokasi Nelayan', 'bg-purple-100 text-purple-800'),
 ('industri', 'Industri Sekitar Kawasan Pesisir', 10, 'Manajemen CSR/HSE industri manufaktur, petrokimia, kepelabuhanan, dan PLTU di pesisir Cilegon.', 'Formal Korporat & ESG', 'bg-cyan-100 text-cyan-800')
 on conflict (id) do nothing;
 
