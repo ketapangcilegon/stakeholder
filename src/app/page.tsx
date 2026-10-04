@@ -326,7 +326,7 @@ export default function HomePage() {
                 <Shield className="w-5 h-5" />
               </div>
               <p className="text-xs sm:text-sm text-sky-950 leading-relaxed">
-                Mohon Bapak/Ibu memberikan <strong className="text-sky-900 font-bold">jawaban sesuai</strong> dengan pengetahuan, pengalaman, dan <strong className="text-sky-900 font-bold">pandangan yang sebenarnya</strong>.
+                Mohon Bapak/Ibu berkenan memberikan <strong className="text-sky-900 font-bold">jawaban sesuai</strong> dengan pengetahuan, pengalaman, dan <strong className="text-sky-900 font-bold">pandangan yang sebenarnya</strong>.
               </p>
             </div>
 
