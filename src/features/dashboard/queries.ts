@@ -24,11 +24,14 @@ export interface DashboardData {
     target: number;
     terisi: number;
     persentase: number;
+    cadangan: number;
     skorDimensi: Record<string, number>;
   }[];
   overallAverage: number;
   totalTarget: number;
   totalCompleted: number;
+  totalTerpenuhi: number;
+  totalCadangan: number;
 }
 
 export const DashboardQueries = {

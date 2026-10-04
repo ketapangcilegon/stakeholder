@@ -1,11 +1,13 @@
 'use client';
 
 import React from 'react';
-import { Eye, Trash2, RotateCcw, CheckCircle2, AlertCircle, Phone, Calendar } from 'lucide-react';
+import { Eye, Trash2, RotateCcw, CheckCircle2, AlertCircle, Phone, Calendar, Archive } from 'lucide-react';
 import { STAKEHOLDER_GROUPS } from '@/config/constants';
 
 interface Props {
   respondents: any[];
+  /** ID responden yang melebihi target kelompok (data cadangan). */
+  cadanganIds?: Set<string>;
   onViewDetail: (respondent: any) => void;
   onDelete: (id: string, name: string) => void;
   onDeleteAnswers: (id: string, name: string) => void;
@@ -13,6 +15,7 @@ interface Props {
 
 export default function TabelResponden({
   respondents,
+  cadanganIds,
   onViewDetail,
   onDelete,
   onDeleteAnswers
@@ -47,6 +50,7 @@ export default function TabelResponden({
                 const group = STAKEHOLDER_GROUPS.find(g => g.id === r.id_stakeholder_group);
                 const isComplete = r.status_pengisian === 'selesai' || (r.total_dijawab && r.total_dijawab >= 42);
                 const answeredCount = r.total_dijawab !== undefined ? r.total_dijawab : (isComplete ? 42 : 0);
+                const isCadangan = cadanganIds?.has(r.id) ?? false;
                 const createdDate = r.created_at ? new Date(r.created_at).toLocaleDateString('id-ID', {
                   day: 'numeric',
                   month: 'short',
@@ -54,12 +58,22 @@ export default function TabelResponden({
                 }) : '-';
 
                 return (
-                  <tr key={r.id} className="hover:bg-slate-50/90 transition-colors">
+                  <tr key={r.id} className={`transition-colors ${isCadangan ? 'bg-violet-50/40 hover:bg-violet-50/80' : 'hover:bg-slate-50/90'}`}>
                     <td className="py-3.5 px-4 font-bold text-slate-400">{idx + 1}</td>
                     
                     <td className="py-3.5 px-4">
-                      <div className="font-bold text-slate-900">
-                        {r.nama} {r.usia ? <span className="text-slate-400 font-normal text-[11px]">({r.usia} thn)</span> : ''}
+                      <div className="font-bold text-slate-900 flex items-center gap-1.5 flex-wrap">
+                        <span>
+                          {r.nama} {r.usia ? <span className="text-slate-400 font-normal text-[11px]">({r.usia} thn)</span> : ''}
+                        </span>
+                        {isCadangan && (
+                          <span
+                            className="text-[10px] font-bold text-violet-800 bg-violet-100 px-2 py-0.5 rounded-full border border-violet-200 inline-flex items-center gap-1"
+                            title="Responden ini melebihi target kelompoknya dan disimpan sebagai data cadangan"
+                          >
+                            <Archive className="w-2.5 h-2.5 text-violet-600" /> Cadangan
+                          </span>
+                        )}
                       </div>
                       {r.jabatan && (
                         <div className="font-normal text-[11px] text-slate-500">{r.jabatan}</div>

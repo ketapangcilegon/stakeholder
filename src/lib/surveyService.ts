@@ -66,6 +66,8 @@ export interface StakeholderProgress {
   target: number;
   terisi: number;
   persentase: number;
+  /** Jumlah responden selesai yang melebihi target (data cadangan). Hanya untuk tampilan admin. */
+  cadangan: number;
   skorDimensi: Record<string, number>;
 }
 
@@ -383,6 +385,10 @@ export const SurveyService = {
     overallAverage: number;
     totalTarget: number;
     totalCompleted: number;
+    /** Total responden yang mengisi kuota target (dibatasi per kelompok, tanpa surplus). */
+    totalTerpenuhi: number;
+    /** Total responden cadangan (melebihi target) di semua kelompok. */
+    totalCadangan: number;
   }> {
     let respondents: RespondenRecord[] = [];
     let answers: JawabanRecord[] = [];
@@ -491,6 +497,8 @@ export const SurveyService = {
       const groupResp = respondents.filter(r => r.id_stakeholder_group === group.id && r.status_pengisian === 'selesai');
       const terisi = groupResp.length;
       const persentase = Math.min(100, Math.round((terisi / group.target) * 100));
+      // Sistem tetap menerima responden setelah target tercapai; kelebihannya dicatat sebagai cadangan
+      const cadangan = Math.max(0, terisi - group.target);
 
       // Calculate Dimension Scores specifically for this stakeholder
       const respIds = groupResp.map(r => r.id);
@@ -510,6 +518,7 @@ export const SurveyService = {
         target: group.target,
         terisi,
         persentase,
+        cadangan,
         skorDimensi
       };
     });
@@ -518,6 +527,8 @@ export const SurveyService = {
     const allScoresSum = answers.reduce((acc, curr) => acc + (curr.skor || 0), 0);
     const overallAverage = answers.length > 0 ? parseFloat((allScoresSum / answers.length).toFixed(2)) : 0;
     const totalTarget = STAKEHOLDER_GROUPS.reduce((acc, curr) => acc + curr.target, 0);
+    const totalTerpenuhi = stakeholderProgress.reduce((acc, p) => acc + Math.min(p.terisi, p.target), 0);
+    const totalCadangan = stakeholderProgress.reduce((acc, p) => acc + p.cadangan, 0);
 
     return {
       respondents,
@@ -527,7 +538,9 @@ export const SurveyService = {
       stakeholderProgress,
       overallAverage,
       totalTarget,
-      totalCompleted: completedRespondents.length
+      totalCompleted: completedRespondents.length,
+      totalTerpenuhi,
+      totalCadangan
     };
   },
 

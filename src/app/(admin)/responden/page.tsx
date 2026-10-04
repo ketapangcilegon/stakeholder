@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useAdminAuth } from '@/context/AdminAuthContext';
 import { SurveyService } from '@/lib/surveyService';
 import { exportFullExcel } from '@/lib/utils/export';
+import { getCadanganIds } from '@/lib/utils/cadangan';
 import { STAKEHOLDER_GROUPS } from '@/config/constants';
 import TabelResponden from '@/features/admin/components/TabelResponden';
 import DetailRespondenModal from '@/features/admin/components/DetailRespondenModal';
@@ -72,6 +73,9 @@ export default function AdminRespondenPage() {
     }
   };
 
+  // Tentukan responden cadangan dari SELURUH data (bukan hasil filter) agar label konsisten
+  const cadanganIds = useMemo(() => getCadanganIds(respondents), [respondents]);
+
   // Filter respondents
   const filteredRespondents = respondents.filter(r => {
     const query = searchQuery.toLowerCase();
@@ -92,7 +96,9 @@ export default function AdminRespondenPage() {
       ? true 
       : statusFilter === 'selesai' 
         ? isComplete 
-        : !isComplete;
+        : statusFilter === 'cadangan'
+          ? cadanganIds.has(r.id)
+          : !isComplete;
 
     return matchSearch && matchGroup && matchStatus;
   });
@@ -286,6 +292,7 @@ export default function AdminRespondenPage() {
               <option value="all">Semua Status</option>
               <option value="selesai">Lengkap (100%)</option>
               <option value="draft">Draft (Sebagian)</option>
+              <option value="cadangan">Cadangan ({cadanganIds.size})</option>
             </select>
           </div>
         </div>
@@ -294,6 +301,7 @@ export default function AdminRespondenPage() {
       {/* Tabel Responden dengan Aksi Hapus Responden & Hapus Jawaban */}
       <TabelResponden
         respondents={filteredRespondents}
+        cadanganIds={cadanganIds}
         onViewDetail={setSelectedDetail}
         onDelete={handleDeleteRespondent}
         onDeleteAnswers={handleDeleteRespondentAnswers}

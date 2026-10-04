@@ -6,6 +6,8 @@ const ANSWERS_PREFIX = 'cilegon_survey_answers_';
 
 export const SurveyActions = {
   // Save respondent to localStorage & Supabase
+  // CATATAN: Sengaja TIDAK ada pembatasan kuota target. Responden tetap diterima meskipun
+  // target kelompok sudah tercapai (sebagai data cadangan). Status surplus hanya ditampilkan di dashboard admin.
   async initRespondent(data: {
     nama: string;
     instansi: string;

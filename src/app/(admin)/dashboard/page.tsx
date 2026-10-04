@@ -189,8 +189,13 @@ export default function AdminDashboardPage() {
               {data.totalCompleted} <span className="text-xs font-normal text-slate-400">/ {data.totalTarget} Target</span>
             </div>
             <span className="text-[11px] font-bold text-ocean-600 mt-0.5 block">
-              {Math.round((data.totalCompleted / data.totalTarget) * 100)}% Sampel Terpenuhi
+              {data.totalTarget > 0 ? Math.min(100, Math.round((data.totalTerpenuhi / data.totalTarget) * 100)) : 0}% Sampel Terpenuhi
             </span>
+            {data.totalCadangan > 0 && (
+              <span className="text-[11px] font-bold text-violet-600 block">
+                +{data.totalCadangan} responden cadangan
+              </span>
+            )}
           </div>
           <div className="w-12 h-12 bg-ocean-50 text-ocean-600 rounded-xl flex items-center justify-center">
             <Users className="w-6 h-6" />
@@ -248,6 +253,8 @@ export default function AdminDashboardPage() {
         progressList={data.stakeholderProgress}
         totalTarget={data.totalTarget}
         totalCompleted={data.totalCompleted}
+        totalTerpenuhi={data.totalTerpenuhi}
+        totalCadangan={data.totalCadangan}
       />
 
       {/* Charts */}
