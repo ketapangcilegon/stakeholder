@@ -303,7 +303,7 @@ export default function HomePage() {
               </div>
               <div>
                 <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">
-                  Perkenalkan, saya <strong>Ridwan Sugiarto</strong>, Analis Ketahanan Pangan pada Dinas Ketahanan Pangan dan Pertanian (DKPP) Kota Cilegon, sekaligus mahasiswa Program Magister Manajemen Perikanan Universitas Terbuka.
+                  Perkenalkan, saya <strong>Ridwan Sugiarto</strong>, Analis Ketahanan Pangan pada Dinas Ketahanan Pangan dan Pertanian (DKPP) Kota Cilegon, sekaligus mahasiswa Program Magister Manajemen Perikanan Universitas Terbuka yang sedang melaksanakan penelitian ilmiah terkait pengelolaan perikanan tangkap berkelanjutan berbasis persepsi dan peran stakeholder.
                 </p>
               </div>
             </div>
