@@ -52,9 +52,6 @@ export default function GoogleAuthNoticeModal({
             <ShieldAlert className="w-4 h-4 text-amber-600 flex-shrink-0" />
             <span>Login Akun Google / Gmail Diwajibkan</span>
           </div>
-          <p className="text-amber-700 text-xs leading-relaxed">
-            Demi validitas dan keterverifikasian data penelitian tesis ini, seluruh responden diwajibkan masuk menggunakan akun Google / Gmail terlebih dahulu sebelum memilih kelompok stakeholder dan mengisi kuesioner.
-          </p>
         </div>
 
         {/* Description */}

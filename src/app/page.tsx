@@ -478,9 +478,6 @@ export default function HomePage() {
               <h2 className="text-xl sm:text-3xl font-black text-slate-900 tracking-tight">
                 Masuk dengan Akun Google / Gmail
               </h2>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-lg mx-auto">
-                Demi validitas dan keterverifikasian data penelitian tesis Magister Manajemen Perikanan ini, <strong>seluruh responden diwajibkan masuk via akun Google/Gmail</strong> terlebih dahulu sebelum memilih kelompok stakeholder.
-              </p>
             </div>
 
             <div className="pt-2">
