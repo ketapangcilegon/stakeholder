@@ -4,6 +4,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { AdminAuthProvider } from '@/context/AdminAuthContext';
 import AdminLoginModal from '@/components/AdminLoginModal';
+import SyncManager from '@/components/SyncManager';
 
 export const viewport = {
   width: 'device-width',
@@ -35,6 +36,7 @@ export default function RootLayout({
           </main>
           <Footer />
           <AdminLoginModal />
+          <SyncManager />
         </AdminAuthProvider>
       </body>
     </html>

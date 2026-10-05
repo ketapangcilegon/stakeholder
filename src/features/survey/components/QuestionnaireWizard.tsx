@@ -12,7 +12,9 @@ import {
   Send, 
   Sparkles,
   ArrowRight,
-  Info
+  Info,
+  AlertTriangle,
+  RefreshCw
 } from 'lucide-react';
 import { 
   DIMENSI_LIST, 
@@ -42,8 +44,10 @@ export default function QuestionnaireWizard({ respondent, stakeholderGroup, ques
   const [viewMode, setViewMode] = useState<'single' | 'dimension'>('single');
   const [showSubmitConfirm, setShowSubmitConfirm] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(respondent.status_pengisian === 'selesai');
+  const [isSending, setIsSending] = useState<boolean>(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const { isSaving, saveJawaban } = useAutosaveJawaban(respondent.id, questions.length);
+  const { isSaving, cloudStatus, saveJawaban } = useAutosaveJawaban(respondent.id, questions.length);
 
   // Load existing answers on mount
   useEffect(() => {
@@ -81,7 +85,22 @@ export default function QuestionnaireWizard({ respondent, stakeholderGroup, ques
 
   const handleFinalSubmit = async () => {
     setShowSubmitConfirm(false);
-    await SurveyActions.finishSurvey(respondent.id);
+    setIsSending(true);
+    setSubmitError(null);
+
+    // Coba kirim hingga 3 kali sebelum menyatakan gagal
+    let result = await SurveyActions.finishSurvey(respondent.id);
+    for (let attempt = 1; !result.ok && attempt < 3; attempt++) {
+      await new Promise(r => setTimeout(r, 1500 * attempt));
+      result = await SurveyActions.finishSurvey(respondent.id);
+    }
+    setIsSending(false);
+
+    if (!result.ok) {
+      setSubmitError(result.error || 'Server tidak dapat dihubungi.');
+      return;
+    }
+
     setIsSubmitted(true);
 
     try {
@@ -95,6 +114,42 @@ export default function QuestionnaireWizard({ respondent, stakeholderGroup, ques
       console.log('Confetti skipped');
     }
   };
+
+  if (isSending || submitError) {
+    return (
+      <div className="max-w-2xl mx-auto my-12 p-8 bg-white rounded-3xl border border-slate-200 shadow-xl text-center animate-fadeIn">
+        {isSending ? (
+          <>
+            <RefreshCw className="w-12 h-12 text-ocean-600 animate-spin mx-auto mb-4" />
+            <h2 className="text-xl font-black text-slate-900 mb-2">Mengirim jawaban ke server penelitian...</h2>
+            <p className="text-sm text-slate-600">Mohon jangan tutup halaman ini.</p>
+          </>
+        ) : (
+          <>
+            <div className="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <AlertTriangle className="w-9 h-9" />
+            </div>
+            <h2 className="text-xl sm:text-2xl font-black text-slate-900 mb-2">Jawaban Belum Terkirim</h2>
+            <p className="text-sm text-slate-600 leading-relaxed mb-2">
+              Seluruh jawaban Anda <strong>sudah aman tersimpan di perangkat ini</strong>, tetapi belum berhasil dikirim ke server penelitian.
+              Periksa koneksi internet lalu tekan tombol di bawah.
+            </p>
+            <p className="text-xs text-slate-500 mb-6">
+              Jika tetap gagal, jangan hapus riwayat browser. Data akan terkirim otomatis saat tautan ini dibuka kembali dari HP yang sama.
+            </p>
+            <p className="text-[11px] text-slate-400 mb-6 break-all">Detail: {submitError}</p>
+            <button
+              onClick={handleFinalSubmit}
+              className="px-6 py-3 bg-ocean-600 hover:bg-ocean-700 text-white rounded-xl font-bold text-sm shadow-md transition-all inline-flex items-center gap-2"
+            >
+              <RefreshCw className="w-4 h-4" />
+              Coba Kirim Ulang
+            </button>
+          </>
+        )}
+      </div>
+    );
+  }
 
   if (isSubmitted) {
     return (
@@ -161,10 +216,18 @@ export default function QuestionnaireWizard({ respondent, stakeholderGroup, ques
           </div>
 
           <div className="flex items-center justify-between sm:justify-end gap-2 sm:gap-3">
-            <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-emerald-700 bg-emerald-50 border border-emerald-200/80 px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg">
-              <Cloud className={`w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-600 ${isSaving ? 'animate-spin' : ''}`} />
+            <div className={`flex items-center gap-1.5 text-[11px] sm:text-xs px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg border ${
+              cloudStatus === 'local_only'
+                ? 'text-amber-800 bg-amber-50 border-amber-200/80'
+                : 'text-emerald-700 bg-emerald-50 border-emerald-200/80'
+            }`}>
+              <Cloud className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${cloudStatus === 'local_only' ? 'text-amber-600' : 'text-emerald-600'} ${isSaving ? 'animate-spin' : ''}`} />
               <span className="font-medium">
-                {isSaving ? 'Menyimpan...' : 'Tersimpan'}
+                {isSaving
+                  ? 'Menyimpan...'
+                  : cloudStatus === 'local_only'
+                    ? 'Tersimpan di HP (menunggu sinyal)'
+                    : 'Tersimpan'}
               </span>
             </div>
 

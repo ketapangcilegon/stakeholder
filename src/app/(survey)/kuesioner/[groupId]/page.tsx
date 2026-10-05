@@ -28,21 +28,15 @@ export default function KuesionerGroupPage() {
     if (localResp) {
       setRespondent(localResp);
     } else {
-      // Auto initialize default guest respondent for this group
-      const defaultResp: RespondenData = {
-        id: 'resp_' + Date.now(),
-        nama: 'Responden ' + group.nama.split('(')[0],
-        instansi: 'Kawasan Pesisir Cilegon',
-        id_stakeholder_group: group.id,
-        status_pengisian: 'draft',
-        progress_percent: 0,
-        total_dijawab: 0
-      };
-      setRespondent(defaultResp);
+      // Tanpa biodata, jawaban tidak dapat dikaitkan ke responden mana pun di database.
+      // Arahkan kembali ke formulir identitas (sebelumnya dibuat "responden tamu" dengan
+      // ID non-UUID yang selalu DITOLAK server sehingga jawabannya hilang).
+      router.replace('/pilih-stakeholder');
+      return;
     }
 
     setLoading(false);
-  }, [groupId]);
+  }, [groupId, router]);
 
   if (loading || !stakeholderGroup || !respondent) {
     return (

@@ -389,9 +389,12 @@ export const SurveyService = {
     totalTerpenuhi: number;
     /** Total responden cadangan (melebihi target) di semua kelompok. */
     totalCadangan: number;
+    /** Pesan error database (jika ada). Wajib ditampilkan ke admin agar kegagalan tidak tersembunyi. */
+    dbError?: string;
   }> {
     let respondents: RespondenRecord[] = [];
     let answers: JawabanRecord[] = [];
+    let dbError: string | undefined;
 
     // Try fetching from Supabase
     try {
@@ -400,7 +403,10 @@ export const SurveyService = {
         .select('*')
         .order('created_at', { ascending: false });
 
-      if (!respErr && respData && respData.length > 0) {
+      if (respErr) {
+        console.error('[Admin] Gagal membaca tabel responden:', respErr);
+        dbError = `Tabel responden: ${respErr.message}`;
+      } else if (respData && respData.length > 0) {
         respondents = respData as RespondenRecord[];
       }
 
@@ -408,11 +414,15 @@ export const SurveyService = {
         .from('jawaban')
         .select('*');
 
-      if (!ansErr && ansData && ansData.length > 0) {
+      if (ansErr) {
+        console.error('[Admin] Gagal membaca tabel jawaban:', ansErr);
+        dbError = dbError || `Tabel jawaban: ${ansErr.message}`;
+      } else if (ansData && ansData.length > 0) {
         answers = ansData as JawabanRecord[];
       }
     } catch (err) {
       console.warn('Error fetching from Supabase, checking local submissions:', err);
+      dbError = 'Server database tidak dapat dihubungi.';
     }
 
     // Merge with local submissions if local has records
@@ -540,7 +550,8 @@ export const SurveyService = {
       totalTarget,
       totalCompleted: completedRespondents.length,
       totalTerpenuhi,
-      totalCadangan
+      totalCadangan,
+      dbError
     };
   },
 

@@ -33,12 +33,14 @@ export default function AdminRespondenPage() {
   const [selectedGroupFilter, setSelectedGroupFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
   const [selectedDetail, setSelectedDetail] = useState<any | null>(null);
+  const [dbError, setDbError] = useState<string | null>(null);
 
   const loadData = async () => {
     setLoading(true);
     const data = await SurveyService.getAllSurveyAnalytics();
     setRespondents(data.respondents);
     setAnswers(data.answers);
+    setDbError(data.dbError || null);
     setLoading(false);
   };
 
@@ -189,6 +191,17 @@ export default function AdminRespondenPage() {
           </button>
         </div>
       </div>
+
+      {dbError && (
+        <div className="p-4 rounded-2xl bg-rose-50 border-2 border-rose-300 text-rose-900 flex items-start gap-3">
+          <ShieldAlert className="w-6 h-6 text-rose-600 flex-shrink-0 mt-0.5" />
+          <div className="text-xs sm:text-sm space-y-1">
+            <p className="font-black">PERINGATAN: Database server tidak dapat dibaca — data responden lain TIDAK tampil.</p>
+            <p>Yang terlihat di bawah hanyalah data yang tersimpan di browser ini. Segera periksa konfigurasi Supabase.</p>
+            <p className="font-mono text-[11px] text-rose-700 break-all">{dbError}</p>
+          </div>
+        </div>
+      )}
 
       {/* 4 Statistical Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

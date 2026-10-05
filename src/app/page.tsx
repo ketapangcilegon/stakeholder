@@ -29,6 +29,7 @@ import {
 import { STAKEHOLDER_GROUPS, StakeholderGroup } from '@/data/questionnaireData';
 import { DAFTAR_PANGKALAN, PangkalanNelayan } from '@/config/constants';
 import { SurveyService } from '@/lib/surveyService';
+import { SurveyActions } from '@/features/survey/actions';
 import { supabase } from '@/lib/supabaseClient';
 import GoogleAuthNoticeModal from '@/components/GoogleAuthNoticeModal';
 
@@ -210,7 +211,7 @@ export default function HomePage() {
         ? (kubNelayan.trim() ? `KUB ${kubNelayan.trim()} (Pangkalan ${pangkalanNelayan})` : `Pangkalan ${pangkalanNelayan}`)
         : instansi.trim();
 
-      const respondent = await SurveyService.initRespondent({
+      await SurveyActions.initRespondent({
         nama: nama.trim(),
         instansi: finalInstansi,
         jabatan: jabatan.trim() || undefined,
