@@ -47,11 +47,23 @@ export default function QuestionnaireWizard({ respondent, stakeholderGroup, ques
   const [showMissingModal, setShowMissingModal] = useState<boolean>(false);
   const [missingQuestionsList, setMissingQuestionsList] = useState<{ id: string; number: number; index: number; id_indikator: string; teks: string }[]>([]);
   const submitSectionRef = React.useRef<HTMLDivElement>(null);
+  const questionSectionRef = React.useRef<HTMLDivElement>(null);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(respondent.status_pengisian === 'selesai');
   const [isSending, setIsSending] = useState<boolean>(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   const { isSaving, cloudStatus, saveJawaban } = useAutosaveJawaban(respondent.id, questions.length);
+
+  const scrollToQuestion = () => {
+    if (questionSectionRef.current) {
+      const elementPosition = questionSectionRef.current.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - 75;
+      window.scrollTo({
+        top: Math.max(0, offsetPosition),
+        behavior: 'smooth'
+      });
+    }
+  };
 
   // Load existing answers on mount
   useEffect(() => {
@@ -105,14 +117,14 @@ export default function QuestionnaireWizard({ respondent, stakeholderGroup, ques
         const nextIdx = currentIndex + 1;
         if (nextIdx < totalQuestions && newAnswers[questions[nextIdx].id] === undefined) {
           setCurrentIndex(nextIdx);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          setTimeout(scrollToQuestion, 40);
         } else {
           // Jika soal berikutnya sudah terisi (misal user melompat isi nomor 5 yang tadi kosong),
           // arahkan ke soal berikutnya yang masih kosong:
           const nextUnanswered = remainingUnanswered.find(u => u.index > currentIndex) || remainingUnanswered[0];
           if (nextUnanswered) {
             setCurrentIndex(nextUnanswered.index);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setTimeout(scrollToQuestion, 40);
           }
         }
       }, 250);
@@ -322,13 +334,14 @@ export default function QuestionnaireWizard({ respondent, stakeholderGroup, ques
         onSelectIndex={(idx) => {
           setCurrentIndex(idx);
           if (viewMode !== 'single') setViewMode('single');
+          setTimeout(scrollToQuestion, 40);
         }}
         isSingleMode={viewMode === 'single'}
       />
 
       {/* Mode 1: Question Card */}
       {viewMode === 'single' && currentQ && (
-        <div className="space-y-6">
+        <div ref={questionSectionRef} id="soal-aktif" className="space-y-6 scroll-mt-24">
           <QuestionCard
             question={currentQ}
             currentIndex={currentIndex}
@@ -366,7 +379,7 @@ export default function QuestionnaireWizard({ respondent, stakeholderGroup, ques
                 type="button"
                 onClick={() => {
                   setCurrentIndex(prev => Math.max(0, prev - 1));
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                  setTimeout(scrollToQuestion, 40);
                 }}
                 disabled={currentIndex === 0}
                 className={`flex items-center justify-center gap-2 py-3.5 px-4 sm:px-5 rounded-xl font-semibold text-xs sm:text-sm transition-all active:scale-95 ${
@@ -393,7 +406,7 @@ export default function QuestionnaireWizard({ respondent, stakeholderGroup, ques
                   type="button"
                   onClick={() => {
                     setCurrentIndex(prev => Math.min(totalQuestions - 1, prev + 1));
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    setTimeout(scrollToQuestion, 40);
                   }}
                   className="flex items-center justify-center gap-2 py-3.5 px-5 sm:px-6 bg-ocean-600 hover:bg-ocean-700 text-white rounded-xl font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all active:scale-95"
                 >
@@ -541,7 +554,7 @@ export default function QuestionnaireWizard({ respondent, stakeholderGroup, ques
                       setShowMissingModal(false);
                       setCurrentIndex(m.index);
                       if (viewMode !== 'single') setViewMode('single');
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                      setTimeout(scrollToQuestion, 40);
                     }}
                     className="p-2 bg-white hover:bg-ocean-50 active:scale-95 text-slate-800 hover:text-ocean-700 border border-slate-200 hover:border-ocean-300 rounded-lg text-xs font-bold shadow-2xs transition-all flex items-center justify-between text-left group"
                   >
@@ -561,7 +574,7 @@ export default function QuestionnaireWizard({ respondent, stakeholderGroup, ques
                     setShowMissingModal(false);
                     setCurrentIndex(missingQuestionsList[0].index);
                     if (viewMode !== 'single') setViewMode('single');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    setTimeout(scrollToQuestion, 40);
                   }}
                   className="w-full sm:flex-1 py-3 px-4 bg-ocean-600 hover:bg-ocean-700 text-white rounded-xl font-bold text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-2 active:scale-95"
                 >
