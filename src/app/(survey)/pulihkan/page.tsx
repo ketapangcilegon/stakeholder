@@ -152,12 +152,16 @@ export default function PulihkanPage() {
               placeholder={field === 'nama' ? 'Nama lengkap *' : field === 'instansi' ? 'Instansi / Pangkalan / Alamat' : 'No. HP (opsional)'}
               className="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-ocean-500"
               value={orphanForm[i.id]?.[field] || ''}
-              onChange={e =>
-                setOrphanForm(prev => ({
-                  ...prev,
-                  [i.id]: { nama: '', instansi: '', no_hp: '', ...prev[i.id], [field]: e.target.value }
-                }))
-              }
+              onChange={e => {
+                const val = e.target.value;
+                setOrphanForm(prev => {
+                  const current = prev[i.id] || { nama: '', instansi: '', no_hp: '' };
+                  return {
+                    ...prev,
+                    [i.id]: { ...current, [field]: val }
+                  };
+                });
+              }}
             />
           ))}
           <button
