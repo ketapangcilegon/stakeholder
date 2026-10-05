@@ -89,6 +89,18 @@ export default function HomePage() {
     };
     checkSession();
 
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session?.user) {
+        setGoogleUser(session.user);
+        if (session.user.user_metadata?.full_name) {
+          setNama(session.user.user_metadata.full_name);
+        }
+        if (event === 'SIGNED_IN') {
+          router.push('/pilih-stakeholder');
+        }
+      }
+    });
+
     // Check local storage for existing session
     const localResp = SurveyService.getLocalRespondent();
     if (localResp) {
@@ -115,14 +127,22 @@ export default function HomePage() {
         if (found) setSelectedGroup(found);
       }
     }
-  }, []);
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [router]);
 
   const handleGoogleSignIn = async () => {
     try {
+      const redirectUrl = typeof window !== 'undefined'
+        ? `${window.location.origin}/pilih-stakeholder`
+        : undefined;
+
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: typeof window !== 'undefined' ? window.location.origin : undefined
+          redirectTo: redirectUrl
         }
       });
       if (error) {

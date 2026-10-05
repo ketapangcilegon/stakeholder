@@ -80,6 +80,19 @@ export default function PilihStakeholderPage() {
     };
 
     checkSession();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        setGoogleUser(session.user);
+        if (session.user.user_metadata?.full_name) {
+          setNama(prev => prev || session.user.user_metadata.full_name);
+        }
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   const handleStartSurvey = async (e: React.FormEvent) => {
