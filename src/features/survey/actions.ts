@@ -365,6 +365,68 @@ export const SurveyActions = {
     return getOutbox().length;
   },
 
+  /**
+   * PEMULIHAN: pindai SELURUH jejak kuesioner di perangkat ini.
+   * Termasuk set jawaban "yatim" (biodata sudah terhapus karena sesi direset),
+   * yang kelompok stakeholder-nya disimpulkan dari ID soal (mis. Q_IND_01_pelaku_usaha).
+   */
+  scanLocalData(): Array<{
+    id: string;
+    respondent: RespondenData | null;
+    answers: Record<string, number>;
+    answerCount: number;
+    inferredGroup: string | null;
+  }> {
+    if (!isBrowser()) return [];
+    const ids = new Set<string>();
+    const current = this.getLocalRespondent();
+    if (current) ids.add(current.id);
+    getOutbox().forEach(id => ids.add(id));
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i) || '';
+      if (k.startsWith(ANSWERS_PREFIX)) ids.add(k.slice(ANSWERS_PREFIX.length));
+      if (k.startsWith(ARCHIVE_PREFIX)) ids.add(k.slice(ARCHIVE_PREFIX.length));
+    }
+
+    return Array.from(ids).map(id => {
+      const respondent = current && current.id === id ? current : getArchivedRespondent(id);
+      const answers = this.getLocalAnswers(id);
+      let inferredGroup: string | null = respondent?.id_stakeholder_group || null;
+      if (!inferredGroup) {
+        const firstQ = Object.keys(answers)[0];
+        const q = firstQ ? QUESTION_BANK.find(x => x.id === firstQ) : undefined;
+        inferredGroup = q ? q.id_stakeholder_group : null;
+      }
+      return { id, respondent, answers, answerCount: Object.keys(answers).length, inferredGroup };
+    }).filter(x => x.respondent || x.answerCount > 0);
+  },
+
+  /** Pasangkan kembali biodata ke set jawaban yatim, lalu kirim ke server. */
+  async adoptOrphanAnswers(
+    orphanId: string,
+    biodata: { nama: string; instansi: string; no_hp?: string; id_stakeholder_group: string }
+  ): Promise<SyncResult> {
+    const answers = this.getLocalAnswers(orphanId);
+    const id = UUID_RE.test(orphanId) ? orphanId : generateUUID();
+    if (id !== orphanId) writeJSON(ANSWERS_PREFIX + id, answers);
+    const total = QUESTION_BANK.filter(q => q.id_stakeholder_group === biodata.id_stakeholder_group).length || 42;
+    const count = Object.keys(answers).length;
+    const resp: RespondenData = {
+      id,
+      nama: biodata.nama,
+      instansi: biodata.instansi || '-',
+      no_hp: biodata.no_hp,
+      id_stakeholder_group: biodata.id_stakeholder_group,
+      status_pengisian: count >= total ? 'selesai' : 'draft',
+      progress_percent: Math.min(100, Math.round((count / total) * 100)),
+      total_dijawab: count,
+      created_at: new Date().toISOString()
+    };
+    archiveRespondent(resp);
+    addToOutbox(id);
+    return this.pushRespondent(resp);
+  },
+
   getLocalRespondent(): RespondenData | null {
     return readJSON<RespondenData | null>(LOCAL_KEY, null);
   },
