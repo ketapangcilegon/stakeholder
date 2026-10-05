@@ -18,55 +18,43 @@ export default function ProgressGrid({
   onSelectIndex,
   isSingleMode
 }: Props) {
-  const [isOpen, setIsOpen] = React.useState(false);
   const answeredCount = Object.keys(answers).length;
+  const totalQuestions = questions.length;
 
   return (
     <div className="bg-white rounded-2xl border border-slate-200/90 shadow-sm p-3.5 sm:p-5">
-      <div className="flex items-center justify-between">
-        <button
-          type="button"
-          onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center gap-2 text-left group"
-        >
-          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 group-hover:text-ocean-700 transition-colors">
-            Kisi Soal (42 Indikator)
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 mb-3">
+        <div className="flex items-center gap-2">
+          <h3 className="text-xs sm:text-sm font-black uppercase tracking-wider text-slate-800">
+            Kisi Soal ({totalQuestions} Indikator)
           </h3>
-          <span className="text-[11px] font-bold text-ocean-700 bg-ocean-50 border border-ocean-200 px-2 py-0.5 rounded-md">
-            {answeredCount}/42
+          <span className={`text-[11px] font-extrabold px-2.5 py-0.5 rounded-full border ${
+            answeredCount === totalQuestions
+              ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
+              : 'bg-ocean-50 text-ocean-800 border-ocean-200'
+          }`}>
+            {answeredCount}/{totalQuestions} Terisi
           </span>
-          <span className="text-[11px] text-slate-400 sm:hidden">
-            {isOpen ? '▲ Tutup' : '▼ Buka'}
-          </span>
-        </button>
+        </div>
 
-        <div className="hidden sm:flex items-center gap-3 text-[11px] text-slate-500">
-          <span className="flex items-center gap-1">
-            <span className="w-2.5 h-2.5 rounded bg-slate-100 border border-slate-300" /> Belum
+        <div className="flex items-center gap-3 text-[11px] text-slate-500 flex-wrap">
+          <span className="flex items-center gap-1.5">
+            <span className="w-3 h-3 rounded bg-slate-100 border border-slate-300 inline-block" />
+            <span>Belum Diisi</span>
           </span>
-          <span className="flex items-center gap-1">
-            <span className="w-2.5 h-2.5 rounded bg-emerald-600 text-white" /> Terisi
+          <span className="flex items-center gap-1.5">
+            <span className="w-3 h-3 rounded bg-emerald-600 inline-block shadow-xs" />
+            <span>Terisi</span>
           </span>
-          <span className="flex items-center gap-1">
-            <span className="w-2.5 h-2.5 rounded ring-2 ring-ocean-500 bg-ocean-100" /> Aktif
+          <span className="flex items-center gap-1.5">
+            <span className="w-3 h-3 rounded bg-ocean-600 ring-2 ring-ocean-300 inline-block" />
+            <span>Aktif</span>
           </span>
         </div>
       </div>
 
-      {/* Grid: visible on desktop or when expanded on mobile */}
-      <div className={`mt-3 pt-3 border-t border-slate-100 ${isOpen ? 'block' : 'hidden sm:block'}`}>
-        <div className="flex sm:hidden items-center justify-end gap-3 text-[10px] text-slate-500 mb-2.5">
-          <span className="flex items-center gap-1">
-            <span className="w-2 h-2 rounded bg-slate-100 border border-slate-300" /> Belum
-          </span>
-          <span className="flex items-center gap-1">
-            <span className="w-2 h-2 rounded bg-emerald-600 text-white" /> Terisi
-          </span>
-          <span className="flex items-center gap-1">
-            <span className="w-2 h-2 rounded ring-1 ring-ocean-500 bg-ocean-100" /> Aktif
-          </span>
-        </div>
-
+      {/* Grid: SELALU TERBUKA di versi desktop dan mobile */}
+      <div className="pt-2.5 border-t border-slate-100">
         <div className="grid grid-cols-7 sm:grid-cols-11 md:grid-cols-14 gap-1.5 sm:gap-2">
           {questions.map((q, idx) => {
             const isAnswered = answers[q.id] !== undefined;
@@ -75,16 +63,14 @@ export default function ProgressGrid({
             return (
               <button
                 key={q.id}
-                onClick={() => {
-                  onSelectIndex(idx);
-                  if (window.innerWidth < 640) setIsOpen(false);
-                }}
+                type="button"
+                onClick={() => onSelectIndex(idx)}
                 className={`h-8 sm:h-10 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center relative active:scale-95 ${
                   isCurrent
                     ? 'ring-2 ring-ocean-500 bg-ocean-600 text-white shadow-glow scale-105 z-10'
                     : isAnswered
-                    ? 'bg-emerald-600 text-white hover:bg-emerald-700'
-                    : 'bg-slate-50 text-slate-600 border border-slate-200/90 hover:bg-ocean-50 hover:border-ocean-300'
+                    ? 'bg-emerald-600 text-white hover:bg-emerald-700 shadow-xs'
+                    : 'bg-slate-50 text-slate-700 border border-slate-300 hover:bg-ocean-50 hover:border-ocean-300 hover:text-ocean-800'
                 }`}
                 title={`Soal No. ${idx + 1} (${q.id_indikator}) - Skor: ${answers[q.id] || 'Belum diisi'}`}
               >

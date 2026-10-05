@@ -14,7 +14,8 @@ import {
   ArrowRight,
   Info,
   AlertTriangle,
-  RefreshCw
+  RefreshCw,
+  X
 } from 'lucide-react';
 import { 
   DIMENSI_LIST, 
@@ -43,6 +44,9 @@ export default function QuestionnaireWizard({ respondent, stakeholderGroup, ques
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [viewMode, setViewMode] = useState<'single' | 'dimension'>('single');
   const [showSubmitConfirm, setShowSubmitConfirm] = useState<boolean>(false);
+  const [showMissingModal, setShowMissingModal] = useState<boolean>(false);
+  const [missingQuestionsList, setMissingQuestionsList] = useState<{ id: string; number: number; index: number; id_indikator: string; teks: string }[]>([]);
+  const submitSectionRef = React.useRef<HTMLDivElement>(null);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(respondent.status_pengisian === 'selesai');
   const [isSending, setIsSending] = useState<boolean>(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -65,15 +69,52 @@ export default function QuestionnaireWizard({ respondent, stakeholderGroup, ques
   const answeredCount = Object.keys(answers).length;
   const progressPercent = Math.round((answeredCount / totalQuestions) * 100);
   const currentQ = questions[currentIndex] || questions[0];
+  const isAllAnswered = answeredCount >= totalQuestions;
+
+  const handleAttemptSubmit = () => {
+    const missing = questions
+      .map((q, idx) => ({ ...q, number: idx + 1, index: idx }))
+      .filter(q => answers[q.id] === undefined);
+
+    if (missing.length > 0) {
+      setMissingQuestionsList(missing);
+      setShowMissingModal(true);
+    } else {
+      setShowSubmitConfirm(true);
+    }
+  };
 
   const handleSelectScore = async (score: number) => {
     if (!currentQ) return;
-    setAnswers(prev => ({ ...prev, [currentQ.id]: score }));
+    const newAnswers = { ...answers, [currentQ.id]: score };
+    setAnswers(newAnswers);
     await saveJawaban(currentQ.id, currentQ.id_indikator, score);
 
-    if (viewMode === 'single' && currentIndex < totalQuestions - 1) {
+    const remainingUnanswered = questions
+      .map((q, idx) => ({ ...q, number: idx + 1, index: idx }))
+      .filter(q => newAnswers[q.id] === undefined);
+
+    if (remainingUnanswered.length === 0) {
+      // Seluruh 42 pertanyaan telah terjawab lengkap!
+      // "otomatis ui ux beralih ke tombol kirim"
       setTimeout(() => {
-        setCurrentIndex(prev => prev + 1);
+        submitSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 200);
+    } else if (viewMode === 'single') {
+      setTimeout(() => {
+        const nextIdx = currentIndex + 1;
+        if (nextIdx < totalQuestions && newAnswers[questions[nextIdx].id] === undefined) {
+          setCurrentIndex(nextIdx);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          // Jika soal berikutnya sudah terisi (misal user melompat isi nomor 5 yang tadi kosong),
+          // arahkan ke soal berikutnya yang masih kosong:
+          const nextUnanswered = remainingUnanswered.find(u => u.index > currentIndex) || remainingUnanswered[0];
+          if (nextUnanswered) {
+            setCurrentIndex(nextUnanswered.index);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        }
       }, 250);
     }
   };
@@ -296,49 +337,80 @@ export default function QuestionnaireWizard({ respondent, stakeholderGroup, ques
             onSelectScore={handleSelectScore}
           />
 
-          {/* Navigation Buttons */}
-          <div className="grid grid-cols-2 gap-3 sm:flex sm:items-center sm:justify-between pt-2">
-            <button
-              onClick={() => {
-                setCurrentIndex(prev => Math.max(0, prev - 1));
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              disabled={currentIndex === 0}
-              className={`flex items-center justify-center gap-2 py-3.5 px-4 sm:px-5 rounded-xl font-semibold text-xs sm:text-sm transition-all active:scale-95 ${
-                currentIndex === 0
-                  ? 'text-slate-300 bg-slate-100 cursor-not-allowed border border-slate-200'
-                  : 'text-slate-700 hover:bg-slate-100 bg-white border border-slate-200 shadow-sm'
-              }`}
-            >
-              <ChevronLeft className="w-4 h-4" />
-              <span>Sebelumnya</span>
-            </button>
+          {/* Navigation Buttons & Auto Submit Switch */}
+          <div ref={submitSectionRef} className="space-y-3 pt-2">
+            {isAllAnswered && (
+              <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-600 to-emerald-600 text-white shadow-xl animate-fadeIn flex flex-col sm:flex-row items-center justify-between gap-3 border-2 border-emerald-300">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
+                    <CheckCircle2 className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="font-extrabold text-sm sm:text-base">Semua {totalQuestions} Pertanyaan Telah Lengkap!</h4>
+                    <p className="text-xs text-white/90">Klik tombol di samping untuk mengirimkan seluruh jawaban Anda.</p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleAttemptSubmit}
+                  className="w-full sm:w-auto px-7 py-3.5 bg-white hover:bg-slate-50 text-emerald-800 rounded-xl font-black text-sm shadow-md transition-all flex items-center justify-center gap-2 group flex-shrink-0 active:scale-95"
+                >
+                  <Send className="w-4 h-4 text-emerald-700" />
+                  <span>Kirim Jawaban Sekarang</span>
+                </button>
+              </div>
+            )}
 
-            {currentIndex < totalQuestions - 1 ? (
+            <div className="grid grid-cols-2 gap-3 sm:flex sm:items-center sm:justify-between">
               <button
+                type="button"
                 onClick={() => {
-                  setCurrentIndex(prev => Math.min(totalQuestions - 1, prev + 1));
+                  setCurrentIndex(prev => Math.max(0, prev - 1));
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                className="flex items-center justify-center gap-2 py-3.5 px-5 sm:px-6 bg-ocean-600 hover:bg-ocean-700 text-white rounded-xl font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all active:scale-95"
-              >
-                <span>Berikutnya</span>
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            ) : (
-              <button
-                onClick={() => setShowSubmitConfirm(true)}
-                disabled={answeredCount < totalQuestions}
-                className={`flex items-center justify-center gap-2 py-3.5 px-5 sm:px-7 rounded-xl font-bold text-xs sm:text-sm shadow-md transition-all active:scale-95 ${
-                  answeredCount >= totalQuestions
-                    ? 'bg-emerald-600 hover:bg-emerald-700 text-white hover:shadow-lg'
-                    : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                disabled={currentIndex === 0}
+                className={`flex items-center justify-center gap-2 py-3.5 px-4 sm:px-5 rounded-xl font-semibold text-xs sm:text-sm transition-all active:scale-95 ${
+                  currentIndex === 0
+                    ? 'text-slate-300 bg-slate-100 cursor-not-allowed border border-slate-200'
+                    : 'text-slate-700 hover:bg-slate-100 bg-white border border-slate-200 shadow-sm'
                 }`}
               >
-                <Send className="w-4 h-4" />
-                <span>Kirim Jawaban</span>
+                <ChevronLeft className="w-4 h-4" />
+                <span>Sebelumnya</span>
               </button>
-            )}
+
+              {isAllAnswered ? (
+                <button
+                  type="button"
+                  onClick={handleAttemptSubmit}
+                  className="flex items-center justify-center gap-2 py-3.5 px-6 sm:px-8 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-extrabold text-xs sm:text-sm shadow-lg hover:shadow-xl transition-all active:scale-95"
+                >
+                  <Send className="w-4 h-4" />
+                  <span>Kirim Jawaban ({totalQuestions}/{totalQuestions} Lengkap)</span>
+                </button>
+              ) : currentIndex < totalQuestions - 1 ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCurrentIndex(prev => Math.min(totalQuestions - 1, prev + 1));
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="flex items-center justify-center gap-2 py-3.5 px-5 sm:px-6 bg-ocean-600 hover:bg-ocean-700 text-white rounded-xl font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all active:scale-95"
+                >
+                  <span>Berikutnya</span>
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleAttemptSubmit}
+                  className="flex items-center justify-center gap-2 py-3.5 px-5 sm:px-7 rounded-xl font-bold text-xs sm:text-sm shadow-md transition-all active:scale-95 bg-amber-500 hover:bg-amber-600 text-white"
+                >
+                  <Send className="w-4 h-4" />
+                  <span>Kirim Jawaban</span>
+                </button>
+              )}
+            </div>
           </div>
         </div>
       )}
@@ -410,16 +482,101 @@ export default function QuestionnaireWizard({ respondent, stakeholderGroup, ques
               Pastikan seluruh <strong>{totalQuestions} pertanyaan</strong> telah terisi sebelum mengirim kuesioner.
             </p>
             <button
-              onClick={() => setShowSubmitConfirm(true)}
-              disabled={answeredCount < totalQuestions}
+              type="button"
+              onClick={handleAttemptSubmit}
               className={`px-8 py-3.5 rounded-xl font-bold text-sm shadow-md transition-all ${
-                answeredCount >= totalQuestions
+                isAllAnswered
                   ? 'bg-emerald-600 hover:bg-emerald-700 text-white hover:shadow-lg'
-                  : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                  : 'bg-amber-600 hover:bg-amber-700 text-white hover:shadow-md'
               }`}
             >
-              Kirim Jawaban Kuesioner
+              {isAllAnswered ? `Kirim Jawaban Kuesioner (${totalQuestions}/${totalQuestions} Lengkap)` : `Kirim Jawaban (${answeredCount}/${totalQuestions} Terisi)`}
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Missing Questions Notification Modal */}
+      {showMissingModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fadeIn">
+          <div className="bg-white rounded-3xl shadow-2xl max-w-lg w-full p-5 sm:p-7 border border-slate-200 text-slate-800 space-y-4 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center flex-shrink-0">
+                  <AlertTriangle className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-base sm:text-lg font-black text-slate-900 leading-tight">
+                    Jawaban Belum Lengkap!
+                  </h3>
+                  <p className="text-xs text-amber-700 font-semibold mt-0.5">
+                    Masih ada {missingQuestionsList.length} soal dari {totalQuestions} soal yang belum diisi
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowMissingModal(false)}
+                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="p-3.5 rounded-xl bg-amber-50/80 border border-amber-200 text-xs text-amber-900 leading-relaxed">
+              Demi keabsahan data penelitian tesis, seluruh <strong>{totalQuestions} pertanyaan wajib dijawab</strong>. Silakan klik nomor soal berikut untuk langsung menuju ke soal tersebut dan mengisinya:
+            </div>
+
+            {/* List of missing questions as interactive buttons */}
+            <div className="space-y-1.5">
+              <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
+                Daftar Soal yang Belum Terisi ({missingQuestionsList.length} Soal):
+              </span>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-56 overflow-y-auto p-2 bg-slate-50 rounded-xl border border-slate-200">
+                {missingQuestionsList.map(m => (
+                  <button
+                    key={m.id}
+                    type="button"
+                    onClick={() => {
+                      setShowMissingModal(false);
+                      setCurrentIndex(m.index);
+                      if (viewMode !== 'single') setViewMode('single');
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className="p-2 bg-white hover:bg-ocean-50 active:scale-95 text-slate-800 hover:text-ocean-700 border border-slate-200 hover:border-ocean-300 rounded-lg text-xs font-bold shadow-2xs transition-all flex items-center justify-between text-left group"
+                  >
+                    <span>Soal #{m.number}</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-ocean-600 group-hover:translate-x-0.5 transition-transform" />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="pt-2 flex flex-col sm:flex-row gap-2.5">
+              {missingQuestionsList.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowMissingModal(false);
+                    setCurrentIndex(missingQuestionsList[0].index);
+                    if (viewMode !== 'single') setViewMode('single');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="w-full sm:flex-1 py-3 px-4 bg-ocean-600 hover:bg-ocean-700 text-white rounded-xl font-bold text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-2 active:scale-95"
+                >
+                  <span>Lengkapi Soal #{missingQuestionsList[0].number} Sekarang</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={() => setShowMissingModal(false)}
+                className="w-full sm:w-auto py-3 px-4 border border-slate-300 hover:bg-slate-100 text-slate-700 rounded-xl font-semibold text-xs sm:text-sm transition-all"
+              >
+                Tutup
+              </button>
+            </div>
           </div>
         </div>
       )}
