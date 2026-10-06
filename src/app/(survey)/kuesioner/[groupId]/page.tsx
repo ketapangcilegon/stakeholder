@@ -1,14 +1,14 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { STAKEHOLDER_GROUPS, StakeholderGroup } from '@/config/constants';
+import { STAKEHOLDER_GROUPS, StakeholderGroup, PertanyaanItem } from '@/config/constants';
 import { SurveyActions } from '@/features/survey/actions';
 import { RespondenData } from '@/features/survey/types';
 import { QUESTION_BANK } from '@/data/questionBank';
+import { InstrumentService } from '@/lib/instrumentService';
 import QuestionnaireWizard from '@/features/survey/components/QuestionnaireWizard';
-import { Loader2, ArrowLeft, Users, ArrowRight } from 'lucide-react';
-import Link from 'next/link';
+import { Loader2, ArrowLeft } from 'lucide-react';
 
 export default function KuesionerGroupPage() {
   const params = useParams();
@@ -17,7 +17,17 @@ export default function KuesionerGroupPage() {
 
   const [respondent, setRespondent] = useState<RespondenData | null>(null);
   const [stakeholderGroup, setStakeholderGroup] = useState<StakeholderGroup | null>(null);
+  const [questions, setQuestions] = useState<PertanyaanItem[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const loadQuestions = useCallback((targetGroupId: string) => {
+    const qList = InstrumentService.getQuestions(targetGroupId);
+    if (qList && qList.length > 0) {
+      setQuestions(qList);
+    } else {
+      setQuestions(QUESTION_BANK.filter(q => q.id_stakeholder_group === targetGroupId));
+    }
+  }, []);
 
   useEffect(() => {
     let group = STAKEHOLDER_GROUPS.find(g => g.id === groupId);
@@ -28,17 +38,38 @@ export default function KuesionerGroupPage() {
     if (localResp) {
       setRespondent(localResp);
     } else {
-      // Tanpa biodata, jawaban tidak dapat dikaitkan ke responden mana pun di database.
-      // Arahkan kembali ke formulir identitas (sebelumnya dibuat "responden tamu" dengan
-      // ID non-UUID yang selalu DITOLAK server sehingga jawabannya hilang).
       router.replace('/pilih-stakeholder');
       return;
     }
 
+    // 1. Muat bank soal terkini (prioritaskan hasil editan admin)
+    loadQuestions(group.id);
     setLoading(false);
-  }, [groupId, router]);
 
-  if (loading || !stakeholderGroup || !respondent) {
+    // 2. Coba sinkronisasi awan jika ada pembaruan di Supabase
+    InstrumentService.syncCloudQuestions().then((hasChanges) => {
+      if (hasChanges && group) {
+        loadQuestions(group.id);
+      }
+    });
+
+    // 3. Listener perubahan real-time (jika admin menyimpan edit di tab lain atau window yang sama)
+    const handleUpdate = () => {
+      if (group) {
+        loadQuestions(group.id);
+      }
+    };
+
+    window.addEventListener('cilegon_instruments_updated', handleUpdate);
+    window.addEventListener('storage', handleUpdate);
+
+    return () => {
+      window.removeEventListener('cilegon_instruments_updated', handleUpdate);
+      window.removeEventListener('storage', handleUpdate);
+    };
+  }, [groupId, router, loadQuestions]);
+
+  if (loading || !stakeholderGroup || !respondent || questions.length === 0) {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center p-6 text-center space-y-4">
         <Loader2 className="w-10 h-10 text-ocean-600 animate-spin" />
@@ -48,8 +79,6 @@ export default function KuesionerGroupPage() {
       </div>
     );
   }
-
-  const questions = QUESTION_BANK.filter(q => q.id_stakeholder_group === stakeholderGroup.id);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
@@ -64,6 +93,7 @@ export default function KuesionerGroupPage() {
       </div>
 
       <QuestionnaireWizard
+        key={`wizard_${stakeholderGroup.id}_${questions.length}`}
         respondent={respondent}
         stakeholderGroup={stakeholderGroup}
         questions={questions}

@@ -11,6 +11,7 @@ import {
   PertanyaanItem
 } from '../data/questionnaireData';
 import { QUESTION_BANK, getQuestionsForStakeholder } from '../data/questionBank';
+import { InstrumentService } from './instrumentService';
 
 export interface RespondenRecord {
   id: string;
@@ -126,18 +127,7 @@ export const SurveyService = {
 
   // 3. Get Questions for Stakeholder
   getQuestions(stakeholderGroupId: string): PertanyaanItem[] {
-    if (typeof window !== 'undefined') {
-      try {
-        const custom = localStorage.getItem('cilegon_custom_instruments_v1');
-        if (custom) {
-          const parsed = JSON.parse(custom);
-          if (parsed.questions?.length) {
-            return parsed.questions.filter((q: any) => q.id_stakeholder_group === stakeholderGroupId);
-          }
-        }
-      } catch {}
-    }
-    return getQuestionsForStakeholder(stakeholderGroupId);
+    return InstrumentService.getQuestions(stakeholderGroupId);
   },
 
   // 4. Create / Initialize Responden
@@ -433,7 +423,8 @@ export const SurveyService = {
           respondents.push(item.respondent);
           Object.entries(item.answers).forEach(([qId, val]) => {
             const skor = typeof val === 'number' ? val : (val as any)?.skor || 0;
-            const q = QUESTION_BANK.find(x => x.id === qId);
+            const allQ = typeof window !== 'undefined' ? InstrumentService.getInstrumentData().questions : QUESTION_BANK;
+            const q = allQ.find(x => x.id === qId) || QUESTION_BANK.find(x => x.id === qId);
             answers.push({
               id_responden: item.respondent.id,
               id_pertanyaan: qId,
@@ -453,7 +444,8 @@ export const SurveyService = {
         respondents.push(currentRespondent);
         Object.entries(curAnswers).forEach(([qId, val]) => {
           const skor = typeof val === 'number' ? val : (val as any)?.skor || 0;
-          const q = QUESTION_BANK.find(x => x.id === qId);
+          const allQ = typeof window !== 'undefined' ? InstrumentService.getInstrumentData().questions : QUESTION_BANK;
+          const q = allQ.find(x => x.id === qId) || QUESTION_BANK.find(x => x.id === qId);
           answers.push({
             id_responden: currentRespondent.id,
             id_pertanyaan: qId,
@@ -652,15 +644,16 @@ export const SurveyService = {
     // Clean Local Storage
     if (typeof window !== 'undefined') {
       const localAnswers = this.getLocalAnswers(respondenId);
+      const allQ = InstrumentService.getInstrumentData().questions;
       // Find question ID related to indikatorId
-      const q = QUESTION_BANK.find(x => x.id_indikator === indikatorId);
+      const q = allQ.find(x => x.id_indikator === indikatorId) || QUESTION_BANK.find(x => x.id_indikator === indikatorId);
       if (q && localAnswers[q.id] !== undefined) {
         delete localAnswers[q.id];
         this.saveLocalAnswers(respondenId, localAnswers);
       } else {
         // Also check if stored by indikatorId
         Object.keys(localAnswers).forEach(key => {
-          const matchQ = QUESTION_BANK.find(x => x.id === key);
+          const matchQ = allQ.find(x => x.id === key) || QUESTION_BANK.find(x => x.id === key);
           if (matchQ && matchQ.id_indikator === indikatorId) {
             delete localAnswers[key];
           }

@@ -18,7 +18,8 @@ import {
   FolderTree,
   Sliders,
   Sparkles,
-  Loader2
+  Loader2,
+  CloudUpload
 } from 'lucide-react';
 import { InstrumentService, CustomInstrumentData } from '@/lib/instrumentService';
 import { STAKEHOLDER_GROUPS, PertanyaanItem, Variabel, Indikator, Dimensi } from '@/config/constants';
@@ -28,6 +29,7 @@ export default function InstrumentManager() {
   const [activeTab, setActiveTab] = useState<'questions' | 'variables' | 'indicators'>('questions');
   const [selectedStakeholder, setSelectedStakeholder] = useState('pemda');
   const [isExportingDocx, setIsExportingDocx] = useState(false);
+  const [isSyncingCloud, setIsSyncingCloud] = useState(false);
 
   // Modal States
   const [editingQuestion, setEditingQuestion] = useState<PertanyaanItem | null>(null);
@@ -78,6 +80,17 @@ export default function InstrumentManager() {
     showToast('Instrumen berhasil direset ke standar baku tesis!');
   };
 
+  const handleSyncCloud = async () => {
+    setIsSyncingCloud(true);
+    const res = await InstrumentService.syncAllToCloud();
+    setIsSyncingCloud(false);
+    if (res.success) {
+      showToast(`Sukses! ${res.synced} bank soal & rubrik skala tersinkronisasi ke cloud Supabase!`);
+    } else {
+      alert(`Info Sinkronisasi Cloud: ${res.error}\n\nPerubahan soal Anda sudah AKTIF dan tersimpan di sistem lokal browser. Untuk mengaktifkan sinkronisasi cloud antar-perangkat, jalankan script izin RLS tabel pertanyaan di Supabase SQL Editor.`);
+    }
+  };
+
   if (!instrumentData) {
     return (
       <div className="p-8 text-center text-slate-500 font-semibold">
@@ -115,7 +128,7 @@ export default function InstrumentManager() {
     InstrumentService.saveQuestion(editingQuestion);
     setEditingQuestion(null);
     loadData();
-    showToast(isNewQuestion ? 'Pertanyaan baru berhasil ditambahkan!' : 'Perubahan pertanyaan berhasil disimpan!');
+    showToast(isNewQuestion ? 'Pertanyaan baru berhasil ditambahkan!' : 'Perubahan soal & skala likert berhasil disimpan dan langsung aktif di kuesioner!');
   };
 
   const handleDeleteQuestion = (id: string, text: string) => {
@@ -228,6 +241,25 @@ export default function InstrumentManager() {
           >
             <RotateCcw className="w-3.5 h-3.5 text-slate-500" />
             <span>Reset Standar</span>
+          </button>
+
+          <button
+            onClick={handleSyncCloud}
+            disabled={isSyncingCloud}
+            className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-md hover:shadow-lg transition-all flex items-center gap-2 active:scale-95 disabled:opacity-60"
+            title="Sinkronkan seluruh instrumen, bank soal & rubrik skala ke database cloud Supabase"
+          >
+            {isSyncingCloud ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span>Sinkronisasi...</span>
+              </>
+            ) : (
+              <>
+                <CloudUpload className="w-4 h-4 text-white" />
+                <span>Sinkron Cloud Supabase</span>
+              </>
+            )}
           </button>
 
           <button
@@ -372,7 +404,10 @@ export default function InstrumentManager() {
                               <div className="flex items-center gap-1.5 flex-shrink-0">
                                 <button
                                   onClick={() => {
-                                    setEditingQuestion({ ...q });
+                                    setEditingQuestion({
+                                      ...q,
+                                      skala_label: { ...q.skala_label }
+                                    });
                                     setIsNewQuestion(false);
                                   }}
                                   className="px-2.5 py-1.5 bg-slate-100 hover:bg-ocean-50 text-slate-700 hover:text-ocean-700 rounded-xl text-[11px] font-bold transition-all flex items-center gap-1 border border-slate-200"

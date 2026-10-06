@@ -1,11 +1,25 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { STAKEHOLDER_GROUPS, DIMENSI_LIST, VARIABEL_LIST, INDIKATOR_LIST } from '@/config/constants';
 import { QUESTION_BANK } from '@/data/questionBank';
+import { InstrumentService } from '@/lib/instrumentService';
 
 export default function BankPertanyaanViewer() {
   const [bankGroupFilter, setBankGroupFilter] = useState('pemda');
+  const [instrumentData, setInstrumentData] = useState(() => InstrumentService.getInstrumentData());
+
+  useEffect(() => {
+    const handleUpdate = () => {
+      setInstrumentData(InstrumentService.getInstrumentData());
+    };
+    window.addEventListener('cilegon_instruments_updated', handleUpdate);
+    window.addEventListener('storage', handleUpdate);
+    return () => {
+      window.removeEventListener('cilegon_instruments_updated', handleUpdate);
+      window.removeEventListener('storage', handleUpdate);
+    };
+  }, []);
 
   return (
     <div className="space-y-6">
@@ -50,7 +64,7 @@ export default function BankPertanyaanViewer() {
 
               <div className="p-4 divide-y divide-slate-100">
                 {dimIndicators.map((ind) => {
-                  const q = QUESTION_BANK.find(item => item.id_indikator === ind.id && item.id_stakeholder_group === bankGroupFilter);
+                  const q = instrumentData.questions.find(item => item.id_indikator === ind.id && item.id_stakeholder_group === bankGroupFilter) || QUESTION_BANK.find(item => item.id_indikator === ind.id && item.id_stakeholder_group === bankGroupFilter);
                   if (!q) return null;
                   const qGlobalIndex = INDIKATOR_LIST.findIndex(item => item.id === ind.id);
 

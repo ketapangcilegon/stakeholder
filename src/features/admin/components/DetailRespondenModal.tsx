@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { X, Trash2, RotateCcw, AlertTriangle, CheckCircle2, ShieldAlert } from 'lucide-react';
 import { INDIKATOR_LIST, STAKEHOLDER_GROUPS } from '@/config/constants';
 import { QUESTION_BANK } from '@/data/questionBank';
+import { InstrumentService } from '@/lib/instrumentService';
 import { SurveyService } from '@/lib/surveyService';
 
 interface Props {
@@ -120,7 +121,10 @@ export default function DetailRespondenModal({
         <div className="p-4 sm:p-6 overflow-y-auto space-y-3 flex-1">
           {INDIKATOR_LIST.map((ind, idx) => {
             const ans = respondentAnswers.find(a => a.id_indikator === ind.id);
-            const q = QUESTION_BANK.find(
+            const allQ = typeof window !== 'undefined' ? InstrumentService.getInstrumentData().questions : QUESTION_BANK;
+            const q = allQ.find(
+              item => item.id_indikator === ind.id && item.id_stakeholder_group === respondent.id_stakeholder_group
+            ) || QUESTION_BANK.find(
               item => item.id_indikator === ind.id && item.id_stakeholder_group === respondent.id_stakeholder_group
             );
 

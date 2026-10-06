@@ -1,6 +1,7 @@
 import { supabase } from '@/lib/supabase/client';
 import { RespondenData } from './types';
 import { QUESTION_BANK } from '@/data/questionBank';
+import { InstrumentService } from '@/lib/instrumentService';
 
 const LOCAL_KEY = 'cilegon_survey_current_respondent';
 const ANSWERS_PREFIX = 'cilegon_survey_answers_';
@@ -187,8 +188,9 @@ export const SurveyActions = {
       }
 
       const answers = this.getLocalAnswers(resp.id);
+      const allQ = typeof window !== 'undefined' ? InstrumentService.getInstrumentData().questions : QUESTION_BANK;
       const rows = Object.entries(answers).map(([qId, skor]) => {
-        const q = QUESTION_BANK.find(x => x.id === qId);
+        const q = allQ.find(x => x.id === qId) || QUESTION_BANK.find(x => x.id === qId);
         return {
           id_responden: resp.id,
           id_pertanyaan: qId,
@@ -394,7 +396,8 @@ export const SurveyActions = {
       let inferredGroup: string | null = respondent?.id_stakeholder_group || null;
       if (!inferredGroup) {
         const firstQ = Object.keys(answers)[0];
-        const q = firstQ ? QUESTION_BANK.find(x => x.id === firstQ) : undefined;
+        const allQ = typeof window !== 'undefined' ? InstrumentService.getInstrumentData().questions : QUESTION_BANK;
+        const q = firstQ ? (allQ.find(x => x.id === firstQ) || QUESTION_BANK.find(x => x.id === firstQ)) : undefined;
         inferredGroup = q ? q.id_stakeholder_group : null;
       }
       return { id, respondent, answers, answerCount: Object.keys(answers).length, inferredGroup };
@@ -409,7 +412,8 @@ export const SurveyActions = {
     const answers = this.getLocalAnswers(orphanId);
     const id = UUID_RE.test(orphanId) ? orphanId : generateUUID();
     if (id !== orphanId) writeJSON(ANSWERS_PREFIX + id, answers);
-    const total = QUESTION_BANK.filter(q => q.id_stakeholder_group === biodata.id_stakeholder_group).length || 42;
+    const allQ = typeof window !== 'undefined' ? InstrumentService.getInstrumentData().questions : QUESTION_BANK;
+    const total = allQ.filter(q => q.id_stakeholder_group === biodata.id_stakeholder_group).length || 42;
     const count = Object.keys(answers).length;
     const resp: RespondenData = {
       id,

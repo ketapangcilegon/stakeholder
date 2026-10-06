@@ -11,6 +11,7 @@ import {
 } from '@/config/constants';
 import { QUESTION_BANK } from '@/data/questionBank';
 import { generateInstrumentDocx } from '@/lib/utils/docxExport';
+import { supabase } from '@/lib/supabase/client';
 
 const INSTRUMENT_STORAGE_KEY = 'cilegon_custom_instruments_v1';
 
@@ -56,8 +57,8 @@ export const InstrumentService = {
     };
   },
 
-  // Save all instrument data
-  saveInstrumentData(data: Partial<CustomInstrumentData>) {
+  // Save all instrument data and broadcast changes across tabs and windows
+  saveInstrumentData(data: Partial<CustomInstrumentData>, triggerEvent = true) {
     if (typeof window === 'undefined') return;
     const current = this.getInstrumentData();
     const updated: CustomInstrumentData = {
@@ -65,13 +66,28 @@ export const InstrumentService = {
       ...data,
       updatedAt: new Date().toISOString()
     };
-    localStorage.setItem(INSTRUMENT_STORAGE_KEY, JSON.stringify(updated));
+    try {
+      localStorage.setItem(INSTRUMENT_STORAGE_KEY, JSON.stringify(updated));
+    } catch (e) {
+      console.warn('Failed to save instruments to localStorage:', e);
+    }
+
+    if (triggerEvent) {
+      try {
+        window.dispatchEvent(new CustomEvent('cilegon_instruments_updated', { detail: updated }));
+        window.dispatchEvent(new Event('storage'));
+      } catch {}
+    }
   },
 
   // Reset to default tesis standard
   resetToDefaults() {
     if (typeof window === 'undefined') return;
     localStorage.removeItem(INSTRUMENT_STORAGE_KEY);
+    try {
+      window.dispatchEvent(new CustomEvent('cilegon_instruments_updated', { detail: null }));
+      window.dispatchEvent(new Event('storage'));
+    } catch {}
   },
 
   // ----------------- DIMENSION CRUD -----------------
@@ -163,19 +179,116 @@ export const InstrumentService = {
 
   saveQuestion(q: PertanyaanItem) {
     const data = this.getInstrumentData();
+    const cleanQ: PertanyaanItem = {
+      ...q,
+      skala_label: { ...q.skala_label }
+    };
+
     const idx = data.questions.findIndex(item => item.id === q.id);
     if (idx >= 0) {
-      data.questions[idx] = q;
+      data.questions[idx] = cleanQ;
     } else {
-      data.questions.push(q);
+      data.questions.push(cleanQ);
     }
     this.saveInstrumentData({ questions: data.questions });
+
+    // Sync secara asinkron ke Supabase Cloud (jika tabel diizinkan)
+    this.syncSingleQuestionToCloud(cleanQ).catch(() => {});
   },
 
   deleteQuestion(id: string) {
     const data = this.getInstrumentData();
     const questions = data.questions.filter(q => q.id !== id);
     this.saveInstrumentData({ questions });
+  },
+
+  // ----------------- CLOUD SUPABASE SYNC -----------------
+  async syncSingleQuestionToCloud(q: PertanyaanItem): Promise<boolean> {
+    try {
+      const row = {
+        id: q.id,
+        id_indikator: q.id_indikator,
+        id_stakeholder_group: q.id_stakeholder_group,
+        teks_pertanyaan: q.teks,
+        skala_label: q.skala_label
+      };
+      const { error } = await supabase.from('pertanyaan').upsert(row, { onConflict: 'id' });
+      if (error) {
+        console.warn('[InstrumentService] Supabase sync notice:', error.message);
+        return false;
+      }
+      return true;
+    } catch {
+      return false;
+    }
+  },
+
+  async syncCloudQuestions(): Promise<boolean> {
+    if (typeof window === 'undefined') return false;
+    try {
+      const { data, error } = await supabase.from('pertanyaan').select('*');
+      if (error || !data || data.length === 0) return false;
+
+      const local = this.getInstrumentData();
+      let hasChanges = false;
+      data.forEach((row: any) => {
+        const cloudQ: PertanyaanItem = {
+          id: row.id,
+          id_indikator: row.id_indikator,
+          id_stakeholder_group: row.id_stakeholder_group,
+          teks: row.teks_pertanyaan || row.teks,
+          skala_label: row.skala_label || {
+            1: 'Sangat Buruk / Tidak Setuju',
+            2: 'Buruk / Kurang Setuju',
+            3: 'Sedang / Cukup Berkelanjutan',
+            4: 'Baik / Setuju',
+            5: 'Sangat Baik / Sangat Setuju'
+          }
+        };
+        const idx = local.questions.findIndex(q => q.id === row.id);
+        if (idx >= 0) {
+          if (
+            local.questions[idx].teks !== cloudQ.teks ||
+            JSON.stringify(local.questions[idx].skala_label) !== JSON.stringify(cloudQ.skala_label)
+          ) {
+            local.questions[idx] = cloudQ;
+            hasChanges = true;
+          }
+        } else {
+          local.questions.push(cloudQ);
+          hasChanges = true;
+        }
+      });
+
+      if (hasChanges) {
+        this.saveInstrumentData({ questions: local.questions });
+        return true;
+      }
+    } catch (err) {
+      console.warn('[InstrumentService] Sync from cloud error:', err);
+    }
+    return false;
+  },
+
+  async syncAllToCloud(): Promise<{ success: boolean; synced: number; error?: string }> {
+    try {
+      const questions = this.getQuestions();
+      const rows = questions.map(q => ({
+        id: q.id,
+        id_indikator: q.id_indikator,
+        id_stakeholder_group: q.id_stakeholder_group,
+        teks_pertanyaan: q.teks,
+        skala_label: q.skala_label
+      }));
+
+      const { error } = await supabase.from('pertanyaan').upsert(rows, { onConflict: 'id' });
+      if (error) {
+        return { success: false, synced: 0, error: error.message };
+      }
+      return { success: true, synced: rows.length };
+    } catch (err: any) {
+      return { success: false, synced: 0, error: err?.message || 'Gagal terhubung ke database' };
+    }
   },
 
   // ----------------- EXPORT TO DOCX -----------------
