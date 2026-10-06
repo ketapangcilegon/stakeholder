@@ -243,7 +243,7 @@ export default function PilihStakeholderPage() {
 
           <div className="space-y-2.5">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-100 text-amber-900 text-xs font-black rounded-full uppercase tracking-wider border border-amber-200 shadow-xs">
-              <Lock className="w-3.5 h-3.5 text-amber-700" /> Tahap 1: Verifikasi Akun Gmail (Wajib)
+              <Lock className="w-3.5 h-3.5 text-amber-700" /> Tahap 1: Verifikasi Akun Gmail
             </span>
             <h1 className="text-xl sm:text-3xl font-black text-slate-900 tracking-tight">
               Masuk dengan Akun Google / Gmail
