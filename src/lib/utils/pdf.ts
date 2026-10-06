@@ -7,6 +7,7 @@ import {
   INDIKATOR_LIST 
 } from '@/config/constants';
 import { QUESTION_BANK } from '@/data/questionBank';
+import { InstrumentService } from '@/lib/instrumentService';
 
 export function generateQuestionnairePdf(stakeholderGroupId: string) {
   const group = STAKEHOLDER_GROUPS.find(g => g.id === stakeholderGroupId);
@@ -82,15 +83,22 @@ export function generateQuestionnairePdf(stakeholderGroupId: string) {
     body: scaleLegends
   });
 
-  // 5. Tabel Daftar Pertanyaan per Dimensi
+  // 5. Tabel Daftar Pertanyaan per Dimensi (Bank Soal Eksisting)
   currentY = (doc as any).lastAutoTable.finalY + 4;
-  const questions = QUESTION_BANK.filter(q => q.id_stakeholder_group === stakeholderGroupId);
+  
+  const instrumentData = typeof window !== 'undefined' ? InstrumentService.getInstrumentData() : null;
+  const dimensions = instrumentData?.dimensions || DIMENSI_LIST;
+  const variables = instrumentData?.variables || VARIABEL_LIST;
+  const indicators = instrumentData?.indicators || INDIKATOR_LIST;
+  const allQuestions = instrumentData?.questions || QUESTION_BANK;
+
+  const questions = allQuestions.filter(q => q.id_stakeholder_group === stakeholderGroupId);
 
   const tableBody: any[] = [];
   let qNumber = 1;
 
-  DIMENSI_LIST.forEach(dim => {
-    const dimVars = VARIABEL_LIST.filter(v => v.id_dimensi === dim.id);
+  dimensions.forEach(dim => {
+    const dimVars = variables.filter(v => v.id_dimensi === dim.id);
 
     tableBody.push([
       {
@@ -101,13 +109,13 @@ export function generateQuestionnairePdf(stakeholderGroupId: string) {
     ]);
 
     dimVars.forEach(v => {
-      const vIndicators = INDIKATOR_LIST.filter(i => i.id_variabel === v.id);
+      const vIndicators = indicators.filter(i => i.id_variabel === v.id);
       vIndicators.forEach(ind => {
         const q = questions.find(item => item.id_indikator === ind.id);
         if (q) {
           tableBody.push([
             qNumber.toString(),
-            `${q.teks}\n[Indikator: ${ind.kode} - ${ind.deskripsi}]`,
+            q.teks,
             '[  ]',
             '[  ]',
             '[  ]',
@@ -126,7 +134,7 @@ export function generateQuestionnairePdf(stakeholderGroupId: string) {
     head: [
       [
         { content: 'No', styles: { halign: 'center', cellWidth: 8 } },
-        { content: 'Pernyataan / Pertanyaan Indikator Penelitian', styles: { halign: 'left' } },
+        { content: 'Pernyataan / Pertanyaan Penelitian', styles: { halign: 'left' } },
         { content: '1', styles: { halign: 'center', cellWidth: 9 } },
         { content: '2', styles: { halign: 'center', cellWidth: 9 } },
         { content: '3', styles: { halign: 'center', cellWidth: 9 } },
@@ -141,8 +149,8 @@ export function generateQuestionnairePdf(stakeholderGroupId: string) {
       fontStyle: 'bold'
     },
     styles: {
-      fontSize: 7.8,
-      cellPadding: 2,
+      fontSize: 8,
+      cellPadding: 2.2,
       valign: 'middle'
     },
     columnStyles: {
@@ -157,6 +165,21 @@ export function generateQuestionnairePdf(stakeholderGroupId: string) {
     body: tableBody,
     pageBreak: 'auto'
   });
+
+  // Footer penomoran halaman otomatis
+  const pageCount = (doc as any).internal.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.setFontSize(7.5);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(130, 140, 150);
+    doc.text(
+      `Dokumen Kuesioner Lapangan Tesis • ${group.nama} • Halaman ${i} dari ${pageCount}`,
+      pageWidth / 2,
+      doc.internal.pageSize.getHeight() - 7,
+      { align: 'center' }
+    );
+  }
 
   const cleanName = group.nama.replace(/[^a-zA-Z0-9]/g, '_');
   doc.save(`Kuesioner_Cetak_${cleanName}.pdf`);

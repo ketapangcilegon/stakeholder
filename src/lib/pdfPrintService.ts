@@ -26,9 +26,9 @@ export const PdfPrintService = {
     doc.setFontSize(13);
     doc.text('KUESIONER PENELITIAN TESIS MAGISTER MANAJEMEN PERIKANAN', pageWidth / 2, 16, { align: 'center' });
     
-    doc.setFontSize(10);
+    doc.setFontSize(9.5);
     doc.setFont('helvetica', 'normal');
-    doc.text('Analisis Keberlanjutan Pengelolaan Perikanan Tangkap di Kawasan Pesisir Kota Cilegon', pageWidth / 2, 22, { align: 'center' });
+    doc.text('Pengelolaan Perikanan Tangkap Berkelanjutan di Kota Cilegon: Strategi Kebijakan Partisipatif Berbasis Persepsi dan Peran Stakeholder', pageWidth / 2, 22, { align: 'center' });
     
     doc.setLineWidth(0.5);
     doc.line(14, 25, pageWidth - 14, 25);
@@ -96,7 +96,6 @@ export const PdfPrintService = {
     DIMENSI_LIST.forEach(dim => {
       // Find variables in this dim
       const dimVars = VARIABEL_LIST.filter(v => v.id_dimensi === dim.id);
-      const varIds = dimVars.map(v => v.id);
 
       // Section header row
       tableBody.push([
@@ -114,7 +113,7 @@ export const PdfPrintService = {
           if (q) {
             tableBody.push([
               qNumber.toString(),
-              `${q.teks}\n[Indikator: ${ind.kode} - ${ind.deskripsi}]`,
+              q.teks,
               '[  ]',
               '[  ]',
               '[  ]',
@@ -133,7 +132,7 @@ export const PdfPrintService = {
       head: [
         [
           { content: 'No', styles: { halign: 'center', cellWidth: 8 } },
-          { content: 'Pernyataan / Pertanyaan Indikator Penelitian', styles: { halign: 'left' } },
+          { content: 'Pernyataan / Pertanyaan Penelitian', styles: { halign: 'left' } },
           { content: '1', styles: { halign: 'center', cellWidth: 9 } },
           { content: '2', styles: { halign: 'center', cellWidth: 9 } },
           { content: '3', styles: { halign: 'center', cellWidth: 9 } },
@@ -148,8 +147,8 @@ export const PdfPrintService = {
         fontStyle: 'bold'
       },
       styles: {
-        fontSize: 7.8,
-        cellPadding: 2,
+        fontSize: 8,
+        cellPadding: 2.2,
         valign: 'middle'
       },
       columnStyles: {
@@ -164,6 +163,21 @@ export const PdfPrintService = {
       body: tableBody,
       pageBreak: 'auto'
     });
+
+    // Footer penomoran halaman otomatis
+    const pageCount = (doc as any).internal.getNumberOfPages();
+    for (let i = 1; i <= pageCount; i++) {
+      doc.setPage(i);
+      doc.setFontSize(7.5);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(130, 140, 150);
+      doc.text(
+        `Dokumen Kuesioner Lapangan Tesis • ${group.nama} • Halaman ${i} dari ${pageCount}`,
+        pageWidth / 2,
+        doc.internal.pageSize.getHeight() - 7,
+        { align: 'center' }
+      );
+    }
 
     // Save/Download PDF
     const cleanName = group.nama.replace(/[^a-zA-Z0-9]/g, '_');
