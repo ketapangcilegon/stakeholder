@@ -69,22 +69,11 @@ export function generateQuestionnairePdf(stakeholderGroupId: string) {
   doc.text('PETUNJUK PENGISIAN:', 14, currentY);
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8);
-  doc.text('Berikan tanda silang (X) atau centang (V) pada salah satu kolom skala skor (1 s/d 5) yang paling mencerminkan kondisi riil di lapangan:', 14, currentY + 4);
-
-  const scaleLegends = [
-    ['1 = Sangat Tidak Setuju / Sangat Buruk / Sangat Rendah', '4 = Setuju / Baik / Tinggi'],
-    ['2 = Tidak Setuju / Kurang Baik / Rendah', '5 = Sangat Setuju / Sangat Baik / Sangat Tinggi'],
-    ['3 = Cukup / Netral / Moderat', '']
-  ];
-  autoTable(doc, {
-    startY: currentY + 6,
-    theme: 'grid',
-    styles: { fontSize: 7.5, cellPadding: 1 },
-    body: scaleLegends
-  });
+  doc.text('Berikan tanda silang (X) atau centang (V) pada salah satu kolom skor (1 s/d 5) sesuai keterangan "Skala" di bawah setiap pertanyaan:', 14, currentY + 4);
 
   // 5. Tabel Daftar Pertanyaan per Dimensi (Bank Soal Eksisting)
-  currentY = (doc as any).lastAutoTable.finalY + 4;
+  // Skala Likert ditampilkan per butir (skala_label masing-masing pertanyaan)
+  currentY = currentY + 8;
   
   const instrumentData = typeof window !== 'undefined' ? InstrumentService.getInstrumentData() : null;
   const dimensions = instrumentData?.dimensions || DIMENSI_LIST;
@@ -113,9 +102,12 @@ export function generateQuestionnairePdf(stakeholderGroupId: string) {
       vIndicators.forEach(ind => {
         const q = questions.find(item => item.id_indikator === ind.id);
         if (q) {
+          const skala = [1, 2, 3, 4, 5]
+            .map(n => `${n} = ${q.skala_label?.[n as 1 | 2 | 3 | 4 | 5] ?? '-'}`)
+            .join(';   ');
           tableBody.push([
             qNumber.toString(),
-            q.teks,
+            `${q.teks}\n\nSkala: ${skala}`,
             '[  ]',
             '[  ]',
             '[  ]',

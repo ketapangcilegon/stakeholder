@@ -15,12 +15,18 @@ import { supabase } from '@/lib/supabase/client';
 
 const INSTRUMENT_STORAGE_KEY = 'cilegon_custom_instruments_v1';
 
+// Revisi kuesioner (docx di public/revisi kuesioner): hanya kelompok berikut yang diperbarui.
+// Cache localStorage lama akan ditimpa sekali untuk kelompok ini saja agar revisi langsung aktif.
+const QUESTION_REVISION_TAG = 'revisi_20261013_pesisir_industri';
+const REVISED_STAKEHOLDER_GROUPS = ['masyarakat_pesisir', 'industri'];
+
 export interface CustomInstrumentData {
   dimensions: Dimensi[];
   variables: Variabel[];
   indicators: Indikator[];
   questions: PertanyaanItem[];
   updatedAt: string;
+  revision?: string;
 }
 
 export const InstrumentService = {
@@ -41,6 +47,15 @@ export const InstrumentService = {
       if (stored) {
         const parsed = JSON.parse(stored);
         if (parsed.dimensions && parsed.variables && parsed.indicators && parsed.questions) {
+          if (parsed.revision !== QUESTION_REVISION_TAG) {
+            const revised = QUESTION_BANK.filter(q => REVISED_STAKEHOLDER_GROUPS.includes(q.id_stakeholder_group));
+            parsed.questions = [
+              ...parsed.questions.filter((q: PertanyaanItem) => !REVISED_STAKEHOLDER_GROUPS.includes(q.id_stakeholder_group)),
+              ...revised.map(q => ({ ...q, skala_label: { ...q.skala_label } }))
+            ];
+            parsed.revision = QUESTION_REVISION_TAG;
+            try { localStorage.setItem(INSTRUMENT_STORAGE_KEY, JSON.stringify(parsed)); } catch {}
+          }
           return parsed;
         }
       }

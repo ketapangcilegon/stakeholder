@@ -54,8 +54,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_01_masyarakat_pesisir",
     id_indikator: "IND_01",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Bagaimana pandangan warga terhadap ketersediaan hasil tangkapan ikan laut segar yang dibawa pulang oleh para nelayan di lingkungan pesisir Cilegon saat ini?",
-    skala_label: { 1: "Sangat Langka/Sulit", 2: "Berkurang", 3: "Cukup Tersedia", 4: "Banyak Tersedia", 5: "Sangat Melimpah" }
+    teks: "Menurut pengamatan Bapak/Ibu sebagai warga pesisir, bagaimana ketersediaan ikan laut hasil tangkapan nelayan di wilayah Cilegon saat ini dibandingkan dengan beberapa tahun sebelumnya?",
+    skala_label: { 1: "Sangat Menurun", 2: "Menurun", 3: "Relatif Tetap", 4: "Meningkat", 5: "Sangat Meningkat" }
   },
   {
     id: "Q_IND_01_akademisi_lsm",
@@ -68,8 +68,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_01_industri",
     id_indikator: "IND_01",
     id_stakeholder_group: "industri",
-    teks: "Bagaimana observasi perusahaan Anda terhadap kelangsungan stok biota laut dan perikanan tangkap di perairan sekitar kawasan operasional pesisir Cilegon?",
-    skala_label: { 1: "Sangat Menurun Drastis", 2: "Cenderung Menurun", 3: "Stabil / Cukup", 4: "Kondisi Baik", 5: "Sangat Baik & Terjaga" }
+    teks: "Berdasarkan pengamatan atau informasi lingkungan yang dimiliki perusahaan, bagaimana perubahan ketersediaan dan kelimpahan sumber daya ikan di perairan pesisir Cilegon dalam beberapa tahun terakhir?",
+    skala_label: { 1: "Menurun Drastis", 2: "Menurun", 3: "Relatif Stabil", 4: "Meningkat", 5: "Meningkat Drastis" }
   },
 
   // IND_02: Kualitas ekosistem pesisir
@@ -91,8 +91,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_02_masyarakat_pesisir",
     id_indikator: "IND_02",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Bagaimana kondisi kebersihan air laut dan kelestarian lingkungan pantai di sekitar pemukiman warga pesisir Cilegon saat ini?",
-    skala_label: { 1: "Sangat Tercemar & Rusak", 2: "Banyak Sampah/Limbah", 3: "Cukup Terawat", 4: "Bersih & Nyaman", 5: "Sangat Asri & Alami" }
+    teks: "Menurut pengamatan Bapak/Ibu, bagaimana kondisi kebersihan air laut, kebersihan pantai, serta kelestarian habitat pesisir seperti mangrove dan terumbu karang di sekitar wilayah pesisir Cilegon?",
+    skala_label: { 1: "Sangat Buruk", 2: "Buruk", 3: "Sedang", 4: "Baik", 5: "Sangat Baik" }
   },
   {
     id: "Q_IND_02_akademisi_lsm",
@@ -105,8 +105,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_02_industri",
     id_indikator: "IND_02",
     id_stakeholder_group: "industri",
-    teks: "Sejauh mana kualitas lingkungan perairan laut dan sempadan pantai di sekitar wilayah kerja korporasi berada dalam kondisi ekologis yang prima?",
-    skala_label: { 1: "Sangat Memprihatinkan", 2: "Perlu Banyak Perbaikan", 3: "Memenuhi Standar Minimal", 4: "Kondisi Lingkungan Baik", 5: "Sangat Baik Melampaui Baku Mutu" }
+    teks: "Berdasarkan hasil pemantauan, pengamatan, atau informasi lingkungan yang dimiliki perusahaan, bagaimana kondisi kualitas perairan laut dan ekosistem pesisir, termasuk mangrove dan terumbu karang, di sekitar wilayah operasional perusahaan di Kota Cilegon?",
+    skala_label: { 1: "Sangat Buruk", 2: "Buruk", 3: "Sedang", 4: "Baik", 5: "Sangat Baik" }
   },
 
   // IND_03: Dampak aktivitas penangkapan
@@ -128,8 +128,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_03_masyarakat_pesisir",
     id_indikator: "IND_03",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Bagaimana penilaian warga terhadap cara menangkap ikan yang dilakukan nelayan lokal, apakah menjaga kelestarian bibit ikan dan laut?",
-    skala_label: { 1: "Sering Merusak Laut", 2: "Kurang Peduli Kelestarian", 3: "Cukup Baik", 4: "Peduli Kelestarian Laut", 5: "Sangat Peduli & Berkelanjutan" }
+    teks: "Menurut pengamatan Bapak/Ibu, sejauh mana kegiatan penangkapan ikan oleh nelayan lokal menimbulkan dampak terhadap kelestarian lingkungan laut, seperti kerusakan habitat laut atau tertangkapnya ikan berukuran kecil?",
+    skala_label: { 1: "Dampak Sangat Berat", 2: "Dampak Berat", 3: "Dampak Sedang", 4: "Dampak Ringan", 5: "Dampak Sangat Ringan atau Tidak Ada" }
   },
   {
     id: "Q_IND_03_akademisi_lsm",
@@ -142,8 +142,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_03_industri",
     id_indikator: "IND_03",
     id_stakeholder_group: "industri",
-    teks: "Bagaimana pandangan industri terhadap praktik penangkapan ikan di perairan sekitar dermaga/pelabuhan, apakah berlangsung tertib dan ramah lingkungan?",
-    skala_label: { 1: "Sering Mengabaikan Kelestarian", 2: "Kurang Tertib", 3: "Cukup Tertib", 4: "Tertib & Bertanggung Jawab", 5: "Sangat Ramah Lingkungan & Aman" }
+    teks: "Berdasarkan pengamatan atau informasi yang dimiliki perusahaan, sejauh mana praktik penangkapan ikan di perairan pesisir Cilegon menimbulkan dampak terhadap kelestarian lingkungan laut, seperti kerusakan habitat atau tertangkapnya ikan berukuran kecil?",
+    skala_label: { 1: "Dampak Sangat Berat", 2: "Dampak Berat", 3: "Dampak Sedang", 4: "Dampak Ringan", 5: "Dampak Sangat Ringan atau Tidak Ada" }
   },
 
   // IND_04: Dampak aktivitas industri pesisir
@@ -165,8 +165,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_04_masyarakat_pesisir",
     id_indikator: "IND_04",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Sejauh mana keberadaan kawasan industri di sepanjang pantai Cilegon mempengaruhi kenyamanan warga dan kelestarian ikan di laut sekitar?",
-    skala_label: { 1: "Berdampak Sangat Buruk", 2: "Banyak Mengurangi Ikan", 3: "Ada Dampak Namun Wajar", 4: "Dampak Terkelola Baik", 5: "Lingkungan Pesisir Tetap Asri" }
+    teks: "Menurut pengamatan Bapak/Ibu, sejauh mana aktivitas industri di sepanjang pesisir Cilegon memengaruhi kualitas lingkungan perairan laut, termasuk potensi pencemaran dan kondisi habitat ikan?",
+    skala_label: { 1: "Dampak Sangat Berat", 2: "Dampak Berat", 3: "Dampak Sedang", 4: "Dampak Ringan", 5: "Tidak Ada Dampak Berarti" }
   },
   {
     id: "Q_IND_04_akademisi_lsm",
@@ -179,8 +179,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_04_industri",
     id_indikator: "IND_04",
     id_stakeholder_group: "industri",
-    teks: "Seberapa efektif sistem pengelolaan limbah cair, termal, dan program perlindungan lingkungan laut yang diterapkan industri perusahaan Anda di pesisir Cilegon?",
-    skala_label: { 1: "Masih Memerlukan Banyak Audit", 2: "Cukup Berpotensi Terdampak", 3: "Sesuai Regulasi Standar", 4: "Sangat Ketat & Terkendali", 5: "Zero Discharge & Best ESG Standard" }
+    teks: "Sejauh mana penerapan pengelolaan lingkungan oleh perusahaan, termasuk pengoperasian instalasi pengolahan air limbah (IPAL), pemantauan kualitas efluen, dan pelaksanaan komitmen lingkungan sesuai dokumen AMDAL atau persetujuan lingkungan, berkontribusi dalam mengendalikan dampak operasional terhadap kualitas perairan pesisir dan ekosistem laut?",
+    skala_label: { 1: "Sangat Tidak Efektif", 2: "Kurang Efektif", 3: "Cukup Efektif", 4: "Efektif", 5: "Sangat Efektif" }
   },
 
   // =========================================================================
@@ -205,8 +205,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_05_masyarakat_pesisir",
     id_indikator: "IND_05",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Menurut pandangan warga, apakah usaha perikanan laut mampu memberikan rezeki dan taraf hidup yang layak bagi keluarga nelayan di pesisir Cilegon?",
-    skala_label: { 1: "Sangat Miskin/Tertinggal", 2: "Masih Susah", 3: "Cukup Layak", 4: "Taraf Hidup Baik", 5: "Sangat Makmur & Berkecukupan" }
+    teks: "Menurut pengamatan Bapak/Ibu, sejauh mana usaha perikanan tangkap mampu memberikan pendapatan dan mendukung kesejahteraan keluarga nelayan di wilayah pesisir Kota Cilegon?",
+    skala_label: { 1: "Sangat Rendah", 2: "Rendah", 3: "Sedang", 4: "Tinggi", 5: "Sangat Tinggi" }
   },
   {
     id: "Q_IND_05_akademisi_lsm",
@@ -219,8 +219,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_05_industri",
     id_indikator: "IND_05",
     id_stakeholder_group: "industri",
-    teks: "Bagaimana peran sektor perikanan tangkap dalam menjaga ketahanan ekonomi dan stabilitas rantai pasok pangan masyarakat sekitar kawasan industri Cilegon?",
-    skala_label: { 1: "Sangat Minim/Marginal", 2: "Kurang Berperan", 3: "Cukup Berkontribusi", 4: "Penyangga Ekonomi Penting", 5: "Pilar Ketahanan Pangan Utama" }
+    teks: "Menurut pengamatan atau informasi yang dimiliki perusahaan, sejauh mana sektor perikanan tangkap berkontribusi terhadap pendapatan masyarakat pesisir dan mendukung ketersediaan pasokan pangan berbasis ikan di Kota Cilegon?",
+    skala_label: { 1: "Sangat Rendah", 2: "Rendah", 3: "Sedang", 4: "Tinggi", 5: "Sangat Tinggi" }
   },
 
   // IND_06: Biaya operasional
@@ -242,8 +242,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_06_masyarakat_pesisir",
     id_indikator: "IND_06",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Bagaimana kemudahan nelayan di lingkungan sekitar dalam memperoleh solar subsidi dan es balok untuk melaut dengan harga terjangkau?",
-    skala_label: { 1: "Sangat Sulit & Mahal Sekali", 2: "Sering Terkendala", 3: "Cukup Tersedia", 4: "Mudah & Terjangkau", 5: "Sangat Mudah, Murah & Terjamin" }
+    teks: "Menurut pengamatan Bapak/Ibu, sejauh mana nelayan di lingkungan sekitar dapat memperoleh kebutuhan operasional melaut, seperti BBM, es balok, dan perbekalan, dengan mudah dan harga terjangkau?",
+    skala_label: { 1: "Sangat Sulit", 2: "Sulit", 3: "Cukup Mudah", 4: "Mudah", 5: "Sangat Mudah" }
   },
   {
     id: "Q_IND_06_akademisi_lsm",
@@ -256,8 +256,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_06_industri",
     id_indikator: "IND_06",
     id_stakeholder_group: "industri",
-    teks: "Bagaimana stabilitas pasokan logistik energi dan kebutuhan melaut bagi komunitas nelayan pesisir Cilegon menurut pengamatan pihak industri?",
-    skala_label: { 1: "Sangat Rawan Gejolak", 2: "Sering Terhambat Biaya", 3: "Cukup Stabil", 4: "Stabil & Terkelola Baik", 5: "Sangat Terjamin & Efisien" }
+    teks: "Berdasarkan pengamatan atau informasi yang dimiliki perusahaan, bagaimana kondisi keterjangkauan dan ketersediaan kebutuhan operasional melaut nelayan di pesisir Cilegon, terutama BBM, es, dan perbekalan?",
+    skala_label: { 1: "Sangat Tidak Terjangkau", 2: "Tidak Terjangkau", 3: "Cukup Terjangkau", 4: "Terjangkau", 5: "Sangat Terjangkau" }
   },
 
   // IND_07: Akses terhadap modal dan pasar
@@ -279,8 +279,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_07_masyarakat_pesisir",
     id_indikator: "IND_07",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Bagaimana kemudahan warga dan keluarga nelayan dalam mendapatkan pinjaman modal serta kelancaran jual beli ikan di pasar pesisir?",
-    skala_label: { 1: "Sangat Sulit & Rawan Rentenir", 2: "Kurang Lancar", 3: "Cukup Terbuka", 4: "Lancar & Aman", 5: "Sangat Mudah, Adil & Transparan" }
+    teks: "Menurut pengamatan Bapak/Ibu, bagaimana kemudahan nelayan di lingkungan sekitar dalam memperoleh akses permodalan usaha serta menjual hasil tangkapan dengan harga yang relatif stabil dan wajar?",
+    skala_label: { 1: "Sangat Sulit", 2: "Sulit", 3: "Cukup", 4: "Mudah", 5: "Sangat Mudah" }
   },
   {
     id: "Q_IND_07_akademisi_lsm",
@@ -293,8 +293,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_07_industri",
     id_indikator: "IND_07",
     id_stakeholder_group: "industri",
-    teks: "Sejauh mana kemitraan pasar atau dukungan permodalan/CSR dapat diakses oleh pelaku usaha perikanan lokal di kawasan pesisir Cilegon?",
-    skala_label: { 1: "Sama Sekali Tidak Ada", 2: "Sangat Terbatas", 3: "Ada Skema Parsial", 4: "Kemitraan Berjalan Baik", 5: "Kemitraan Mandiri & Berkelanjutan" }
+    teks: "Sejauh mana perusahaan memiliki atau mengetahui akses kemitraan usaha, dukungan permodalan, maupun program CSR yang membantu pelaku usaha perikanan lokal di Cilegon memperoleh akses pasar dan menjaga kestabilan pemasaran hasil tangkapan?",
+    skala_label: { 1: "Sangat Terbatas", 2: "Terbatas", 3: "Cukup Tersedia", 4: "Tersedia dengan Baik", 5: "Sangat Tersedia dan Berkelanjutan" }
   },
 
   // IND_08: Nilai tambah produk perikanan
@@ -316,8 +316,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_08_masyarakat_pesisir",
     id_indikator: "IND_08",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Sejauh mana kelompok ibu-ibu atau warga pesisir aktif membuat oleh-oleh/kuliner olahan ikan khas Cilegon yang laku dijual ke wisatawan?",
-    skala_label: { 1: "Belum Ada Kegiatan", 2: "Masih Sedikit Sekali", 3: "Ada Beberapa Kelompok", 4: "Aktif Berproduksi & Laku", 5: "Sangat Maju Menjadi Produk Unggulan" }
+    teks: "Menurut pengamatan Bapak/Ibu, sejauh mana masyarakat atau kelompok usaha di wilayah pesisir Cilegon mengembangkan produk olahan ikan, seperti makanan khas atau oleh-oleh, untuk meningkatkan nilai jual hasil perikanan?",
+    skala_label: { 1: "Sangat Rendah", 2: "Rendah", 3: "Sedang", 4: "Tinggi", 5: "Sangat Tinggi" }
   },
   {
     id: "Q_IND_08_akademisi_lsm",
@@ -330,8 +330,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_08_industri",
     id_indikator: "IND_08",
     id_stakeholder_group: "industri",
-    teks: "Sejauh mana potensi produk olahan perikanan lokal diserap oleh pasar kantin industri, katering pabrik, atau program pembinaan UMKM korporasi?",
-    skala_label: { 1: "Belum Pernah Diserap", 2: "Penyerapan Sangat Minim", 3: "Cukup Terserap Berkala", 4: "Penyerapan Rutin & Baik", 5: "Kemitraan Rantai Pasok Berkelanjutan" }
+    teks: "Sejauh mana perusahaan membuka atau memfasilitasi peluang pemasaran dan peningkatan nilai tambah produk perikanan lokal, misalnya melalui pengadaan untuk kantin atau katering industri, penggunaan fasilitas rantai dingin, pengolahan produk, atau pembinaan UMKM perikanan?",
+    skala_label: { 1: "Sangat Rendah", 2: "Rendah", 3: "Sedang", 4: "Tinggi", 5: "Sangat Tinggi" }
   },
 
   // =========================================================================
@@ -356,8 +356,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_09_masyarakat_pesisir",
     id_indikator: "IND_09",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Bagaimana kerukunan dan kekompakan warga di kampung pesisir dalam kegiatan gotong royong, bersih pantai, dan acara adat sedekah laut?",
-    skala_label: { 1: "Sangat Renggang & Cuek", 2: "Jarang Kompak", 3: "Cukup Terjalin", 4: "Rukun & Suka Gotong Royong", 5: "Sangat Rukun & Solid Penuh Kekeluargaan" }
+    teks: "Menurut pengamatan Bapak/Ibu, bagaimana tingkat kerukunan, solidaritas, dan kebersamaan warga di kampung pesisir dalam kegiatan gotong royong, kebersihan pantai, serta kegiatan sosial dan budaya setempat?",
+    skala_label: { 1: "Sangat Rendah", 2: "Rendah", 3: "Sedang", 4: "Tinggi", 5: "Sangat Tinggi" }
   },
   {
     id: "Q_IND_09_akademisi_lsm",
@@ -370,8 +370,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_09_industri",
     id_indikator: "IND_09",
     id_stakeholder_group: "industri",
-    teks: "Bagaimana pandangan industri terhadap stabilitas keharmonisan sosial dan kekompakan komunitas masyarakat nelayan di sekitar kawasan operasional?",
-    skala_label: { 1: "Sering Terjadi Gesekan", 2: "Kurang Kondusif", 3: "Cukup Kondusif", 4: "Hubungan Sosial Harmonis", 5: "Sangat Harmonis & Kondusif" }
+    teks: "Berdasarkan pengamatan atau interaksi perusahaan dengan masyarakat pesisir, bagaimana kondisi keharmonisan hubungan sosial dan solidaritas di antara komunitas nelayan di sekitar kawasan operasional perusahaan?",
+    skala_label: { 1: "Sangat Tidak Harmonis", 2: "Kurang Harmonis", 3: "Cukup Harmonis", 4: "Harmonis", 5: "Sangat Harmonis" }
   },
 
   // IND_10: Konflik pemanfaatan ruang
@@ -393,8 +393,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_10_masyarakat_pesisir",
     id_indikator: "IND_10",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Bagaimana efektivitas penyelesaian perselisihan apabila terjadi gesekan pemanfaatan ruang pantai antara nelayan, pengembang industri, atau pengelola wisata pesisir?",
-    skala_label: { 1: "Sering Ricuh & Nelayan Dirugikan", 2: "Sulit Titik Temu", 3: "Bisa Selesai Damai", 4: "Selalu Musyawarah Mufakat", 5: "Sangat Damai & Saling Menghormati" }
+    teks: "Menurut pengalaman atau pengamatan Bapak/Ibu, bagaimana penyelesaian perselisihan pemanfaatan ruang pesisir dan laut apabila terjadi konflik antara nelayan, pihak industri, atau pengelola wisata pesisir di Kota Cilegon?",
+    skala_label: { 1: "Sangat Tidak Efektif", 2: "Tidak Efektif", 3: "Cukup Efektif", 4: "Efektif", 5: "Sangat Efektif" }
   },
   {
     id: "Q_IND_10_akademisi_lsm",
@@ -407,8 +407,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_10_industri",
     id_indikator: "IND_10",
     id_stakeholder_group: "industri",
-    teks: "Seberapa minim potensi gesekan atau perselisihan operasional pelabuhan/pabrik industri dengan aktivitas penangkapan nelayan tradisional?",
-    skala_label: { 1: "Sering Terjadi Klaim & Gesekan", 2: "Masih Ada Gesekan", 3: "Cukup Terkendali Komunikasi", 4: "Jarang Berselisih", 5: "Zero Dispute / Hubungan Sangat Rukun" }
+    teks: "Berdasarkan pengalaman atau informasi yang dimiliki perusahaan, bagaimana kondisi potensi konflik dan penyelesaian perselisihan antara kegiatan operasional industri, termasuk pelabuhan, dengan aktivitas penangkapan ikan oleh nelayan tradisional di perairan pesisir Cilegon?",
+    skala_label: { 1: "Sangat Tidak Kondusif", 2: "Tidak Kondusif", 3: "Cukup Kondusif", 4: "Kondusif", 5: "Sangat Kondusif" }
   },
 
   // IND_11: Keadilan akses sumber daya
@@ -430,8 +430,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_11_masyarakat_pesisir",
     id_indikator: "IND_11",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Apakah semua warga pesisir mendapatkan hak yang adil dalam memanfaatkan pantai dan laut untuk mencari nafkah?",
-    skala_label: { 1: "Banyak Pantai Ditutup Pagar", 2: "Kurang Merata", 3: "Cukup Adil", 4: "Adil & Terbuka", 5: "Sangat Adil & Setara untuk Semua" }
+    teks: "Menurut pengamatan Bapak/Ibu, sejauh mana masyarakat pesisir, khususnya nelayan kecil, memiliki kesempatan yang adil untuk mengakses pantai dan sumber daya laut guna memenuhi kebutuhan hidup dan mencari nafkah?",
+    skala_label: { 1: "Sangat Tidak Adil", 2: "Tidak Adil", 3: "Cukup Adil", 4: "Adil", 5: "Sangat Adil" }
   },
   {
     id: "Q_IND_11_akademisi_lsm",
@@ -444,8 +444,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_11_industri",
     id_indikator: "IND_11",
     id_stakeholder_group: "industri",
-    teks: "Sejauh mana penataan batas zona keamanan industri di perairan tetap memberikan ruang koridor yang adil bagi jalur lalu lintas nelayan tradisional?",
-    skala_label: { 1: "Menutup Total Jalur Nelayan", 2: "Kurang Memperhatikan Koridor", 3: "Memberikan Koridor Minimal", 4: "Menata Koridor dengan Baik", 5: "Sangat Menghormati Akses Jalur Nelayan" }
+    teks: "Sejauh mana pengaturan zona keamanan dan operasional perusahaan di wilayah pesisir Cilegon memperhatikan keadilan akses nelayan tradisional terhadap jalur pelayaran dan wilayah penangkapan ikan yang diperbolehkan?",
+    skala_label: { 1: "Sangat Tidak Memadai", 2: "Tidak Memadai", 3: "Cukup Memadai", 4: "Memadai", 5: "Sangat Memadai" }
   },
 
   // IND_12: Keberlanjutan mata pencaharian nelayan
@@ -467,8 +467,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_12_masyarakat_pesisir",
     id_indikator: "IND_12",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Bagaimana keyakinan warga terhadap masa depan kehidupan kampung nelayan pesisir Cilegon dalam 10-20 tahun yang akan datang?",
-    skala_label: { 1: "Sangat Khawatir Tergusur", 2: "Masa Depan Kurang Jelas", 3: "Cukup Optimis Bertahan", 4: "Yakin Tetap Makmur", 5: "Sangat Optimis Maju & Lestari" }
+    teks: "Menurut pandangan Bapak/Ibu, seberapa besar keyakinan bahwa mata pencaharian perikanan tangkap dan kehidupan komunitas nelayan di pesisir Cilegon dapat terus berlanjut serta menarik minat generasi muda dalam 10–20 tahun mendatang?",
+    skala_label: { 1: "Sangat Tidak Yakin", 2: "Tidak Yakin", 3: "Cukup Yakin", 4: "Yakin", 5: "Sangat Yakin" }
   },
   {
     id: "Q_IND_12_akademisi_lsm",
@@ -481,8 +481,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_12_industri",
     id_indikator: "IND_12",
     id_stakeholder_group: "industri",
-    teks: "Bagaimana penilaian korporasi mengenai pentingnya menjaga kelangsungan hidup profesi nelayan sebagai kearifan lokal pesisir Cilegon berdampingan dengan industri?",
-    skala_label: { 1: "Tidak Relevan bagi Industri", 2: "Kurang Diprioritaskan", 3: "Cukup Penting", 4: "Sangat Penting Dijaga", 5: "Prioritas Utama Simbiosis Keberlanjutan" }
+    teks: "Sejauh mana perusahaan memandang penting keberlanjutan mata pencaharian nelayan dan regenerasi profesi nelayan sebagai bagian dari kehidupan sosial, ekonomi, dan kearifan lokal masyarakat pesisir Cilegon yang berdampingan dengan kegiatan industri?",
+    skala_label: { 1: "Sangat Tidak Penting", 2: "Kurang Penting", 3: "Cukup Penting", 4: "Penting", 5: "Sangat Penting" }
   },
 
   // =========================================================================
@@ -507,8 +507,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_13_masyarakat_pesisir",
     id_indikator: "IND_13",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Bagaimana kemudahan warga pesisir dalam mendapatkan berita atau pengumuman resmi mengenai kegiatan dan bantuan perikanan dari pemerintah?",
-    skala_label: { 1: "Sangat Gelap / Tidak Pernah Tahu", 2: "Sulit Dapat Info", 3: "Cukup Tahu dari Mulut ke Mulut", 4: "Mudah Diketahui Warga", 5: "Sangat Terbuka & Mudah Diakses Semua Orang" }
+    teks: "Menurut pengalaman Bapak/Ibu, seberapa jelas dan terbuka informasi mengenai kebijakan, program pemerintah, serta bantuan sektor perikanan disampaikan kepada masyarakat pesisir di Kota Cilegon?",
+    skala_label: { 1: "Sangat Tidak Terbuka", 2: "Kurang Terbuka", 3: "Cukup Terbuka", 4: "Terbuka", 5: "Sangat Terbuka" }
   },
   {
     id: "Q_IND_13_akademisi_lsm",
@@ -521,8 +521,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_13_industri",
     id_indikator: "IND_13",
     id_stakeholder_group: "industri",
-    teks: "Sejauh mana transparansi regulasi dan sosialisasi kebijakan zonasi maritim oleh pemerintah daerah dapat diakses secara cepat oleh kalangan industri?",
-    skala_label: { 1: "Sangat Sulit Diakses", 2: "Kurang Transparan", 3: "Cukup Terbuka", 4: "Transparan & Teratur", 5: "Sangat Terbuka & Informasi Real-time" }
+    teks: "Sejauh mana perusahaan dapat mengakses informasi kebijakan, regulasi, program, dan keputusan pemerintah yang berkaitan dengan pengelolaan perikanan pesisir serta penataan ruang laut di Kota Cilegon secara jelas dan tepat waktu?",
+    skala_label: { 1: "Sangat Tidak Transparan", 2: "Kurang Transparan", 3: "Cukup Transparan", 4: "Transparan", 5: "Sangat Transparan" }
   },
 
   // IND_14: Keterbukaan pengambilan keputusan
@@ -544,8 +544,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_14_masyarakat_pesisir",
     id_indikator: "IND_14",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Apakah tokoh masyarakat pesisir dan pengurus rukun nelayan dilibatkan saat penetapan program pembangunan pantai di Cilegon?",
-    skala_label: { 1: "Ditinggalkan Sepihak", 2: "Hanya Diberitahu Saja", 3: "Cukup Diajak Rembukan", 4: "Dilibatkan Baik", 5: "Selalu Jadi Mitra Utama Musyawarah" }
+    teks: "Menurut pengamatan Bapak/Ibu, sejauh mana masyarakat pesisir atau perwakilannya dilibatkan dalam musyawarah dan konsultasi sebelum pemerintah menetapkan kebijakan atau program pengelolaan wilayah pesisir dan perikanan di Kota Cilegon?",
+    skala_label: { 1: "Tidak Pernah Dilibatkan", 2: "Jarang Dilibatkan", 3: "Kadang-kadang Dilibatkan", 4: "Sering Dilibatkan", 5: "Selalu Dilibatkan" }
   },
   {
     id: "Q_IND_14_akademisi_lsm",
@@ -558,8 +558,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_14_industri",
     id_indikator: "IND_14",
     id_stakeholder_group: "industri",
-    teks: "Sejauh mana kalangan industri diundang dan didengar aspirasinya dalam perumusan kebijakan tata ruang perairan dan kelautan Cilegon?",
-    skala_label: { 1: "Tidak Pernah Dilibatkan", 2: "Hanya Dikirimi Surat Edaran", 3: "Cukup Dilibatkan", 4: "Rutin Dilibatkan FGD", 5: "Kemitraan Strategis Perumusan Kebijakan" }
+    teks: "Sejauh mana perusahaan dilibatkan dan memperoleh kesempatan untuk menyampaikan aspirasi dalam proses perumusan kebijakan tata ruang perairan, pengelolaan pesisir, dan perikanan di Kota Cilegon?",
+    skala_label: { 1: "Tidak Dilibatkan", 2: "Sangat Terbatas", 3: "Cukup Terlibat", 4: "Terlibat Aktif", 5: "Sangat Terlibat" }
   },
 
   // IND_15: Akuntabilitas regulasi
@@ -581,8 +581,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_15_masyarakat_pesisir",
     id_indikator: "IND_15",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Bagaimana ketegasan aparat dalam menjaga keamanan laut dan menertibkan pihak-pihak yang membuang limbah atau merusak pantai di Cilegon?",
-    skala_label: { 1: "Sama Sekali Tidak Ada Tindakan", 2: "Kurang Ketat", 3: "Cukup Menjaga", 4: "Tegas Menertibkan", 5: "Sangat Sigap, Tegas & Bersih" }
+    teks: "Menurut pengamatan Bapak/Ibu, bagaimana ketegasan aparat berwenang dalam mengawasi dan menindak pelanggaran aturan di wilayah pesisir dan perairan Cilegon, seperti pembuangan limbah ilegal atau kegiatan yang merusak lingkungan laut?",
+    skala_label: { 1: "Sangat Tidak Tegas", 2: "Kurang Tegas", 3: "Cukup Tegas", 4: "Tegas", 5: "Sangat Tegas dan Konsisten" }
   },
   {
     id: "Q_IND_15_akademisi_lsm",
@@ -595,8 +595,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_15_industri",
     id_indikator: "IND_15",
     id_stakeholder_group: "industri",
-    teks: "Bagaimana konsistensi penegakan aturan keselamatan pelayaran dan kepatuhan lingkungan laut bagi seluruh entitas di pesisir Cilegon?",
-    skala_label: { 1: "Banyak Pelanggaran Tak Ditindak", 2: "Kurang Konsisten", 3: "Cukup Tertib", 4: "Konsisten & Tertib", 5: "Sangat Taat Asas & Standar Keselamatan Tinggi" }
+    teks: "Berdasarkan pengalaman atau informasi yang dimiliki perusahaan, bagaimana konsistensi penegakan peraturan keselamatan pelayaran, perlindungan lingkungan laut, dan ketentuan pemanfaatan wilayah pesisir di Kota Cilegon?",
+    skala_label: { 1: "Sangat Tidak Konsisten", 2: "Kurang Konsisten", 3: "Cukup Konsisten", 4: "Konsisten", 5: "Sangat Konsisten dan Akuntabel" }
   },
 
   // IND_16: Koordinasi lintas sektor
@@ -618,8 +618,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_16_masyarakat_pesisir",
     id_indikator: "IND_16",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Bagaimana kekompakan dinas perikanan, kelurahan, dan dinas lingkungan hidup dalam menyelesaikan masalah sampah dan tata kelola pesisir?",
-    skala_label: { 1: "Saling Lempar Tanggung Jawab", 2: "Kurang Kompak", 3: "Cukup Mau Mengurus", 4: "Kompak Bekerja Sama", 5: "Sangat Kompak & Cepat Tanggap Bersama" }
+    teks: "Menurut pengamatan Bapak/Ibu, seberapa baik koordinasi antara pemerintah daerah, kelurahan, dinas terkait, aparat berwenang, dan pihak industri dalam menangani permasalahan lingkungan serta pengelolaan wilayah pesisir Cilegon?",
+    skala_label: { 1: "Sangat Buruk", 2: "Buruk", 3: "Cukup", 4: "Baik", 5: "Sangat Baik" }
   },
   {
     id: "Q_IND_16_akademisi_lsm",
@@ -632,8 +632,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_16_industri",
     id_indikator: "IND_16",
     id_stakeholder_group: "industri",
-    teks: "Seberapa efisien koordinasi antara pihak regulator pelabuhan (KSOP), pemerintah daerah, dan pengelola kawasan industri dalam penataan maritim Cilegon?",
-    skala_label: { 1: "Sangat Tidak Efisien / Tumpang Tindih", 2: "Kurang Efisien", 3: "Cukup Selaras", 4: "Efisien & Komunikatif", 5: "Sangat Cepat, Efisien & Terintegrasi Satu Pintu" }
+    teks: "Sejauh mana koordinasi antara pemerintah daerah, instansi pengelola dan pengawas pelabuhan, instansi lingkungan hidup, aparat penegak hukum perairan, dan perusahaan berjalan efektif dalam pengelolaan wilayah pesisir serta kegiatan maritim di Kota Cilegon?",
+    skala_label: { 1: "Sangat Tidak Efektif", 2: "Kurang Efektif", 3: "Cukup Efektif", 4: "Efektif", 5: "Sangat Efektif" }
   },
 
   // IND_17: Integrasi kepentingan stakeholder
@@ -655,8 +655,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_17_masyarakat_pesisir",
     id_indikator: "IND_17",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Sejauh mana kebijakan pembangunan pantai Cilegon mampu mengakomodasi kebutuhan tempat tinggal warga, tempat nelayan melaut, dan industri?",
-    skala_label: { 1: "Warga Terusir / Diabaikan", 2: "Kurang Akomodatif", 3: "Cukup Diperhatikan", 4: "Semua Tertata Adil", 5: "Sangat Serasi & Seluruh Kepentingan Terlindungi" }
+    teks: "Menurut Bapak/Ibu, sejauh mana kebijakan pengelolaan wilayah pesisir Cilegon telah mempertimbangkan secara adil dan seimbang kepentingan masyarakat pesisir, nelayan, pelaku usaha, dan sektor industri?",
+    skala_label: { 1: "Sangat Tidak Terpadu", 2: "Kurang Terpadu", 3: "Cukup Terpadu", 4: "Terpadu", 5: "Sangat Terpadu" }
   },
   {
     id: "Q_IND_17_akademisi_lsm",
@@ -669,8 +669,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_17_industri",
     id_indikator: "IND_17",
     id_stakeholder_group: "industri",
-    teks: "Sejauh mana kebijakan pemerintah daerah memfasilitasi titik temu kepentingan investasi industri dengan perlindungan mata pencaharian nelayan sekitar?",
-    skala_label: { 1: "Sering Memunculkan Ketegangan", 2: "Kurang Seimbang", 3: "Cukup Terakomodir", 4: "Titik Temu Sangat Baik", 5: "Sinergi Kemitraan Sangat Optimal" }
+    teks: "Sejauh mana kebijakan dan proses koordinasi pemerintah memfasilitasi keseimbangan antara kepentingan investasi serta operasional industri dan perlindungan akses serta mata pencaharian nelayan di wilayah pesisir Kota Cilegon?",
+    skala_label: { 1: "Sangat Tidak Seimbang", 2: "Kurang Seimbang", 3: "Cukup Seimbang", 4: "Seimbang", 5: "Sangat Seimbang dan Terpadu" }
   },
 
   // IND_18: Konsistensi kebijakan
@@ -692,8 +692,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_18_masyarakat_pesisir",
     id_indikator: "IND_18",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Apakah program penataan kampung pesisir dan pemberdayaan nelayan terus dijalankan secara berkesinambungan oleh dinas terkait?",
-    skala_label: { 1: "Terhenti di Tengah Jalan", 2: "Kurang Terurus", 3: "Cukup Berlanjut", 4: "Rutin Dijalankan", 5: "Sangat Berkelanjutan & Makin Maju" }
+    teks: "Menurut pengamatan Bapak/Ibu, seberapa konsisten dan berkesinambungan program penataan wilayah pesisir, pemberdayaan masyarakat, serta pengelolaan perikanan tangkap di Kota Cilegon dilaksanakan dari tahun ke tahun?",
+    skala_label: { 1: "Sangat Tidak Konsisten", 2: "Tidak Konsisten", 3: "Cukup Konsisten", 4: "Konsisten", 5: "Sangat Konsisten dan Terarah" }
   },
   {
     id: "Q_IND_18_akademisi_lsm",
@@ -706,8 +706,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_18_industri",
     id_indikator: "IND_18",
     id_stakeholder_group: "industri",
-    teks: "Bagaimana kepastian hukum dan konsistensi regulasi pemanfaatan ruang perairan yang diterbitkan pemerintah daerah bagi dunia usaha?",
-    skala_label: { 1: "Sangat Tidak Pasti / Berisiko Tinggi", 2: "Kerap Berubah Menimbulkan Keraguan", 3: "Cukup Memberi Kepastian", 4: "Kepastian Hukum Terjamin", 5: "Sangat Stabil, Pasti & Ramah Investasi" }
+    teks: "Berdasarkan pengalaman perusahaan, bagaimana konsistensi dan kepastian regulasi mengenai pemanfaatan ruang perairan serta pengelolaan pesisir yang menjadi acuan kegiatan usaha di Kota Cilegon?",
+    skala_label: { 1: "Sangat Tidak Pasti", 2: "Kurang Pasti", 3: "Cukup Pasti", 4: "Pasti dan Konsisten", 5: "Sangat Pasti dan Konsisten" }
   },
 
   // IND_19: Penggunaan data ilmiah (evidence-based)
@@ -729,8 +729,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_19_masyarakat_pesisir",
     id_indikator: "IND_19",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Apakah program bantuan yang turun ke pesisir tepat sasaran sesuai data riil keluarga nelayan yang memang membutuhkan?",
-    skala_label: { 1: "Salah Sasaran Total", 2: "Banyak Salah Sasaran", 3: "Cukup Sesuai Data", 4: "Tepat Sasaran", 5: "Sangat Tepat Sasaran & Adil Transparan" }
+    teks: "Menurut pengamatan Bapak/Ibu, sejauh mana pemerintah menggunakan data kondisi nelayan, kebutuhan masyarakat pesisir, serta hasil pendataan atau kajian lapangan sebagai dasar penyusunan kebijakan dan program perikanan di Kota Cilegon?",
+    skala_label: { 1: "Sangat Tidak Memadai", 2: "Kurang Memadai", 3: "Cukup Memadai", 4: "Memadai", 5: "Sangat Memadai" }
   },
   {
     id: "Q_IND_19_akademisi_lsm",
@@ -743,8 +743,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_19_industri",
     id_indikator: "IND_19",
     id_stakeholder_group: "industri",
-    teks: "Sejauh mana kajian lingkungan ilmiah (AMDAL/RKL-RPL) dan monitoring berkala dijadikan dasar bersama dalam penataan perairan industri-pesisir?",
-    skala_label: { 1: "Hanya Formalitas Kertas", 2: "Kurang Dijadikan Rujukan", 3: "Cukup Digunakan", 4: "Dijadikan Panduan Bersama", 5: "Kajian Ilmiah Menjadi Dasar Mutlak Pengambilan Keputusan" }
+    teks: "Sejauh mana data pemantauan lingkungan, hasil kajian ilmiah, dokumen AMDAL, serta pelaksanaan RKL-RPL digunakan sebagai dasar dalam pengambilan keputusan dan koordinasi pengelolaan wilayah pesisir serta perairan di Kota Cilegon?",
+    skala_label: { 1: "Sangat Minim", 2: "Minim", 3: "Cukup", 4: "Baik", 5: "Sangat Baik" }
   },
 
   // =========================================================================
@@ -769,8 +769,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_20_masyarakat_pesisir",
     id_indikator: "IND_20",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Bagaimana kemampuan dan fasilitas kantor kelurahan/pos pelayanan pesisir dalam menampung urusan dan kebutuhan masyarakat nelayan?",
-    skala_label: { 1: "Sangat Buruk / Tidak Berfungsi", 2: "Kurang Memadai", 3: "Cukup Berfungsi", 4: "Pelayanan Baik", 5: "Pelayanan Sangat Prima & Sigap" }
+    teks: "Menurut pengalaman Bapak/Ibu, bagaimana kemampuan dan kesiapan kantor kelurahan, dinas terkait, serta kelompok masyarakat pesisir dalam memberikan pelayanan, menampung aspirasi, dan membantu menyelesaikan permasalahan warga pesisir?",
+    skala_label: { 1: "Sangat Rendah", 2: "Rendah", 3: "Sedang", 4: "Baik", 5: "Sangat Baik" }
   },
   {
     id: "Q_IND_20_akademisi_lsm",
@@ -783,8 +783,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_20_industri",
     id_indikator: "IND_20",
     id_stakeholder_group: "industri",
-    teks: "Bagaimana profesionalitas dan kapabilitas tim dinas terkait dalam bermitra dengan korporasi mengelola kawasan maritim pesisir Cilegon?",
-    skala_label: { 1: "Sangat Tidak Profesional", 2: "Kurang Responsif", 3: "Cukup Profesional", 4: "Profesional & Kooperatif", 5: "Sangat Profesional & Standar Tinggi" }
+    teks: "Berdasarkan pengalaman perusahaan dalam berkoordinasi, bagaimana kapasitas, profesionalitas, dan responsivitas instansi pemerintah serta kelembagaan masyarakat pesisir dalam mendukung pengelolaan kawasan maritim di Kota Cilegon?",
+    skala_label: { 1: "Sangat Rendah", 2: "Rendah", 3: "Sedang", 4: "Tinggi", 5: "Sangat Tinggi" }
   },
 
   // IND_21: Efektivitas kelompok nelayan (KUB/HNSI)
@@ -806,8 +806,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_21_masyarakat_pesisir",
     id_indikator: "IND_21",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Bagaimana keaktifan pengurus rukun nelayan dan ketua KUB dalam memimpin warga serta menjaga ketertiban pangkalan nelayan di wilayah sekitar?",
-    skala_label: { 1: "Sangat Pasif / Tidak Peduli", 2: "Kurang Berperan", 3: "Cukup Memimpin", 4: "Aktif & Mengayomi Warga", 5: "Sangat Berwibawa, Kompak & Mengayomi" }
+    teks: "Menurut pengamatan Bapak/Ibu, seberapa efektif kelompok nelayan atau organisasi masyarakat pesisir, seperti KUB, Rukun Nelayan, atau koperasi, dalam mengadakan kegiatan bersama, membina anggota, dan membantu menyelesaikan permasalahan masyarakat?",
+    skala_label: { 1: "Sangat Tidak Efektif", 2: "Tidak Efektif", 3: "Cukup Efektif", 4: "Efektif", 5: "Sangat Efektif" }
   },
   {
     id: "Q_IND_21_akademisi_lsm",
@@ -820,8 +820,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_21_industri",
     id_indikator: "IND_21",
     id_stakeholder_group: "industri",
-    teks: "Seberapa terstruktur dan komunikatif kelompok nelayan (KUB) maupun pengurus HNSI saat industri hendak menyalurkan program CSR atau melakukan mediasi di lapangan?",
-    skala_label: { 1: "Sangat Sulit Berkomunikasi", 2: "Kurang Terstruktur", 3: "Cukup Kooperatif", 4: "Terstruktur & Mudah Berkomunikasi", 5: "Kemitraan Sangat Rapi, Terbuka & Solutif" }
+    teks: "Berdasarkan interaksi perusahaan dengan kelompok nelayan, koperasi, atau organisasi nelayan seperti HNSI, bagaimana kemampuan kelembagaan tersebut dalam berkomunikasi, mengoordinasikan anggota, dan memfasilitasi kemitraan atau penyelesaian persoalan di lapangan?",
+    skala_label: { 1: "Sangat Rendah", 2: "Rendah", 3: "Sedang", 4: "Tinggi", 5: "Sangat Tinggi" }
   },
 
   // IND_22: Efektivitas lembaga pendukung (penyuluh/kampus)
@@ -843,8 +843,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_22_masyarakat_pesisir",
     id_indikator: "IND_22",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Sejauh mana kehadiran petugas penyuluh, puskesmas pesisir, dan lembaga pelatihan terasa manfaatnya bagi kemajuan warga pesisir Cilegon?",
-    skala_label: { 1: "Tidak Ada Manfaatnya", 2: "Kurang Terasa", 3: "Cukup Bermanfaat", 4: "Sangat Bermanfaat Nyata", 5: "Sangat Dirasakan Memajukan Warga Pesisir" }
+    teks: "Menurut pengalaman Bapak/Ibu, sejauh mana lembaga pendukung, seperti penyuluh perikanan, lembaga keuangan, perguruan tinggi, dan lembaga pelatihan, memberikan manfaat bagi peningkatan pengetahuan, keterampilan, akses permodalan, atau pengembangan usaha masyarakat pesisir Cilegon?",
+    skala_label: { 1: "Sangat Tidak Bermanfaat", 2: "Kurang Bermanfaat", 3: "Cukup Bermanfaat", 4: "Bermanfaat", 5: "Sangat Bermanfaat" }
   },
   {
     id: "Q_IND_22_akademisi_lsm",
@@ -857,8 +857,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_22_industri",
     id_indikator: "IND_22",
     id_stakeholder_group: "industri",
-    teks: "Sejauh mana kelembagaan pendukung seperti balai riset atau dinas terkait memfasilitasi program sinergi lingkungan industri-pesisir?",
-    skala_label: { 1: "Tidak Pernah Memfasilitasi", 2: "Fasilitasi Minim", 3: "Cukup Membantu", 4: "Aktif Menjembatani Kemitraan", 5: "Fasilitator Sangat Solutif & Terpercaya" }
+    teks: "Sejauh mana lembaga pendukung, seperti instansi teknis, perguruan tinggi, lembaga penelitian, penyuluh, dan lembaga pembiayaan, berperan dalam memfasilitasi kerja sama antara perusahaan dan masyarakat pesisir untuk mendukung pengelolaan lingkungan serta pembangunan maritim berkelanjutan?",
+    skala_label: { 1: "Sangat Tidak Efektif", 2: "Kurang Efektif", 3: "Cukup Efektif", 4: "Efektif", 5: "Sangat Efektif" }
   },
 
   // IND_23: Kejelasan pembagian peran dan wewenang (UU 23/2014)
@@ -880,8 +880,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_23_masyarakat_pesisir",
     id_indikator: "IND_23",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Apakah warga pesisir memahami secara jelas tugas kelurahan, dinas perikanan, dan aparat laut sehingga mudah saat butuh pertolongan?",
-    skala_label: { 1: "Sama Sekali Tidak Paham", 2: "Sering Bingung", 3: "Cukup Tahu Kemana Melapor", 4: "Paham Jelas Alurnya", 5: "Sangat Paham & Layanan Sangat Jelas" }
+    teks: "Menurut pengalaman Bapak/Ibu, seberapa jelas pembagian tugas dan tanggung jawab antara kelurahan, dinas terkait, dan aparat berwenang dalam menangani kebutuhan serta permasalahan masyarakat pesisir di Kota Cilegon?",
+    skala_label: { 1: "Sangat Tidak Jelas", 2: "Tidak Jelas", 3: "Cukup Jelas", 4: "Jelas", 5: "Sangat Jelas" }
   },
   {
     id: "Q_IND_23_akademisi_lsm",
@@ -894,8 +894,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_23_industri",
     id_indikator: "IND_23",
     id_stakeholder_group: "industri",
-    teks: "Bagaimana kejelasan batas wewenang perizinan kelautan antara Pemda Cilegon, Pemprov Banten, dan Kementerian Perhubungan (KSOP) bagi operasional industri?",
-    skala_label: { 1: "Birokrasi Tumpang Tindih Parah", 2: "Sering Timbul Ketidakpastian", 3: "Cukup Jelas Alurnya", 4: "Jelas & Tertib Regulasi", 5: "Kepastian Regulasi Sangat Gamblang & Terpadu" }
+    teks: "Berdasarkan pengalaman perusahaan dalam mengurus perizinan dan berkoordinasi, bagaimana kejelasan pembagian kewenangan antara pemerintah daerah, Pemerintah Provinsi Banten, dan instansi pusat atau otoritas pelabuhan dalam pengelolaan ruang laut serta kegiatan operasional maritim di Kota Cilegon?",
+    skala_label: { 1: "Sangat Tidak Jelas", 2: "Kurang Jelas", 3: "Cukup Jelas", 4: "Jelas", 5: "Sangat Jelas dan Terkoordinasi" }
   },
 
   // =========================================================================
@@ -920,8 +920,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_24_masyarakat_pesisir",
     id_indikator: "IND_24",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Bagaimana dukungan warga pesisir terhadap aturan dan kebijakan pemerintah dalam menata lingkungan pantai dan pelabuhan perikanan Cilegon?",
-    skala_label: { 1: "Banyak yang Menolak/Protes", 2: "Kurang Mendukung", 3: "Cukup Menerima", 4: "Mendukung Tertib Pantai", 5: "Sangat Mendukung Penuh Kebijakan Pemda" }
+    teks: "Sejauh mana Bapak/Ibu menerima dan menyetujui peraturan pemerintah terkait pengelolaan perikanan tangkap dan penataan wilayah pesisir di Kota Cilegon?",
+    skala_label: { 1: "Sangat Tidak Setuju", 2: "Tidak Setuju", 3: "Netral atau Ragu-ragu", 4: "Setuju", 5: "Sangat Setuju" }
   },
   {
     id: "Q_IND_24_akademisi_lsm",
@@ -934,8 +934,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_24_industri",
     id_indikator: "IND_24",
     id_stakeholder_group: "industri",
-    teks: "Bagaimana komitmen manajemen korporasi dalam mendukung arah kebijakan pemda terkait pelestarian kawasan maritim dan perikanan tangkap pesisir?",
-    skala_label: { 1: "Mengabaikan Kebijakan Pemda", 2: "Kepatuhan Terpaksa", 3: "Cukup Patuh Standar", 4: "Komitmen Manajemen Tinggi", 5: "Integrasi Penuh dalam Kebijakan Strategis Korporasi" }
+    teks: "Sejauh mana manajemen perusahaan menerima dan mendukung kebijakan pemerintah yang berkaitan dengan pelestarian lingkungan laut, pengelolaan wilayah pesisir, dan keberlanjutan perikanan tangkap di Kota Cilegon?",
+    skala_label: { 1: "Sangat Rendah", 2: "Rendah", 3: "Sedang", 4: "Tinggi", 5: "Sangat Tinggi" }
   },
 
   // IND_25: Persetujuan tujuan keberlanjutan
@@ -957,8 +957,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_25_masyarakat_pesisir",
     id_indikator: "IND_25",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Apakah warga sepakat bahwa menjaga kelestarian laut pesisir Cilegon sangat penting agar sumber rezeki nelayan tidak punah?",
-    skala_label: { 1: "Tidak Peduli Laut", 2: "Kurang Peduli", 3: "Cukup Sepakat", 4: "Sepakat Wajib Dilindungi", 5: "Sangat Sepakat Menjadi Harga Mati" }
+    teks: "Sejauh mana Bapak/Ibu setuju bahwa sumber daya ikan dan lingkungan laut pesisir Cilegon perlu dijaga secara berkelanjutan agar tetap mendukung mata pencaharian nelayan dan kebutuhan generasi mendatang?",
+    skala_label: { 1: "Sangat Tidak Setuju", 2: "Tidak Setuju", 3: "Netral atau Ragu-ragu", 4: "Setuju", 5: "Sangat Setuju" }
   },
   {
     id: "Q_IND_25_akademisi_lsm",
@@ -971,8 +971,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_25_industri",
     id_indikator: "IND_25",
     id_stakeholder_group: "industri",
-    teks: "Seberapa sejalan tujuan keberlanjutan perikanan pesisir Cilegon dengan pilar Sustainability / CSR yang dicanangkan oleh korporasi Anda?",
-    skala_label: { 1: "Bertolak Belakang", 2: "Kurang Relevan", 3: "Cukup Selaras", 4: "Sangat Sejalan", 5: "Menjadi KPI Utama Keberlanjutan Perusahaan" }
+    teks: "Sejauh mana tujuan keberlanjutan perikanan tangkap dan pelestarian ekosistem pesisir Cilegon selaras dengan kebijakan keberlanjutan perusahaan, termasuk program tanggung jawab sosial dan lingkungan (TJSL/CSR)?",
+    skala_label: { 1: "Sangat Tidak Selaras", 2: "Kurang Selaras", 3: "Cukup Selaras", 4: "Selaras", 5: "Sangat Selaras" }
   },
 
   // IND_26: Kepatuhan terhadap aturan penangkapan
@@ -994,8 +994,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_26_masyarakat_pesisir",
     id_indikator: "IND_26",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Bagaimana kepatuhan warga sekitar pantai untuk tidak membuang sampah ke laut dan menaati batas sempadan pantai?",
-    skala_label: { 1: "Sampah Selalu Dibuang ke Laut", 2: "Kepatuhan Masih Rendah", 3: "Cukup Sadar Kebersihan", 4: "Warga Tertib Menjaga Pantai", 5: "Budaya Bersih Pantai Sangat Kuat" }
+    teks: "Menurut pengamatan Bapak/Ibu, sejauh mana nelayan di lingkungan pesisir Cilegon mematuhi ketentuan wilayah penangkapan ikan, perizinan, dan penggunaan alat tangkap yang diperbolehkan?",
+    skala_label: { 1: "Sangat Tidak Patuh", 2: "Kurang Patuh", 3: "Cukup Patuh", 4: "Patuh", 5: "Sangat Patuh" }
   },
   {
     id: "Q_IND_26_akademisi_lsm",
@@ -1008,8 +1008,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_26_industri",
     id_indikator: "IND_26",
     id_stakeholder_group: "industri",
-    teks: "Bagaimana tingkat kepatuhan perusahaan Anda terhadap izin pembuangan limbah cair (IPLC), izin zonasi terminal khusus, dan baku mutu perairan?",
-    skala_label: { 1: "Sering Ditegur DLH/KLHK", 2: "Masih Ada Catatan Audit", 3: "Memenuhi Syarat Minimal", 4: "Kepatuhan Tinggi (Proper Biru/Hijau)", 5: "Proper Emas / Kepatuhan Lingkungan Teladan" }
+    teks: "Bagaimana tingkat kepatuhan perusahaan terhadap ketentuan perizinan dan persetujuan lingkungan, pengelolaan air limbah, pemantauan baku mutu lingkungan, serta ketentuan pemanfaatan ruang perairan yang relevan dengan kegiatan operasional perusahaan?",
+    skala_label: { 1: "Sangat Rendah", 2: "Rendah", 3: "Sedang", 4: "Tinggi", 5: "Sangat Tinggi" }
   },
 
   // IND_27: Kesediaan berkontribusi aktif
@@ -1031,8 +1031,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_27_masyarakat_pesisir",
     id_indikator: "IND_27",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Apakah warga bersedia menyumbangkan tenaga dan waktu untuk menyukseskan program kebersihan dan kelestarian pantai kampung pesisir?",
-    skala_label: { 1: "Cuek / Tidak Bersedia", 2: "Hanya Sedikit yang Mau", 3: "Mau Ikut Bergiliran", 4: "Guyub Turun Kerja Bakti", 5: "Semangat Swadaya Warga Sangat Tinggi" }
+    teks: "Seberapa besar kesediaan Bapak/Ibu untuk menyumbangkan waktu, tenaga, atau sumber daya sesuai kemampuan dalam kegiatan perlindungan lingkungan laut dan pesisir Cilegon, seperti kerja bakti pantai, penanaman mangrove, atau kegiatan pelestarian lingkungan lainnya?",
+    skala_label: { 1: "Tidak Bersedia", 2: "Kurang Bersedia", 3: "Cukup Bersedia", 4: "Bersedia", 5: "Sangat Bersedia" }
   },
   {
     id: "Q_IND_27_akademisi_lsm",
@@ -1045,8 +1045,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_27_industri",
     id_indikator: "IND_27",
     id_stakeholder_group: "industri",
-    teks: "Seberapa besar kesiapan korporasi mengalokasikan dana CSR / program kemitraan untuk konservasi laut dan pemberdayaan nelayan Cilegon?",
-    skala_label: { 1: "Nol Alokasi CSR Nelayan", 2: "Alokasi Sangat Kecil", 3: "Ada Program Reguler", 4: "Program CSR Berdampak Besar", 5: "Program Berkelanjutan Jangka Panjang & Anggaran Besar" }
+    teks: "Sejauh mana kesediaan perusahaan untuk berkontribusi dalam program perlindungan ekosistem laut dan pemberdayaan nelayan di Kota Cilegon melalui pendanaan, program TJSL/CSR, dukungan teknis, atau kemitraan dengan pemangku kepentingan terkait?",
+    skala_label: { 1: "Sangat Rendah", 2: "Rendah", 3: "Sedang", 4: "Tinggi", 5: "Sangat Tinggi" }
   },
 
   // IND_28: Kesiapan berkolaborasi
@@ -1068,8 +1068,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_28_masyarakat_pesisir",
     id_indikator: "IND_28",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Bagaimana kesiapan tokoh masyarakat pesisir untuk bekerja sama dengan pihak luar demi kemajuan ekonomi pantai Cilegon?",
-    skala_label: { 1: "Menutup Diri", 2: "Kurang Percaya Pihak Luar", 3: "Cukup Menyambut Baik", 4: "Terbuka Menjalin Kerja Sama", 5: "Sangat Terbuka & Ramah Bermitra" }
+    teks: "Seberapa siap Bapak/Ibu atau perwakilan masyarakat pesisir untuk bekerja sama dengan pemerintah, pihak industri, akademisi, dan komunitas lainnya dalam forum bersama guna mencari solusi bagi permasalahan serta pengembangan wilayah pesisir Cilegon?",
+    skala_label: { 1: "Sangat Tidak Siap", 2: "Kurang Siap", 3: "Cukup Siap", 4: "Siap", 5: "Sangat Siap" }
   },
   {
     id: "Q_IND_28_akademisi_lsm",
@@ -1082,8 +1082,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_28_industri",
     id_indikator: "IND_28",
     id_stakeholder_group: "industri",
-    teks: "Seberapa siap korporasi bergabung dalam forum komunikasi berkala bersama kelompok nelayan, akademisi, dan pemda di kawasan pesisir Cilegon?",
-    skala_label: { 1: "Menolak Bergabung", 2: "Kurang Berminat Terikat Forum", 3: "Siap Hadir Pasif", 4: "Siap Berperan Aktif", 5: "Sangat Berkomitmen Menjadi Sponsor & Mitra Aktif" }
+    teks: "Sejauh mana kesiapan perusahaan untuk berkolaborasi secara berkelanjutan dalam forum komunikasi multipihak yang melibatkan pemerintah daerah, kelompok nelayan, akademisi, dan pemangku kepentingan lainnya untuk pengelolaan pesisir Cilegon?",
+    skala_label: { 1: "Tidak Bersedia", 2: "Kurang Bersedia", 3: "Cukup Bersedia", 4: "Bersedia Aktif", 5: "Sangat Bersedia dan Berkomitmen" }
   },
 
   // =========================================================================
@@ -1108,8 +1108,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_29_masyarakat_pesisir",
     id_indikator: "IND_29",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Seberapa sering Anda hadir dalam musyawarah warga kelurahan atau rembuk warga terkait isu-isu pesisir dan pantai?",
-    skala_label: { 1: "Tidak Pernah Datang", 2: "Jarang Sekali", 3: "Kadang Hadir", 4: "Sering Mengikuti", 5: "Selalu Hadir Aktif di Garis Depan" }
+    teks: "Dalam 12 bulan terakhir, seberapa sering Bapak/Ibu menghadiri musyawarah warga, pertemuan kelurahan, atau forum bersama yang membahas permasalahan dan pengelolaan wilayah pesisir di Kota Cilegon?",
+    skala_label: { 1: "Tidak Pernah", 2: "Jarang", 3: "Kadang-kadang", 4: "Sering", 5: "Sangat Sering" }
   },
   {
     id: "Q_IND_29_akademisi_lsm",
@@ -1122,8 +1122,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_29_industri",
     id_indikator: "IND_29",
     id_stakeholder_group: "industri",
-    teks: "Seberapa intens perwakilan perusahaan menghadiri pertemuan koordinasi pemangku kepentingan maritim yang difasilitasi pemda/otoritas pelabuhan?",
-    skala_label: { 1: "Tidak Pernah Hadir", 2: "Jarang Mengirim Utusan", 3: "Hadir Jika Diwajibkan Saja", 4: "Rutin Menghadiri", 5: "Selalu Hadir Proaktif & Memberi Masukan" }
+    teks: "Dalam 12 bulan terakhir, seberapa sering perwakilan perusahaan menghadiri forum pertemuan atau rapat koordinasi terkait pengelolaan wilayah pesisir, pelabuhan, lingkungan laut, atau perikanan yang diselenggarakan oleh pemerintah daerah maupun otoritas terkait?",
+    skala_label: { 1: "Tidak Pernah", 2: "Jarang", 3: "Cukup Sering", 4: "Sering", 5: "Sangat Sering" }
   },
 
   // IND_30: Keterlibatan dalam konsultasi publik
@@ -1145,8 +1145,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_30_masyarakat_pesisir",
     id_indikator: "IND_30",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Seberapa sering perwakilan warga atau tokoh masyarakat pesisir diikutsertakan dalam forum konsultasi publik penataan pantai dan perizinan kelautan di Cilegon?",
-    skala_label: { 1: "Tidak Pernah Diundang", 2: "Jarang Sekali", 3: "Kadang Diberi Tahu", 4: "Sering Diajak Bicara", 5: "Selalu Jadi Peserta Utama Konsultasi" }
+    teks: "Dalam 12 bulan terakhir, seberapa sering Bapak/Ibu atau perwakilan masyarakat pesisir di lingkungan Bapak/Ibu mengikuti konsultasi publik atau forum resmi pemerintah untuk membahas perencanaan dan pengelolaan wilayah pesisir di Kota Cilegon?",
+    skala_label: { 1: "Tidak Pernah Terlibat", 2: "Jarang Terlibat", 3: "Kadang-kadang Terlibat", 4: "Sering Terlibat", 5: "Sangat Sering Terlibat" }
   },
   {
     id: "Q_IND_30_akademisi_lsm",
@@ -1159,8 +1159,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_30_industri",
     id_indikator: "IND_30",
     id_stakeholder_group: "industri",
-    teks: "Seberapa aktif perwakilan korporasi memberikan telaah teknis dalam agenda konsultasi publik regulasi lingkungan pesisir di Kota Cilegon?",
-    skala_label: { 1: "Pasif Total / Tanpa Tanggapan", 2: "Tanggapan Formalitas", 3: "Memberi Catatan Terbatas", 4: "Aktif Memberi Telaah Kritis", 5: "Mitra Konsultasi Sangat Strategis" }
+    teks: "Dalam 12 bulan terakhir, seberapa sering perusahaan berpartisipasi dalam konsultasi publik terkait perencanaan wilayah pesisir, tata ruang perairan, atau regulasi lingkungan di Kota Cilegon, termasuk dengan menyampaikan masukan teknis?",
+    skala_label: { 1: "Tidak Pernah", 2: "Jarang", 3: "Cukup Sering", 4: "Sering", 5: "Sangat Sering" }
   },
 
   // IND_31: Keaktifan menyampaikan aspirasi
@@ -1182,8 +1182,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_31_masyarakat_pesisir",
     id_indikator: "IND_31",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Seberapa sering warga atau tokoh masyarakat pesisir menyampaikan aspirasi dan kebutuhan pembangunan kampung nelayan kepada kelurahan maupun dinas terkait?",
-    skala_label: { 1: "Diam Saja / Pasrah", 2: "Jarang Mengadu", 3: "Kadang Menyampaikan Keluhan", 4: "Rajin Mengusulkan Program", 5: "Sangat Aktif, Kritis & Gigih Memperjuangkan Hak Warga" }
+    teks: "Dalam 12 bulan terakhir, seberapa sering Bapak/Ibu menyampaikan aspirasi, usulan, atau pengaduan mengenai permasalahan lingkungan dan kebutuhan masyarakat pesisir kepada pemerintah kelurahan, dinas terkait, atau pihak berwenang lainnya?",
+    skala_label: { 1: "Tidak Pernah", 2: "Jarang", 3: "Kadang-kadang", 4: "Sering", 5: "Sangat Sering" }
   },
   {
     id: "Q_IND_31_akademisi_lsm",
@@ -1196,8 +1196,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_31_industri",
     id_indikator: "IND_31",
     id_stakeholder_group: "industri",
-    teks: "Seberapa sering industri menyampaikan saran teknis, data emisi/limbah, atau masukan penataan laut kepada Pemkot dan otoritas pelabuhan?",
-    skala_label: { 1: "Tidak Pernah Bersurat", 2: "Jarang Memberi Masukan", 3: "Memberi Laporan Berkala Saja", 4: "Proaktif Menyampaikan Rekomendasi", 5: "Sangat Intensif Berkoordinasi Teknis" }
+    teks: "Dalam 12 bulan terakhir, seberapa sering perusahaan menyampaikan masukan, rekomendasi teknis, data pemantauan lingkungan, atau tanggapan atas permasalahan pengelolaan pesisir dan perairan kepada pemerintah daerah maupun otoritas terkait?",
+    skala_label: { 1: "Tidak Pernah", 2: "Jarang", 3: "Cukup Sering", 4: "Sering", 5: "Sangat Sering" }
   },
 
   // IND_32: Keterlibatan dalam perumusan kebijakan
@@ -1219,8 +1219,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_32_masyarakat_pesisir",
     id_indikator: "IND_32",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Seberapa sering perwakilan warga pesisir dilibatkan sejak tahap perencanaan awal dalam merumuskan program penataan dan pemberdayaan pesisir Cilegon?",
-    skala_label: { 1: "Sama Sekali Tidak Pernah", 2: "Jarang Dilibatkan Sejak Awal", 3: "Kadang Diajak Urun Rembuk", 4: "Sering Diajak Menyusun Usulan", 5: "Selalu Jadi Mitra Kunci Perencanaan Lapangan" }
+    teks: "Dalam 12 bulan terakhir, seberapa sering Bapak/Ibu atau perwakilan masyarakat pesisir dilibatkan dalam pembahasan gagasan, perumusan rencana, atau penyusunan program terkait pengelolaan dan pemberdayaan masyarakat pesisir di Kota Cilegon?",
+    skala_label: { 1: "Tidak Pernah Dilibatkan", 2: "Jarang Dilibatkan", 3: "Kadang-kadang Dilibatkan", 4: "Sering Dilibatkan", 5: "Sangat Sering Dilibatkan" }
   },
   {
     id: "Q_IND_32_akademisi_lsm",
@@ -1233,8 +1233,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_32_industri",
     id_indikator: "IND_32",
     id_stakeholder_group: "industri",
-    teks: "Sejauh mana perwakilan industri dilibatkan dalam Focus Group Discussion (FGD) atau perumusan regulasi maritim bersama regulator daerah?",
-    skala_label: { 1: "Tidak Pernah Diundang", 2: "Hanya Hadir Pasif", 3: "Memberi Pandangan Terbatas", 4: "Kontributor Aktif Solusi Maritim", 5: "Mitra Kunci Perumusan Blueprint Regulasi" }
+    teks: "Dalam 12 bulan terakhir, seberapa sering perwakilan perusahaan dilibatkan dalam FGD, rapat teknis, atau forum perumusan program dan kebijakan terkait pengelolaan perikanan, wilayah pesisir, maupun tata ruang perairan di Kota Cilegon?",
+    skala_label: { 1: "Tidak Pernah", 2: "Jarang", 3: "Cukup Sering", 4: "Sering", 5: "Sangat Sering" }
   },
 
   // IND_33: Keterlibatan pengawasan dan monev
@@ -1256,8 +1256,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_33_masyarakat_pesisir",
     id_indikator: "IND_33",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Seberapa aktif warga pesisir dilibatkan dalam kegiatan pengawasan lingkungan pantai dan evaluasi pelaksanaan program perikanan di lingkungannya?",
-    skala_label: { 1: "Tidak Pernah Dilibatkan", 2: "Kurang Berperan", 3: "Kadang Ikut Meninjau", 4: "Sering Dilibatkan Pengawasan", 5: "Menjadi Pengawas Lapangan Utama yang Sangat Kritis" }
+    teks: "Dalam 12 bulan terakhir, seberapa sering Bapak/Ibu terlibat dalam pemantauan atau pengawasan lingkungan pesisir, pelaporan pencemaran atau kerusakan pantai, serta evaluasi program pengelolaan wilayah pesisir di Kota Cilegon?",
+    skala_label: { 1: "Tidak Pernah Terlibat", 2: "Jarang Terlibat", 3: "Kadang-kadang Terlibat", 4: "Sering Terlibat", 5: "Sangat Sering Terlibat" }
   },
   {
     id: "Q_IND_33_akademisi_lsm",
@@ -1270,8 +1270,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_33_industri",
     id_indikator: "IND_33",
     id_stakeholder_group: "industri",
-    teks: "Seberapa intensif korporasi terlibat dalam program monitoring lingkungan bersama dan audit berkala perairan pesisir Cilegon?",
-    skala_label: { 1: "Tidak Pernah Mengikuti Audit Bersama", 2: "Audit Minimal Internal", 3: "Ikut Audit Berkala Standar", 4: "Aktif dalam Monitoring Terpadu", 5: "Pelopor Sistem Monitoring Lingkungan Real-Time" }
+    teks: "Dalam 12 bulan terakhir, seberapa sering perusahaan terlibat dalam kegiatan pemantauan lingkungan pesisir, pertukaran data kualitas lingkungan, pengawasan bersama sesuai kewenangan, atau evaluasi program pengelolaan pesisir bersama instansi dan pemangku kepentingan terkait?",
+    skala_label: { 1: "Tidak Pernah", 2: "Jarang", 3: "Cukup Sering", 4: "Sering", 5: "Sangat Sering" }
   },
 
   // =========================================================================
@@ -1296,8 +1296,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_34_masyarakat_pesisir",
     id_indikator: "IND_34",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Seberapa besar roda perputaran ekonomi warung, kontrakan, dan pasar di kampung pesisir bergantung pada hasil tangkapan nelayan?",
-    skala_label: { 1: "Tidak Bergantung Sama Sekali", 2: "Pengaruh Kecil", 3: "Cukup Berpengaruh", 4: "Sangat Berpengaruh", 5: "Sangat Bergantung Total pada Denyut Nelayan" }
+    teks: "Menurut pengamatan Bapak/Ibu, seberapa besar aktivitas ekonomi masyarakat di lingkungan pesisir, seperti warung, usaha penyewaan tempat tinggal, perdagangan, dan jasa, bergantung pada kegiatan serta hasil tangkapan nelayan?",
+    skala_label: { 1: "Sangat Rendah", 2: "Rendah", 3: "Sedang", 4: "Tinggi", 5: "Sangat Tinggi" }
   },
   {
     id: "Q_IND_34_akademisi_lsm",
@@ -1310,8 +1310,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_34_industri",
     id_indikator: "IND_34",
     id_stakeholder_group: "industri",
-    teks: "Seberapa krusial kelancaran pemanfaatan alur laut dan kondisi perairan pesisir bagi kelangsungan operasional pabrik/dermaga korporasi Anda?",
-    skala_label: { 1: "Tidak Berpengaruh Langsung", 2: "Tingkat Ketergantungan Rendah", 3: "Cukup Penting", 4: "Sangat Krusial bagi Logistik", 5: "Vital & Menentukan Mati-Hidupnya Operasional Pabrik" }
+    teks: "Sejauh mana kelancaran pemanfaatan alur pelayaran dan kondisi perairan pesisir memengaruhi kelangsungan operasional serta kegiatan logistik perusahaan, termasuk aktivitas dermaga atau terminal khusus jika relevan?",
+    skala_label: { 1: "Sangat Rendah", 2: "Rendah", 3: "Sedang", 4: "Tinggi", 5: "Sangat Tinggi" }
   },
 
   // IND_35: Kepentingan sosial budaya & eksistensi
@@ -1333,8 +1333,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_35_masyarakat_pesisir",
     id_indikator: "IND_35",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Seberapa penting menjaga tradisi kampung nelayan dan kebersamaan warga pantai Cilegon agar tidak hilang digerus zaman?",
-    skala_label: { 1: "Biar Hilang Saja", 2: "Kurang Penting", 3: "Cukup Penting", 4: "Penting Dilestarikan", 5: "Mutlak Dijaga Demi Harga Diri Warga Kampung" }
+    teks: "Menurut Bapak/Ibu, seberapa penting pelestarian tradisi, kebersamaan, dan identitas budaya masyarakat kampung nelayan untuk menjaga keberlanjutan komunitas pesisir Cilegon?",
+    skala_label: { 1: "Sangat Tidak Penting", 2: "Tidak Penting", 3: "Cukup Penting", 4: "Penting", 5: "Sangat Penting" }
   },
   {
     id: "Q_IND_35_akademisi_lsm",
@@ -1347,8 +1347,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_35_industri",
     id_indikator: "IND_35",
     id_stakeholder_group: "industri",
-    teks: "Seberapa penting bagi korporasi untuk menjaga citra sosial, harmoni budaya, dan penerimaan masyarakat lokal di pesisir Cilegon (Social License to Operate)?",
-    skala_label: { 1: "Tidak Dianggap Penting", 2: "Kurang Signifikan", 3: "Cukup Penting", 4: "Sangat Penting bagi Reputasi", 5: "Harga Mutlak bagi Keberlanjutan Investasi Perusahaan" }
+    teks: "Sejauh mana perusahaan memandang penting penghormatan terhadap nilai sosial-budaya, keberadaan komunitas maritim, dan hubungan harmonis dengan masyarakat pesisir Cilegon dalam menjaga penerimaan sosial terhadap kegiatan operasional perusahaan (Social License to Operate)?",
+    skala_label: { 1: "Sangat Tidak Penting", 2: "Kurang Penting", 3: "Cukup Penting", 4: "Penting", 5: "Sangat Penting" }
   },
 
   // IND_36: Keterdampakan oleh perubahan regulasi
@@ -1370,8 +1370,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_36_masyarakat_pesisir",
     id_indikator: "IND_36",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Seberapa besar dampak keputusan pemerintah atau pembangunan pabrik di pesisir terhadap ketenteraman hidup keluarga warga sekitar?",
-    skala_label: { 1: "Tidak Berdampak", 2: "Dampak Kecil", 3: "Cukup Berdampak", 4: "Berdampak Nyata", 5: "Sangat Berdampak Langsung pada Nasib Warga" }
+    teks: "Seberapa besar dampak kebijakan tata ruang laut, perubahan zonasi pesisir, atau pembangunan kawasan industri terhadap akses masyarakat ke pantai, aktivitas sehari-hari, dan sumber penghidupan warga pesisir Cilegon?",
+    skala_label: { 1: "Tidak Terdampak", 2: "Dampak Ringan", 3: "Cukup Berdampak", 4: "Dampak Besar", 5: "Dampak Sangat Besar" }
   },
   {
     id: "Q_IND_36_akademisi_lsm",
@@ -1384,8 +1384,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_36_industri",
     id_indikator: "IND_36",
     id_stakeholder_group: "industri",
-    teks: "Seberapa besar pengaruh perubahan regulasi tata ruang laut dan lingkungan terhadap struktur biaya operasional dan kepatuhan korporasi?",
-    skala_label: { 1: "Tidak Berpengaruh", 2: "Pengaruh Minor", 3: "Pengaruh Sedang", 4: "Berpengaruh Signifikan", 5: "Sangat Berdampak Kritis pada Kelangsungan Investasi" }
+    teks: "Sejauh mana perubahan kebijakan tata ruang laut, zonasi pesisir, dan ketentuan lingkungan memengaruhi biaya kepatuhan, perencanaan investasi, serta kegiatan operasional perusahaan di Kota Cilegon?",
+    skala_label: { 1: "Sangat Rendah", 2: "Rendah", 3: "Sedang", 4: "Tinggi", 5: "Sangat Tinggi" }
   },
 
   // IND_37: Tingkat perhatian pada dinamika kebijakan
@@ -1407,8 +1407,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_37_masyarakat_pesisir",
     id_indikator: "IND_37",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Seberapa besar rasa ingin tahu dan perhatian warga kampung terhadap berita rencana pembangunan baru di pesisir Cilegon?",
-    skala_label: { 1: "Cuek Saja", 2: "Kurang Tertarik", 3: "Cukup Menyimak", 4: "Sangat Ingin Tahu", 5: "Selalu Mengikuti Perkembangan dengan Sangat Teliti" }
+    teks: "Dalam 3 bulan terakhir, seberapa sering Bapak/Ibu mencari atau mengikuti informasi mengenai kebijakan perikanan tangkap, penataan wilayah pesisir, atau rencana pembangunan yang berpotensi memengaruhi kehidupan masyarakat pesisir Cilegon?",
+    skala_label: { 1: "Tidak Pernah", 2: "Jarang", 3: "Kadang-kadang", 4: "Sering", 5: "Sangat Sering" }
   },
   {
     id: "Q_IND_37_akademisi_lsm",
@@ -1421,8 +1421,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_37_industri",
     id_indikator: "IND_37",
     id_stakeholder_group: "industri",
-    teks: "Seberapa proaktif tim legal/HSE korporasi melakukan regulatory compliance tracking terkait regulasi maritim dan pesisir daerah?",
-    skala_label: { 1: "Sangat Reaktif (Menunggu Sanksi)", 2: "Kurang Proaktif", 3: "Memantau Standar", 4: "Proaktif & Teratur", 5: "Sistem Compliance Tracking Sangat Terintegrasi & Cepat" }
+    teks: "Dalam 3 bulan terakhir, seberapa sering tim legal, HSE, atau unit terkait di perusahaan memantau dan menelaah perkembangan regulasi mengenai lingkungan laut, tata ruang perairan, pelabuhan, dan pengelolaan pesisir yang relevan dengan kegiatan perusahaan?",
+    skala_label: { 1: "Tidak Pernah", 2: "Jarang", 3: "Cukup Sering", 4: "Sering", 5: "Sangat Sering" }
   },
 
   // =========================================================================
@@ -1447,8 +1447,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_38_masyarakat_pesisir",
     id_indikator: "IND_38",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Seberapa besar pengaruh wibawa tokoh sesepuh pesisir dan lurah dalam mengatur ketertiban lingkungan kampung nelayan?",
-    skala_label: { 1: "Tidak Punya Wibawa", 2: "Kurang Didengar", 3: "Cukup Dihormati", 4: "Sangat Disegani Warga", 5: "Kharisma & Wibawa Sangat Mutlak Dipatuhi" }
+    teks: "Menurut pengamatan Bapak/Ibu, sejauh mana kewenangan formal dan pengakuan hukum yang dimiliki pemerintah kelurahan serta lembaga atau organisasi masyarakat pesisir dalam mengatur urusan lingkungan dan memperjuangkan kepentingan warga?",
+    skala_label: { 1: "Sangat Lemah", 2: "Lemah", 3: "Cukup", 4: "Kuat", 5: "Sangat Kuat" }
   },
   {
     id: "Q_IND_38_akademisi_lsm",
@@ -1461,8 +1461,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_38_industri",
     id_indikator: "IND_38",
     id_stakeholder_group: "industri",
-    teks: "Seberapa kuat legalitas hak pengelolaan lahan/perairan pelabuhan yang dipegang perusahaan dalam mengatur zona operasional industri?",
-    skala_label: { 1: "Banyak Masalah Legalitas", 2: "Hak Terbatas", 3: "Izin Standar Terpenuhi", 4: "Dasar Hukum Kuat", 5: "Konsesi/Hak Legal Sangat Eksklusif & Dilindungi Negara" }
+    teks: "Sejauh mana perusahaan memiliki dasar hukum, perizinan, persetujuan, atau hak pemanfaatan lahan dan perairan yang sah serta jelas untuk mendukung kegiatan operasionalnya di wilayah pesisir dan pelabuhan Cilegon?",
+    skala_label: { 1: "Sangat Lemah", 2: "Lemah", 3: "Cukup Memadai", 4: "Kuat", 5: "Sangat Kuat" }
   },
 
   // IND_39: Akses langsung ke pengambil keputusan
@@ -1484,8 +1484,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_39_masyarakat_pesisir",
     id_indikator: "IND_39",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Seberapa mudah bagi perwakilan warga pesisir untuk berkomunikasi dan mendapatkan respons dari aparat kelurahan maupun dinas perikanan saat menghadapi persoalan pesisir?",
-    skala_label: { 1: "Sangat Sulit Menghubungi", 2: "Lambat Direspons", 3: "Bisa Dihubungi Jam Kerja", 4: "Mudah Berkomunikasi", 5: "Akses 24 Jam Cepat & Selalu Ditanggapi" }
+    teks: "Menurut pengalaman Bapak/Ibu, seberapa mudah masyarakat atau perwakilan warga pesisir berkomunikasi secara langsung dengan pejabat kelurahan, dinas terkait, atau pimpinan berwenang untuk menyampaikan persoalan pesisir dan memperoleh tanggapan?",
+    skala_label: { 1: "Sangat Sulit", 2: "Sulit", 3: "Cukup Mudah", 4: "Mudah", 5: "Sangat Mudah" }
   },
   {
     id: "Q_IND_39_akademisi_lsm",
@@ -1498,8 +1498,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_39_industri",
     id_indikator: "IND_39",
     id_stakeholder_group: "industri",
-    teks: "Seberapa lancar akses jalur komunikasi tingkat pimpinan korporasi dengan Walikota, Kementerian, dan Forkopimda Cilegon?",
-    skala_label: { 1: "Jalur Birokrasi Tertutup", 2: "Kurang Lancar", 3: "Jalur Formal Standar", 4: "Komunikasi Sangat Lancar", 5: "Akses Langsung ke Para Pengambil Keputusan Puncak" }
+    teks: "Sejauh mana perusahaan memiliki akses komunikasi yang efektif dengan pejabat atau pimpinan instansi pemerintah dan otoritas terkait untuk membahas persoalan perizinan, pengelolaan pesisir, lingkungan, dan kegiatan maritim sesuai mekanisme yang berlaku?",
+    skala_label: { 1: "Sangat Sulit", 2: "Sulit", 3: "Cukup Mudah", 4: "Mudah", 5: "Sangat Mudah dan Efektif" }
   },
 
   // IND_40: Penguasaan data riset & teknologi informasi
@@ -1521,8 +1521,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_40_masyarakat_pesisir",
     id_indikator: "IND_40",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Seberapa cepat dan mudah warga pesisir mendapatkan informasi resmi peringatan dini cuaca laut, pasang rob, maupun arahan keselamatan dari instansi berwenang?",
-    skala_label: { 1: "Tidak Pernah Dapat Peringatan", 2: "Sering Terlambat Tahu", 3: "Cukup Cepat Melalui HP/Pengeras", 4: "Informasi Cepat Diterima", 5: "Peringatan Dini Real-Time & Sangat Sigap" }
+    teks: "Menurut pengalaman Bapak/Ibu, sejauh mana masyarakat pesisir memiliki akses terhadap informasi strategis dan teknis, seperti peringatan dini cuaca laut, informasi pasang rob, serta arahan keselamatan dari instansi berwenang?",
+    skala_label: { 1: "Sangat Terbatas", 2: "Terbatas", 3: "Cukup", 4: "Baik", 5: "Sangat Baik" }
   },
   {
     id: "Q_IND_40_akademisi_lsm",
@@ -1535,8 +1535,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_40_industri",
     id_indikator: "IND_40",
     id_stakeholder_group: "industri",
-    teks: "Seberapa mutakhir instrumen teknologi monitoring lingkungan, sensor real-time, dan keahlian teknis HSE yang dimiliki korporasi?",
-    skala_label: { 1: "Teknologi Usang", 2: "Instrumen Masih Manual", 3: "Memenuhi Standar Audit", 4: "Sensor Modern & Canggih", 5: "Teknologi Smart Monitoring Terdepan & Presisi Tinggi" }
+    teks: "Sejauh mana perusahaan memiliki akses terhadap data pemantauan lingkungan, informasi teknis, keahlian personel HSE, dan teknologi pemantauan yang relevan untuk mendukung pengelolaan dampak operasional terhadap lingkungan pesisir dan laut?",
+    skala_label: { 1: "Sangat Terbatas", 2: "Terbatas", 3: "Cukup Memadai", 4: "Memadai dan Modern", 5: "Sangat Memadai dan Terintegrasi" }
   },
 
   // IND_41: Kapasitas mobilisasi sumber daya
@@ -1558,8 +1558,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_41_masyarakat_pesisir",
     id_indikator: "IND_41",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Seberapa kuat semangat gotong royong dan kesiapan warga pesisir Cilegon jika dikerahkan untuk kegiatan kerja bakti massal?",
-    skala_label: { 1: "Sangat Pasif / Tidak Mau Turun", 2: "Sedikit yang Ikut", 3: "Cukup Ramai", 4: "Kompak Turun ke Lapangan", 5: "Semangat Solidaritas Warga Sangat Dahsyat" }
+    teks: "Menurut pengamatan Bapak/Ibu, sejauh mana masyarakat pesisir mampu menghimpun dan mengerahkan warga, tenaga, serta sumber daya yang tersedia untuk melaksanakan kegiatan bersama, seperti kerja bakti, penanganan bencana, atau perlindungan lingkungan pesisir?",
+    skala_label: { 1: "Sangat Rendah", 2: "Rendah", 3: "Sedang", 4: "Tinggi", 5: "Sangat Tinggi" }
   },
   {
     id: "Q_IND_41_akademisi_lsm",
@@ -1572,8 +1572,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_41_industri",
     id_indikator: "IND_41",
     id_stakeholder_group: "industri",
-    teks: "Seberapa besar kemampuan korporasi mengerahkan sumber daya finansial, armada kapal tunda, dan peralatan tanggap darurat tumpahan minyak di laut?",
-    skala_label: { 1: "Sangat Terbatas", 2: "Kapasitas Minimum", 3: "Cukup Memadai", 4: "Kapasitas Peralatan Sangat Lengkap", 5: "Armada & Sumber Daya Tanggap Darurat Sangat Unggul" }
+    teks: "Sejauh mana kemampuan perusahaan memobilisasi anggaran, personel terlatih, peralatan, dan sarana operasional untuk menangani keadaan darurat lingkungan laut, termasuk insiden tumpahan minyak, sesuai dengan risiko dan tanggung jawab operasionalnya?",
+    skala_label: { 1: "Sangat Terbatas", 2: "Terbatas", 3: "Cukup Memadai", 4: "Memadai", 5: "Sangat Memadai dan Siap Dikerahkan" }
   },
 
   // IND_42: Daya tawar dan jejaring lintas sektor
@@ -1595,8 +1595,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_42_masyarakat_pesisir",
     id_indikator: "IND_42",
     id_stakeholder_group: "masyarakat_pesisir",
-    teks: "Seberapa kuat posisi tawar dan kekompakan warga kampung pesisir dalam menjaga kelestarian ruang hidup pantai dan memperjuangkan aspirasi mereka?",
-    skala_label: { 1: "Lemah & Mudah Dipecah Belah", 2: "Kurang Kuat", 3: "Cukup Kompak", 4: "Kompak & Didengar Luas", 5: "Sangat Solid, Kuat & Suara Warga Menang" }
+    teks: "Menurut pengalaman Bapak/Ibu, sejauh mana masyarakat pesisir memiliki posisi tawar dan jejaring kerja sama yang kuat untuk menyampaikan aspirasi, memperjuangkan kepentingan warga, serta berkolaborasi dengan pemerintah, pihak industri, dan pemangku kepentingan lainnya dalam pengelolaan wilayah pesisir Cilegon?",
+    skala_label: { 1: "Sangat Lemah", 2: "Lemah", 3: "Cukup", 4: "Kuat", 5: "Sangat Kuat" }
   },
   {
     id: "Q_IND_42_akademisi_lsm",
@@ -1609,8 +1609,8 @@ export const QUESTION_BANK: PertanyaanItem[] = [
     id: "Q_IND_42_industri",
     id_indikator: "IND_42",
     id_stakeholder_group: "industri",
-    teks: "Seberapa kuat posisi tawar dan jejaring asosiasi industri maritim Cilegon dalam mempengaruhi arah kebijakan iklim usaha kelautan daerah?",
-    skala_label: { 1: "Tidak Berpengaruh", 2: "Pengaruh Minor", 3: "Cukup Diperhitungkan", 4: "Pengaruh Sangat Kuat", 5: "Daya Tawar Strategis Utama dalam Perekonomian Daerah" }
+    teks: "Sejauh mana perusahaan, baik secara mandiri maupun melalui asosiasi industri, memiliki kemampuan menyampaikan aspirasi, membangun jejaring lintas sektor, dan berkontribusi dalam dialog kebijakan terkait pengelolaan maritim, pesisir, dan iklim usaha di Kota Cilegon?",
+    skala_label: { 1: "Sangat Rendah", 2: "Rendah", 3: "Sedang", 4: "Tinggi", 5: "Sangat Tinggi" }
   }
 
 ];
