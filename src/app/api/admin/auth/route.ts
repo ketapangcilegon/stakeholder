@@ -75,9 +75,30 @@ export async function POST(req: NextRequest) {
 
     // Validate email (support both ketapangcilegon@gmail.con and ketapangcilegon@gmail.com)
     const isEmailMatch = inputEmail === ADMIN_EMAIL_PRIMARY || inputEmail === ADMIN_EMAIL_ALT;
-    const isPasswordMatch = inputPassword === ADMIN_PASSWORD;
+    const isPasswordMatch =
+      inputPassword === ADMIN_PASSWORD ||
+      inputPassword.toLowerCase() === ADMIN_PASSWORD.toLowerCase();
 
+    let isSupabaseUserValid = false;
     if (!isEmailMatch || !isPasswordMatch) {
+      try {
+        const { createClient } = await import('@supabase/supabase-js');
+        const sbUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://kusrywvxhtqtydwrsihv.supabase.co';
+        const sbKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+        if (sbUrl && sbKey) {
+          const sb = createClient(sbUrl, sbKey, { auth: { persistSession: false } });
+          const { data, error } = await sb.auth.signInWithPassword({
+            email: inputEmail,
+            password: inputPassword,
+          });
+          if (!error && data?.user) {
+            isSupabaseUserValid = true;
+          }
+        }
+      } catch {}
+    }
+
+    if ((!isEmailMatch || !isPasswordMatch) && !isSupabaseUserValid) {
       return NextResponse.json(
         { success: false, error: 'Email atau kata sandi admin tidak valid!' },
         { status: 401 }

@@ -85,7 +85,9 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
     const cleanEmail = (email || '').trim().toLowerCase();
-    const isLocalMatch = (cleanEmail === 'ketapangcilegon@gmail.com' || cleanEmail === 'ketapangcilegon@gmail.con') && password === 'Cilegon2026';
+    const isLocalMatch =
+      (cleanEmail === 'ketapangcilegon@gmail.com' || cleanEmail === 'ketapangcilegon@gmail.con') &&
+      (password === 'Cilegon2026' || password.toLowerCase() === 'cilegon2026');
 
     try {
       const res = await fetch('/api/admin/auth', {
